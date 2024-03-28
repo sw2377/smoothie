@@ -10,6 +10,8 @@ export default {
         success: "#27AE60",
         warning: "#E2B93B",
         error: "#EB5757",
+        // gray3: "#828282",
+        // gray4: "#BDBDBD",
       },
     },
   },

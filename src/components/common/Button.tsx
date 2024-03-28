@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface ButtonProps {
   type?: "normal" | "outline";
   buttonType?: "button" | "submit";
-  handleClick?: () => void;
+  handleClick: () => void;
   children: ReactNode;
 }
 
