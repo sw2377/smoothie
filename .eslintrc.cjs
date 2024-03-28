@@ -8,7 +8,7 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['prettier', 'react-refresh'],
+  plugins: ['prettier', 'react-refresh', 'prettier-plugin-tailwindcss'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
