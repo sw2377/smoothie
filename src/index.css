@@ -8,4 +8,8 @@
   html {
     font-family: 'NanumSquare', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   }
+
+  main {
+    margin-top: 3.75rem;
+  }
 }

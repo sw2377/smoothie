@@ -10,7 +10,7 @@ export default {
         success: "#27AE60",
         warning: "#E2B93B",
         error: "#EB5757",
-      }
+      },
     },
   },
   plugins: [],
