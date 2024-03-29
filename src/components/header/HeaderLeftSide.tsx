@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import smoothieLgoo from "../../assets/logo.svg";
+import SmoothieLgooSVG from "../../assets/logo.svg?react";
 
 function HeaderLeftSide() {
   const location = useLocation();
@@ -19,7 +19,7 @@ function HeaderLeftSide() {
     <div className="flex items-center">
       <h1 className="transition ease duration-300 hover:scale-105">
         <Link to="/">
-          <img src={smoothieLgoo} alt="Smoothie Lgoo" />
+          <SmoothieLgooSVG width="60" height="60" />
         </Link>
       </h1>
       <nav className="px-5">
