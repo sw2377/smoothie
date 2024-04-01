@@ -23,7 +23,7 @@ export default function CardViewBack({ cardData }: CardViewBackProps) {
   };
 
   return (
-    <div className="back">
+    <div className="card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] rotate-y-180 backface-hidden">
       <div className="topArea">
         {/* {tokenId === accountId ? (
           <span

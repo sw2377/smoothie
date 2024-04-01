@@ -26,7 +26,7 @@ function UserList() {
 
   return (
     <main>
-      <ul className="grid grid-cols-4 place-items-center gap-y-6 gap-x-6 w-full mb-auto">
+      <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         {userCardData.map(card => (
           <CardView key={card.userListId} type="USER_CARD" cardData={card} />
         ))}

@@ -11,5 +11,21 @@
 
   main {
     margin-top: 3.75rem;
+    margin-bottom: 5rem;
+  }
+}
+
+@layer components {
+  .card-front-back {
+    @apply z-10 flex flex-col absolute top-0 left-0 w-full h-full px-6 py-7 bg-white rounded-[20px] shadow-md;
+  }
+
+  .backface-hidden {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .rotate-y-180 {
+    transform:rotateY(180deg)
   }
 }

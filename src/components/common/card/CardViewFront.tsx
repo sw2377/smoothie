@@ -20,7 +20,7 @@ export default function CardViewFront({ type, cardData }: CardViewFrontProps) {
   } = cardData;
 
   return (
-    <div className="front">
+    <div className="card-front-back bg-[linear-gradient(-12deg,_#fff_50%,_#FFFBEA_50%)] backface-hidden">
       <div className="topArea">
         <div className="meta">
           {/* <span className="{date}">{createdAt}</span> */}

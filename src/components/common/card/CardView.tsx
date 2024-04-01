@@ -11,9 +11,13 @@ export default function CardView({ type, cardData }: CardViewProps) {
   const isUserCard = type === "USER_CARD";
 
   return (
-    <div>
-      <CardViewFront type={type} cardData={cardData} />
-      {isUserCard && <CardViewBack cardData={cardData} />}
-    </div>
+    <li className="group h-[348px] [perspective:1100px]">
+      <div
+        className={`relative w-full h-full duration-500 [transform-style:preserve-3d] ${isUserCard ? "group-hover:rotate-y-180" : ""}`}
+      >
+        <CardViewFront type={type} cardData={cardData} />
+        {isUserCard && <CardViewBack cardData={cardData} />}
+      </div>
+    </li>
   );
 }
