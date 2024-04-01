@@ -1,13 +1,12 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../store/index";
+import { useAppDispatch, useAppSelector } from "../../store/index";
 
-import type { RootState } from "../../store/index";
 import { fetchUserCardList } from "../../store/slices/userListSlice";
+import CardView from "../../components/common/card/CardView";
 
 function UserList() {
-  const user = useSelector((state: RootState) => state.users);
-  console.log(user);
+  const userCardData = useAppSelector(state => state.users?.data);
+  console.log("userCardData", userCardData);
   const dispatch = useAppDispatch();
 
   /** FETCH 모든 유저 카드 조회 */
@@ -27,10 +26,11 @@ function UserList() {
 
   return (
     <main>
-      <h1>UserList</h1>
-      {/* {state.map(state => (
-        <li key={state.title}>{state.title}</li>
-      ))} */}
+      <ul className="grid grid-cols-4 place-items-center gap-y-6 gap-x-6 w-full mb-auto">
+        {userCardData.map(card => (
+          <CardView key={card.userListId} type="USER_CARD" cardData={card} />
+        ))}
+      </ul>
     </main>
   );
 }
