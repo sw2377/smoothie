@@ -16,6 +16,12 @@ export default {
         gray_4: "#BDBDBD",
         gray_5: "#E0E0E0",
       },
+      fontSize: {
+        xxs: "0.625rem",
+      },
+      backgroundImage: {
+        "default-profile": "url('./assets/profile-default.svg')",
+      },
     },
   },
   plugins: [],

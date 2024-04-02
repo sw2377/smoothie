@@ -38,7 +38,7 @@ export default function CardViewFront({ type, cardData }: CardViewFrontProps) {
           {isProjectCard && <span className="text-xs">조회수 {views}</span>}
         </div>
         {isProjectCard && (
-          <div className="px-3 py-1 text-white bg-primary text-[0.625rem] rounded-[20px]">
+          <div className="px-3 py-1 text-white bg-primary text-xxs rounded-[20px]">
             {statusText}
           </div>
         )}

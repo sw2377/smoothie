@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/index";
 import { fetchUserCardList } from "../../store/slices/userListSlice";
-import CardView from "../../components/common/card/CardView";
+import CardView from "../../components/UI/card/CardView";
 
 function UserList() {
   const userCardData = useAppSelector(state => state.users?.data);
