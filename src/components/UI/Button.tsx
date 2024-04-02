@@ -15,7 +15,7 @@ function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`px-5 py-2 ml-2 rounded-lg border border-primary ${type === "normal" ? "bg-primary text-white hover:bg-[#0E2F2B]" : "text-primary hover:bg-primary hover:text-white"}`}
+      className={`px-5 py-2 text-nowrap rounded-lg border border-primary ${type === "normal" ? "bg-primary text-white hover:bg-[#0E2F2B]" : "text-primary hover:bg-primary hover:text-white"}`}
       onClick={handleClick}
       type={buttonType}
     >
