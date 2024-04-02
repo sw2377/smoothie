@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import GetTechLogo from "../../GetTechLogo";
 
 interface CardViewFrontProps {
   type: CardType;
@@ -53,12 +54,14 @@ export default function CardViewFront({ type, cardData }: CardViewFrontProps) {
           slidesPerView={5}
           spaceBetween={10}
           freeMode={true}
-          className="flex"
+          className="flex mt-3 min-h-10 text-sm"
         >
           {techTagNames?.map(techName => (
-            <SwiperSlide key={techName} className={"techTag"}>
-              {techName}
-              {/* <GetLogo logoTitle={techName} /> */}
+            <SwiperSlide
+              key={techName}
+              className="overflow-hidden !w-[32px] !h-[32px]"
+            >
+              <GetTechLogo logoTitle={techName} />
             </SwiperSlide>
           ))}
         </Swiper>
