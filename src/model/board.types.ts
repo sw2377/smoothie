@@ -5,6 +5,7 @@ export interface UserListDataType {
   keywords: string[];
   createdAt: string | Date;
   modifiedAt: string | Date;
+  // 밑에 프로젝트 리스트처럼 writer로 바꾸기!!
   accountId: number;
   nickname: string;
   userImageUrl: string;
@@ -12,21 +13,21 @@ export interface UserListDataType {
 }
 
 export interface ProjectListDataType {
-  memberBoardId: number;
+  projectListId: number;
   title: string;
   content: string;
+  position: string;
   status: string;
   views: number;
-  position: string;
+  techTagList: string[];
+  startDate: string | Date;
+  endDate: string | Date;
+  createdAt: string | Date;
+  modifiedAt: string | Date;
+  writerId: number;
   writerNickName: string;
   writerImageURL: string;
-  writerId: number;
   replyList?: ReplyDataType[];
-  techTagList: string[];
-  startDate: string;
-  endDate: string;
-  createdAt: string | Date;
-  modifiedAt: string;
 }
 
 export interface ReplyDataType {

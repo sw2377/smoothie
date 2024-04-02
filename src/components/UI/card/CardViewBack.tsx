@@ -6,7 +6,7 @@ interface CardViewBackProps {
   cardData: UserListDataType;
 }
 
-export default function CardViewBack({ cardData }: CardViewBackProps) {
+function CardViewBack({ cardData }: CardViewBackProps) {
   const { userListId, keywords, accountId, nickname, userImageUrl } = cardData;
   const navigate = useNavigate();
 
@@ -62,3 +62,5 @@ export default function CardViewBack({ cardData }: CardViewBackProps) {
     </div>
   );
 }
+
+export default CardViewBack;

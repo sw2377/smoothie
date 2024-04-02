@@ -16,7 +16,7 @@ interface CardViewFrontProps {
   cardData: CardDataType;
 }
 
-export default function CardViewFront({ type, cardData }: CardViewFrontProps) {
+function CardViewFront({ type, cardData }: CardViewFrontProps) {
   const isProjectCard = type === "PROJECT_CARD";
   const isUserCard = type === "USER_CARD";
 
@@ -39,7 +39,7 @@ export default function CardViewFront({ type, cardData }: CardViewFrontProps) {
           {isProjectCard && <span className="text-xs">조회수 {views}</span>}
         </div>
         {isProjectCard && (
-          <div className="px-3 py-1 text-white bg-primary text-xxs rounded-[20px]">
+          <div className="inline-block px-3 py-1 text-white bg-primary text-xxs rounded-[20px]">
             {statusText}
           </div>
         )}
@@ -49,7 +49,7 @@ export default function CardViewFront({ type, cardData }: CardViewFrontProps) {
         <div className="display-clamp text-xl font-bold">{title}</div>
       </div>
       <div onClick={e => e.stopPropagation()}>
-        <div className="text-lg">{position}</div>
+        <div>{position}</div>
         <Swiper
           slidesPerView={5}
           spaceBetween={10}
@@ -69,3 +69,5 @@ export default function CardViewFront({ type, cardData }: CardViewFrontProps) {
     </div>
   );
 }
+
+export default CardViewFront;

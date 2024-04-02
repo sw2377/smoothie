@@ -5,7 +5,7 @@ interface GetLogoProps {
   logoTitle: string;
 }
 
-export default function GetTechLogo({ logoTitle }: GetLogoProps) {
+function GetTechLogo({ logoTitle }: GetLogoProps) {
   const [logoSrc, setLogoSrc] = useState<string | null>(null);
   let logoName = logoTitle.toLowerCase();
 
@@ -64,3 +64,5 @@ export default function GetTechLogo({ logoTitle }: GetLogoProps) {
 
   return <>{logoSrc && <img src={logoSrc} alt={`${logoTitle} logo`} />}</>;
 }
+
+export default GetTechLogo;
