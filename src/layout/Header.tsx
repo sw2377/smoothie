@@ -77,14 +77,14 @@ function Header() {
         </div>
         {/* mobile */}
         <div className="flex sm:hidden">
-          <button onClick={mobileToggleMenu}>
+          <button className="border-none" onClick={mobileToggleMenu}>
             <Menu size={40} />
           </button>
           {isOpenMenu && (
             <nav className="flex flex-col gap-10 absolute top-0 right-0 w-full h-screen p-6 bg-secondary">
               <button
                 onClick={() => setIsOpenMenu(prev => !prev)}
-                className="self-end"
+                className="border-none self-end"
               >
                 <X size={40} />
               </button>

@@ -80,7 +80,9 @@ function Login() {
         </div>
         <p className="text-gray_2 text-xs text-center mt-5">
           Dont' have an account?{" "}
-          <span className="text-primary font-bold">Sign up</span>
+          <Link to="/signup" className="text-primary font-bold">
+            Sign up
+          </Link>
         </p>
       </div>
     </main>
