@@ -1,21 +1,21 @@
 import { ReactNode } from "react";
 
-interface ButtonProps {
+interface ActionButtonProps {
   type?: "normal" | "outline";
   buttonType?: "button" | "submit";
   handleClick: () => void;
   children: ReactNode;
 }
 
-function Button({
+function ActionButton({
   type = "normal",
   buttonType = "button",
   handleClick,
   children,
-}: ButtonProps) {
+}: ActionButtonProps) {
   return (
     <button
-      className={`px-5 py-2 text-nowrap rounded-lg border border-primary ${type === "normal" ? "bg-primary text-white hover:bg-[#0E2F2B]" : "text-primary hover:bg-primary hover:text-white"}`}
+      className={`border-primary ${type === "normal" ? "bg-primary text-white hover:bg-[#0E2F2B]" : "text-primary hover:bg-primary hover:text-white"}`}
       onClick={handleClick}
       type={buttonType}
     >
@@ -24,4 +24,4 @@ function Button({
   );
 }
 
-export default Button;
+export default ActionButton;

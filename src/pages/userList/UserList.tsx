@@ -25,11 +25,13 @@ function UserList() {
 
   return (
     <main>
-      <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
-        {userCardData.map(card => (
-          <CardView key={card.userListId} type="USER_CARD" cardData={card} />
-        ))}
-      </ul>
+      <div className="flex flex-col w-full">
+        <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+          {userCardData.map(card => (
+            <CardView key={card.userListId} type="USER_CARD" cardData={card} />
+          ))}
+        </ul>
+      </div>
     </main>
   );
 }

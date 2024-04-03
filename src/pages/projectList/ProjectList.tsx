@@ -24,15 +24,17 @@ function ProjectList() {
 
   return (
     <main>
-      <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
-        {projectListData.map(card => (
-          <CardView
-            key={card.projectListId}
-            type="PROJECT_CARD"
-            cardData={card}
-          />
-        ))}
-      </ul>
+      <div className="flex flex-col w-full">
+        <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+          {projectListData.map(card => (
+            <CardView
+              key={card.projectListId}
+              type="PROJECT_CARD"
+              cardData={card}
+            />
+          ))}
+        </ul>
+      </div>
     </main>
   );
 }

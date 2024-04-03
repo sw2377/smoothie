@@ -10,8 +10,29 @@
   }
 
   main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 3.75rem;
     margin-bottom: 5rem;
+  }
+
+  input, textarea {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #BDBDBD;
+    border-radius: 8px;
+  }
+  
+  input:focus-visible, textarea:focus-visible {
+    outline: none;
+  }
+
+  input::placeholder {
+    font-size: 14px;
+  }
+
+  button {
+    @apply px-5 py-2 text-nowrap rounded-lg border;
   }
 }
 

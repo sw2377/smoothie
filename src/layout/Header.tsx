@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import SmoothieLgooSVG from "../assets/logo.svg?react";
-import Button from "../components/UI/Button";
+import Button from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
 
 const nav: { name: string; url: string; filter: "category" | "auth" }[] = [
