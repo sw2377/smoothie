@@ -6,6 +6,8 @@ import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
 import GoogleLogoSVG from "../../assets/icons/google.svg?react";
 import GithubLogoSVG from "../../assets/icons/github.svg?react";
 
+import { supabase } from "../../app/supabase";
+
 function Login() {
   const {
     register,
@@ -13,6 +15,14 @@ function Login() {
     formState: { errors },
   } = useForm<LoginDataType>();
   const onSubmit: SubmitHandler<LoginDataType> = data => console.log(data);
+
+  const signInWithGithub = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+    });
+
+    console.log(data, error);
+  };
 
   return (
     <main>
@@ -69,13 +79,13 @@ function Login() {
         <div className="flex flex-col gap-2">
           <SocialLoginButton
             socialLogo={GoogleLogoSVG}
-            text="Sign in with Google"
+            text="Log in with Google"
             handleClick={() => {}}
           />
           <SocialLoginButton
             socialLogo={GithubLogoSVG}
-            text="Sign in with Github"
-            handleClick={() => {}}
+            text="Log in with Github"
+            handleClick={signInWithGithub}
           />
         </div>
         <p className="text-gray_2 text-xs text-center mt-5">

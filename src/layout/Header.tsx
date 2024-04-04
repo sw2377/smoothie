@@ -72,7 +72,9 @@ function Header() {
         </div>
         <div className="hidden sm:flex gap-2">
           {authList.map(list => (
-            <Button handleClick={() => navigate(list.url)}>{list.name}</Button>
+            <Button key={list.name} handleClick={() => navigate(list.url)}>
+              {list.name}
+            </Button>
           ))}
         </div>
         {/* mobile */}

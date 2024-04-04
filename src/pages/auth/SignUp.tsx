@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignupDataType } from "../../model/auth.types";
 import Button from "../../components/UI/button/ActionButton";
+import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
+import GoogleLogoSVG from "../../assets/icons/google.svg?react";
+import GithubLogoSVG from "../../assets/icons/github.svg?react";
+
+import { supabase } from "../../app/supabase";
 
 function Signup() {
   const {
@@ -10,7 +15,22 @@ function Signup() {
     handleSubmit,
     formState: { errors },
   } = useForm<SignupDataType>();
-  const onSubmit: SubmitHandler<SignupDataType> = data => console.log(data);
+  const onSubmit: SubmitHandler<SignupDataType> = data => {
+    console.log(data);
+    signUpNewUser(data.email, data.password);
+  };
+
+  async function signUpNewUser(email: string, password: string) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: "https://example.com/welcome",
+      },
+    });
+
+    console.log(data, error);
+  }
 
   return (
     <main>
@@ -83,6 +103,19 @@ function Signup() {
             Sign up
           </Button>
         </form>
+        {/* Social Signup */}
+        <div className="flex flex-col gap-2">
+          <SocialLoginButton
+            socialLogo={GoogleLogoSVG}
+            text="Sign up with Google"
+            handleClick={() => {}}
+          />
+          <SocialLoginButton
+            socialLogo={GithubLogoSVG}
+            text="Sign up with Github"
+            handleClick={() => {}}
+          />
+        </div>
         <p className="text-gray_2 text-xs text-center mt-5">
           Already have an account?{" "}
           <Link to="/login" className="text-primary font-bold">

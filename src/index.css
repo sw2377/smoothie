@@ -18,7 +18,7 @@
   }
 
   input, textarea {
-    padding: 0.5rem 0.75rem;
+    padding: 0.75rem 1rem;
     border: 1px solid #BDBDBD;
     border-radius: 8px;
   }
@@ -32,7 +32,7 @@
   }
 
   button {
-    @apply px-5 py-2 text-nowrap rounded-lg border;
+    @apply px-5 py-3 text-nowrap rounded-lg border;
   }
 }
 
