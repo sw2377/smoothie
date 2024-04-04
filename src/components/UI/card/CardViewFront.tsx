@@ -20,12 +20,11 @@ function CardViewFront({ type, cardData }: CardViewFrontProps) {
   const isProjectCard = type === "PROJECT_CARD";
   const isUserCard = type === "USER_CARD";
 
-  const { title, position, createdAt, techTagList } =
-    cardData as UserListDataType;
+  const { title, position, createdAt, techTags } = cardData as UserListDataType;
   const { views, status, writerNickName } = cardData as ProjectListDataType;
 
   const date = new Date(createdAt).toLocaleDateString();
-  const techTagNames = extractTextAfterColon(techTagList);
+  const techTagNames = extractTextAfterColon(techTags);
 
   let statusText;
   if (status === "모집중") statusText = "모집중";

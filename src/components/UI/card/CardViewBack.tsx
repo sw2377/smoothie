@@ -7,7 +7,7 @@ interface CardViewBackProps {
 }
 
 function CardViewBack({ cardData }: CardViewBackProps) {
-  const { userListId, keywords, accountId, nickname, userImageUrl } = cardData;
+  const { id, keywords, userId } = cardData;
   const navigate = useNavigate();
 
   // const tokenId = getTokenInfo();
@@ -15,7 +15,7 @@ function CardViewBack({ cardData }: CardViewBackProps) {
 
   const goToUserMyPage = () => {
     if (tokenId) {
-      navigate(`/mypage/${accountId}`);
+      navigate(`/mypage/${userId}`);
     } else {
       alert("회원만 다른 유저의 프로필을 조회할 수 있어요!");
       navigate("/login");
@@ -25,11 +25,11 @@ function CardViewBack({ cardData }: CardViewBackProps) {
   return (
     <div className="card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] backface-hidden rotate-y-180">
       <div className="flex justify-end h-6">
-        {tokenId === accountId ? (
+        {tokenId === userId ? (
           <span
             className="cursor-pointer"
             onClick={() => {
-              navigate(`/userlist/edit/${userListId}`);
+              navigate(`/userlist/edit/${id}`);
             }}
           >
             <Pencil color="#828282" />
@@ -41,7 +41,7 @@ function CardViewBack({ cardData }: CardViewBackProps) {
           className="overflow-hidden w-[85px] h-[85px] my-0 mx-auto rounded-full cursor-pointer border bg-default-profile bg-no-repeat bg-cover"
           onClick={goToUserMyPage}
         >
-          <img src={userImageUrl} alt="" />
+          <img src="" alt="" />
         </div>
         <div className="display-clamp mt-5">
           {keywords.map(item => (
@@ -53,8 +53,7 @@ function CardViewBack({ cardData }: CardViewBackProps) {
       </div>
       <div>
         <div className="text-xxs text-center text-gray_3">
-          <span className="font-bold text-xs">{nickname}</span>님이 더
-          궁금하신가요?
+          <span className="font-bold text-xs">test</span>님이 더 궁금하신가요?
           <br />
           프로필 사진을 클릭해 보세요!
         </div>

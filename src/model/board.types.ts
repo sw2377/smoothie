@@ -1,15 +1,14 @@
 export interface UserListDataType {
-  userListId: number;
+  id: number;
   title: string;
   position: string;
   keywords: string[];
   createdAt: string | Date;
   modifiedAt: string | Date;
-  // 밑에 프로젝트 리스트처럼 writer로 바꾸기!!
-  accountId: number;
-  nickname: string;
-  userImageUrl: string;
-  techTagList: string[];
+  techTags: string[];
+  userId: number; // userId
+  // nickname: string; // userNickname
+  // userImageUrl: string;
 }
 
 export interface ProjectListDataType {
