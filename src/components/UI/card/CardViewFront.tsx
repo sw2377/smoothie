@@ -14,9 +14,14 @@ import GetTechLogo from "../../GetTechLogo";
 interface CardViewFrontProps {
   type: CardType;
   cardData: CardDataType;
+  isPreview?: boolean;
 }
 
-function CardViewFront({ type, cardData }: CardViewFrontProps) {
+function CardViewFront({
+  type,
+  cardData,
+  isPreview = false,
+}: CardViewFrontProps) {
   const isProjectCard = type === "PROJECT_CARD";
   const isUserCard = type === "USER_CARD";
 
@@ -31,7 +36,9 @@ function CardViewFront({ type, cardData }: CardViewFrontProps) {
   else statusText = "모집완료";
 
   return (
-    <div className="card-front-back bg-[linear-gradient(-12deg,_#fff_50%,_#FFFBEA_50%)] backface-hidden">
+    <div
+      className={`${isPreview ? "w-[282px] h-[348px]" : "absolute top-0 left-0 w-full h-full"} card-front-back bg-[linear-gradient(-12deg,_#fff_50%,_#FFFBEA_50%)] backface-hidden`}
+    >
       <div>
         <div className="flex justify-between">
           <span className="text-xs">{date}</span>

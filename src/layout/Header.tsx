@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import SmoothieLgooSVG from "../assets/logo.svg?react";
-import Button from "../components/UI/button/ActionButton";
+import ActionButton from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
 
 const nav: { name: string; url: string; filter: "category" | "auth" }[] = [
@@ -72,9 +72,12 @@ function Header() {
         </div>
         <div className="hidden sm:flex gap-2">
           {authList.map(list => (
-            <Button key={list.name} handleClick={() => navigate(list.url)}>
+            <ActionButton
+              key={list.name}
+              handleClick={() => navigate(list.url)}
+            >
               {list.name}
-            </Button>
+            </ActionButton>
           ))}
         </div>
         {/* mobile */}

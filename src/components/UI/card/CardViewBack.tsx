@@ -4,9 +4,10 @@ import { UserListDataType } from "../../../model/board.types";
 
 interface CardViewBackProps {
   cardData: UserListDataType;
+  isPreview?: boolean;
 }
 
-function CardViewBack({ cardData }: CardViewBackProps) {
+function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
   const { id, keywords, userId } = cardData;
   const navigate = useNavigate();
 
@@ -23,7 +24,9 @@ function CardViewBack({ cardData }: CardViewBackProps) {
   };
 
   return (
-    <div className="card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] backface-hidden rotate-y-180">
+    <div
+      className={`${isPreview ? "w-[282px] h-[348px]" : "absolute top-0 left-0 w-full h-full rotate-y-180"} card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] backface-hidden`}
+    >
       <div className="flex justify-end h-6">
         {tokenId === userId ? (
           <span

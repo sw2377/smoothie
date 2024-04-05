@@ -1,12 +1,12 @@
 export interface UserListDataType {
-  id: number;
+  id?: number;
   title: string;
   position: string;
   keywords: string[];
-  createdAt: string | Date;
-  modifiedAt: string | Date;
+  createdAt?: string | Date;
+  modifiedAt?: string | Date;
   techTags: string[];
-  userId: number; // userId
+  userId?: number; // userId
   // nickname: string; // userNickname
   // userImageUrl: string;
 }

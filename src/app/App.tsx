@@ -7,6 +7,8 @@ import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
 
 import UserList from "../pages/userList/UserList";
+import NewCard from "../pages/userList/NewCard";
+import EditCard from "../pages/userList/EditCard";
 
 import ProjectList from "../pages/projectList/ProjectList";
 import ProjectDetail from "../pages/projectList/ProjectDetail";
@@ -37,7 +39,11 @@ const router = createBrowserRouter([
       /*** 📌 팀찾기 ***/
       {
         path: "userlist",
-        children: [{ index: true, element: <UserList /> }],
+        children: [
+          { index: true, element: <UserList /> },
+          { path: "new", element: <NewCard /> },
+          { path: "edit/:usercardId", element: <EditCard /> },
+        ],
       },
 
       /*** 📌 팀원찾기 ***/

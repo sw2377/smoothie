@@ -32,13 +32,23 @@
   }
 
   button {
-    @apply px-5 py-3 text-nowrap rounded-lg border;
+    @apply px-5 py-2 text-nowrap rounded-lg border;
+    /* @apply px-5 py-3 text-nowrap rounded-lg border; */
   }
 }
 
 @layer components {
+  .blind {
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0, 0, 0);
+    margin: -1;
+  }
+
   .card-front-back {
-    @apply z-10 flex flex-col absolute top-0 left-0 w-full h-full px-6 py-7 bg-white rounded-[20px] shadow-md;
+    @apply z-10 flex flex-col px-6 py-7 bg-white rounded-[20px] shadow-md;
   }
 
   .backface-hidden {

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginDataType } from "../../model/auth.types";
-import Button from "../../components/UI/button/ActionButton";
+import ActionButton from "../../components/UI/button/ActionButton";
 import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
 import GoogleLogoSVG from "../../assets/icons/google.svg?react";
 import GithubLogoSVG from "../../assets/icons/github.svg?react";
@@ -71,9 +71,13 @@ function Login() {
           >
             Forgot Password
           </Link>
-          <Button buttonType="submit" handleClick={handleSubmit(onSubmit)}>
+          <ActionButton
+            buttonType="submit"
+            style="py-3"
+            handleClick={handleSubmit(onSubmit)}
+          >
             Log in
-          </Button>
+          </ActionButton>
         </form>
         {/* Social Login */}
         <div className="flex flex-col gap-2">
