@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { UserListDataType } from "../../../model/board.types";
 
+import { session } from "../../../app/supabase";
+
 interface CardViewBackProps {
   cardData: UserListDataType;
   isPreview?: boolean;
@@ -11,15 +13,12 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
   const { id, keywords, userId } = cardData;
   const navigate = useNavigate();
 
-  // const tokenId = getTokenInfo();
-  const tokenId = 1;
-
-  const goToUserMyPage = () => {
-    if (tokenId) {
-      navigate(`/mypage/${userId}`);
-    } else {
-      alert("회원만 다른 유저의 프로필을 조회할 수 있어요!");
+  const handleUserImageClick = () => {
+    if (session === null) {
+      window.alert("회원만 다른 유저의 프로필을 조회할 수 있어요!");
       navigate("/login");
+    } else {
+      navigate(`/mypage/${userId}`);
     }
   };
 
@@ -28,7 +27,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
       className={`${isPreview ? "w-[282px] h-[348px]" : "absolute top-0 left-0 w-full h-full rotate-y-180"} card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] backface-hidden`}
     >
       <div className="flex justify-end h-6">
-        {tokenId === userId ? (
+        {session?.user.id === userId ? (
           <span
             className="cursor-pointer"
             onClick={() => {
@@ -42,7 +41,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
       <div className="mb-auto">
         <div
           className="overflow-hidden w-[85px] h-[85px] my-0 mx-auto rounded-full cursor-pointer border bg-default-profile bg-no-repeat bg-cover"
-          onClick={goToUserMyPage}
+          onClick={handleUserImageClick}
         >
           <img src="" alt="" />
         </div>

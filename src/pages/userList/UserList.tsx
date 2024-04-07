@@ -18,14 +18,16 @@ function UserList() {
   useEffect(() => {
     console.log("🚀 GET USER LIST");
 
+    // dispatch(fetchUserCardList());
     dispatch(fetchUserCardList())
       .unwrap()
+      .then(payload => console.log("fulfilled", payload))
       .catch(err => {
-        console.warn("🚀 GET USERLIST ERROR: ", err.message);
+        console.warn("🚀 GET USERLIST ERROR: rejected ", err.message);
       });
   }, []);
 
-  const handleCreateCardBtnClick = async () => {
+  const handleCreateCardBtnClick = () => {
     console.log("🚀 handleCreateCardBtnClick");
 
     if (session === null) {

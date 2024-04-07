@@ -36,17 +36,17 @@ const router = createBrowserRouter([
         ],
       },
 
-      /*** 📌 팀찾기 ***/
+      /*** 📌 유저카드 ***/
       {
         path: "userlist",
         children: [
           { index: true, element: <UserList /> },
           { path: "new", element: <NewCard /> },
-          { path: "edit/:usercardId", element: <EditCard /> },
+          { path: "edit/:id", element: <EditCard /> },
         ],
       },
 
-      /*** 📌 팀원찾기 ***/
+      /*** 📌 프로젝트팀원모집 ***/
       {
         path: "projectlist",
         children: [

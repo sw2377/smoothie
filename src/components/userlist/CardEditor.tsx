@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Hash } from "lucide-react";
+import { UserListDataType } from "../../model/board.types";
+import { useAppDispatch } from "../../store/index";
+import {
+  addUserCard,
+  modifiedUserCard,
+} from "../../store/slices/userListSlice";
 
 import ActionButton from "../UI/button/ActionButton";
 import TextInput from "../UI/TextInput";
@@ -8,9 +14,14 @@ import TextTag from "../UI/TextTag";
 import CardViewFront from "../UI/card/CardViewFront";
 import CardViewBack from "../UI/card/CardViewBack";
 
-// import { supabase } from "../../app/supabase";
+interface CardEditorProps {
+  originCard?: UserListDataType; // origin card가 있으면 수정, 없으면 생성
+}
 
-function CardEditor() {
+function CardEditor({ originCard }: CardEditorProps) {
+  console.log("🔖 ORIGIN CARD", originCard);
+
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   /** 제목 */
@@ -39,7 +50,21 @@ function CardEditor() {
     setKeywords(updatedKeyword);
   };
 
+  useEffect(() => {
+    if (originCard) {
+      setTitle(originCard.title);
+      setKeywords(originCard.keywords);
+    }
+  }, [originCard]);
+
   const cardData = {
+    title,
+    position: "프론트엔드", // 임시
+    keywords,
+    techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시,
+  };
+
+  const reqData = {
     // id: 1, // 임시
     title,
     position: "프론트엔드", // 임시
@@ -49,13 +74,28 @@ function CardEditor() {
     techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시
     // userId: 11, // 임시
   };
+  console.log("🔖 REQ DATA", reqData);
 
+  /** Add or Edit Card */
   const handleSubmit = async () => {
-    console.log("🚀 CREATE USER CARD");
-    console.log(cardData);
+    console.log("🚀 ADD USER CARD");
+    console.log(reqData);
 
-    // const { error } = await supabase.from("userlist").insert(cardData);
-    // console.log("ERROR", error);
+    if (!originCard) {
+      dispatch(addUserCard(reqData))
+        .unwrap()
+        .catch(err => {
+          console.warn("🚀 ADD USER CARD ERROR: ", err.message);
+        });
+    } else {
+      const targetId = originCard.id;
+
+      dispatch(modifiedUserCard({ targetId, reqData }))
+        .unwrap()
+        .catch(err => {
+          console.warn("🚀 EDIT USER CARD ERROR: ", err.message);
+        });
+    }
   };
 
   return (
@@ -109,16 +149,19 @@ function CardEditor() {
           <ActionButton
             type="outline"
             handleClick={() => {
-              if (window.confirm("카드 작성을 취소하시겠습니까?")) {
-                navigate("/userlist");
+              if (
+                window.confirm(
+                  `카드 ${originCard ? "수정" : "작성"}을 취소하시겠습니까?`,
+                )
+              ) {
+                navigate("/userlist", { replace: true });
               }
             }}
           >
             취소
           </ActionButton>
           <ActionButton handleClick={handleSubmit}>
-            {/* {originCard ? "카드 수정하기" : "카드 등록하기"} */}
-            카드 등록하기
+            {originCard ? "카드 수정하기" : "카드 등록하기"}
           </ActionButton>
         </div>
       </div>
