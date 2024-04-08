@@ -4,6 +4,7 @@ import { supabase } from "../../app/supabase";
 
 interface ProjectListState {
   data: ProjectListDataType[];
+  currentData?: ProjectListDataType;
   isLoading: boolean;
   error: string | null;
 }
@@ -18,10 +19,38 @@ const initialState: ProjectListState = {
 export const fetchProjectList = createAsyncThunk(
   "projectlist/fetch",
   async () => {
-    const response = await supabase.from("projectList").select();
-    return response.data || [];
+    const { data, error } = await supabase.from("projectList").select();
+
+    if (error) {
+      console.warn("모든 프로젝트 게시글 조회 실패", error);
+      throw error;
+    }
+
+    return data || [];
   },
 );
+
+/** GET 현재 게시글 조회 */
+export const getProject = createAsyncThunk(
+  "projectlist/get",
+  async (targetId: string) => {
+    const { data, error } = await supabase
+      .from("projectList")
+      .select()
+      .eq("id", targetId);
+
+    if (error) {
+      console.warn("현재 게시글 조회 실패", error);
+      throw error;
+    }
+
+    return data[0];
+  },
+);
+
+/** POST 게시글 작성 */
+
+/** PATCH 게시글 수정 */
 
 const projectListSlice = createSlice({
   name: "projectlist",
@@ -37,6 +66,18 @@ const projectListSlice = createSlice({
       state.data = action.payload;
     });
     builder.addCase(fetchProjectList.rejected, state => {
+      state.isLoading = false;
+    });
+
+    // GET
+    builder.addCase(getProject.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getProject.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.currentData = action.payload;
+    });
+    builder.addCase(getProject.rejected, state => {
       state.isLoading = false;
     });
   },

@@ -34,6 +34,7 @@ export const fetchUserCardList = createAsyncThunk(
 
     if (error) {
       console.warn("모든 유저 카드 조회 실패", error);
+      throw error;
     }
 
     return data || [];
@@ -48,6 +49,7 @@ export const addUserCard = createAsyncThunk(
 
     if (error) {
       console.warn("카드 작성 실패", error);
+      throw error;
     }
   },
 );
@@ -63,6 +65,7 @@ export const modifiedUserCard = createAsyncThunk(
 
     if (error) {
       console.warn("카드 수정 실패", error);
+      throw error;
     }
   },
 );

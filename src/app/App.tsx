@@ -52,7 +52,7 @@ const router = createBrowserRouter([
         path: "projectlist",
         children: [
           { index: true, element: <ProjectList /> },
-          { path: ":projectId", element: <ProjectDetail /> },
+          { path: ":id", element: <ProjectDetail /> },
           { path: "new", element: <NewPost /> },
         ],
       },
