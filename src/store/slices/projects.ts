@@ -19,7 +19,7 @@ export const fetchProjectList = createAsyncThunk(
   },
 );
 
-const projectListSlice = createSlice({
+const projectSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {},
@@ -39,4 +39,4 @@ const projectListSlice = createSlice({
 });
 
 // export const { } = projectListSlice.actions;
-export const projectsReducer = projectListSlice.reducer;
+export const projectReducer = projectSlice.reducer;

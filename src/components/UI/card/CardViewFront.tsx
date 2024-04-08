@@ -1,6 +1,6 @@
 import {
   ProjectListDataType,
-  UserListDataType,
+  UserCardListDataType,
 } from "../../../model/board.types";
 import { CardType, CardDataType } from "../../../model/card.types";
 import { extractTextAfterColon } from "../../../utils/exceptColonFromTechResponse";
@@ -25,9 +25,11 @@ function CardViewFront({
   const isProjectCard = type === "PROJECT_CARD";
   const isUserCard = type === "USER_CARD";
 
-  const { title, position, createdAt, techTags } = cardData as UserListDataType;
+  const { title, position, createdAt, techTags } =
+    cardData as UserCardListDataType;
   const { views, status, writerNickName } = cardData as ProjectListDataType;
 
+  console.log("createdAt", createdAt);
   const date = new Date(createdAt).toLocaleDateString();
   const techTagNames = extractTextAfterColon(techTags);
 

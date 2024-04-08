@@ -1,4 +1,4 @@
-import CardEditor from "../../components/userlist/CardEditor";
+import CardEditor from "../../components/userCardList/CardEditor";
 
 function NewCard() {
   return <CardEditor />;

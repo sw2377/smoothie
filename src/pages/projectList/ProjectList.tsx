@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/index";
-import { fetchProjectList } from "../../store/slices/projectListSlice";
+import { fetchProjectList } from "../../store/slices/projects";
 import CardView from "../../components/UI/card/CardView";
 
 function ProjectList() {

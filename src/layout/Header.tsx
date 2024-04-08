@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 const nav: { name: string; url: string; filter: "category" | "auth" }[] = [
   {
     name: "유저카드",
-    url: "/userlist",
+    url: "/usercardlist",
     filter: "category",
   },
   {

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Hash } from "lucide-react";
-import { UserListDataType } from "../../model/board.types";
+import { UserCardListDataType } from "../../model/board.types";
 import { useAppDispatch } from "../../store/index";
 import {
   addUserCard,
   modifiedUserCard,
-} from "../../store/slices/userListSlice";
+} from "../../store/slices/userCardListSlice";
 
 import ActionButton from "../UI/button/ActionButton";
 import TextInput from "../UI/TextInput";
@@ -15,7 +15,7 @@ import CardViewFront from "../UI/card/CardViewFront";
 import CardViewBack from "../UI/card/CardViewBack";
 
 interface CardEditorProps {
-  originCard?: UserListDataType; // origin card가 있으면 수정, 없으면 생성
+  originCard?: UserCardListDataType; // origin card가 있으면 수정, 없으면 생성
 }
 
 function CardEditor({ originCard }: CardEditorProps) {
@@ -26,6 +26,9 @@ function CardEditor({ originCard }: CardEditorProps) {
 
   /** 제목 */
   const [title, setTitle] = useState("");
+
+  /** 작성일 */
+  const createdDate = originCard?.createdAt || new Date();
 
   /** 키워드 */
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -62,6 +65,7 @@ function CardEditor({ originCard }: CardEditorProps) {
     position: "프론트엔드", // 임시
     keywords,
     techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시,
+    createdAt: createdDate,
   };
 
   const reqData = {
@@ -77,24 +81,30 @@ function CardEditor({ originCard }: CardEditorProps) {
   console.log("🔖 REQ DATA", reqData);
 
   /** Add or Edit Card */
-  const handleSubmit = async () => {
-    console.log("🚀 ADD USER CARD");
-    console.log(reqData);
-
-    if (!originCard) {
-      dispatch(addUserCard(reqData))
-        .unwrap()
-        .catch(err => {
-          console.warn("🚀 ADD USER CARD ERROR: ", err.message);
+  const handleActionBtnClick = async () => {
+    if (
+      window.confirm(
+        originCard
+          ? "카드를 수정하시겠습니까?"
+          : "새로운 카드를 작성하시겠습니까?",
+      )
+    ) {
+      // 카드 작성
+      if (!originCard) {
+        dispatch(addUserCard(reqData)).then(() => {
+          window.alert("새 카드가 등록되었습니다.");
+          navigate("/usercardlist");
         });
-    } else {
-      const targetId = originCard.id;
+      }
 
-      dispatch(modifiedUserCard({ targetId, reqData }))
-        .unwrap()
-        .catch(err => {
-          console.warn("🚀 EDIT USER CARD ERROR: ", err.message);
+      // 카드 수정
+      if (originCard) {
+        const targetId = originCard.id;
+        dispatch(modifiedUserCard({ targetId, reqData })).then(() => {
+          window.alert("카드가 수정되었습니다.");
+          navigate("/usercardlist");
         });
+      }
     }
   };
 
@@ -154,13 +164,13 @@ function CardEditor({ originCard }: CardEditorProps) {
                   `카드 ${originCard ? "수정" : "작성"}을 취소하시겠습니까?`,
                 )
               ) {
-                navigate("/userlist", { replace: true });
+                navigate("/usercardlist", { replace: true });
               }
             }}
           >
             취소
           </ActionButton>
-          <ActionButton handleClick={handleSubmit}>
+          <ActionButton handleClick={handleActionBtnClick}>
             {originCard ? "카드 수정하기" : "카드 등록하기"}
           </ActionButton>
         </div>

@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { Pencil } from "lucide-react";
-import { UserListDataType } from "../../../model/board.types";
+import { UserCardListDataType } from "../../../model/board.types";
 
 import { session } from "../../../app/supabase";
 
 interface CardViewBackProps {
-  cardData: UserListDataType;
+  cardData: UserCardListDataType;
   isPreview?: boolean;
 }
 
 function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
   const { id, keywords, userId } = cardData;
   const navigate = useNavigate();
+
+  console.log(session);
 
   const handleUserImageClick = () => {
     if (session === null) {
@@ -31,7 +33,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
           <span
             className="cursor-pointer"
             onClick={() => {
-              navigate(`/userlist/edit/${id}`);
+              navigate(`/usercardlist/edit/${id}`);
             }}
           >
             <Pencil color="#828282" />
@@ -55,7 +57,10 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
       </div>
       <div>
         <div className="text-xxs text-center text-gray_3">
-          <span className="font-bold text-xs">test</span>님이 더 궁금하신가요?
+          <span className="font-bold text-xs">
+            {session?.user.user_metadata.user_name}
+          </span>
+          님이 더 궁금하신가요?
           <br />
           프로필 사진을 클릭해 보세요!
         </div>

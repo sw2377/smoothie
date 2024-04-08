@@ -6,9 +6,9 @@ import Home from "../pages/home/Home";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
 
-import UserList from "../pages/userList/UserList";
-import NewCard from "../pages/userList/NewCard";
-import EditCard from "../pages/userList/EditCard";
+import UserCardList from "../pages/userCardList/UserCardList";
+import NewCard from "../pages/userCardList/NewCard";
+import EditCard from "../pages/userCardList/EditCard";
 
 import ProjectList from "../pages/projectList/ProjectList";
 import ProjectDetail from "../pages/projectList/ProjectDetail";
@@ -38,9 +38,9 @@ const router = createBrowserRouter([
 
       /*** 📌 유저카드 ***/
       {
-        path: "userlist",
+        path: "usercardlist",
         children: [
-          { index: true, element: <UserList /> },
+          { index: true, element: <UserCardList /> },
           { path: "new", element: <NewCard /> },
           { path: "edit/:id", element: <EditCard /> },
         ],

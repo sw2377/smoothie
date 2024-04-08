@@ -3,7 +3,7 @@ import CardViewBack from "./CardViewBack";
 import CardViewFront from "./CardViewFront";
 import { CardType, CardDataType } from "../../../model/card.types";
 import {
-  UserListDataType,
+  UserCardListDataType,
   ProjectListDataType,
 } from "../../../model/board.types";
 
@@ -29,7 +29,9 @@ function CardView({ type, cardData }: CardViewProps) {
         }
       >
         <CardViewFront type={type} cardData={cardData} />
-        {isUserCard && <CardViewBack cardData={cardData as UserListDataType} />}
+        {isUserCard && (
+          <CardViewBack cardData={cardData as UserCardListDataType} />
+        )}
       </div>
     </li>
   );
