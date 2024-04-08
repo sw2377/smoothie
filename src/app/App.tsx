@@ -12,6 +12,7 @@ import EditCard from "../pages/userCardList/EditCard";
 
 import ProjectList from "../pages/projectList/ProjectList";
 import ProjectDetail from "../pages/projectList/ProjectDetail";
+import NewPost from "../pages/projectList/NewPost";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <ProjectList /> },
           { path: ":projectId", element: <ProjectDetail /> },
+          { path: "new", element: <NewPost /> },
         ],
       },
     ],

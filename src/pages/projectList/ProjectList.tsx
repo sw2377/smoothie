@@ -1,39 +1,54 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/index";
-import { fetchProjectList } from "../../store/slices/projects";
+import { fetchProjectList } from "../../store/slices/projectListSlice";
 import CardView from "../../components/UI/card/CardView";
+import ActionButton from "../../components/UI/button/ActionButton";
+
+import { session } from "../../app/supabase";
 
 function ProjectList() {
-  const projectListData = useAppSelector(state => state.projects?.data);
+  const { data: projectData, isLoading } = useAppSelector(
+    state => state.projects,
+  );
+
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   /** FETCH 모든 게시글 조회 */
   useEffect(() => {
-    getProjcetList();
-  }, []);
+    dispatch(fetchProjectList());
+  }, [dispatch]);
 
-  const getProjcetList = () => {
-    console.log("🚀 GET PROJECT LIST");
-
-    dispatch(fetchProjectList())
-      .unwrap()
-      .catch(err => {
-        console.warn("🚀 GET PROJECT LIST ERROR: ", err.message);
-      });
+  const handleCreateCardBtnClick = () => {
+    if (session === null) {
+      window.alert("회원만 카드를 작성할 수 있어요!");
+      navigate("/login");
+    } else {
+      navigate("/projectlist/new");
+    }
   };
+
+  let contents;
+  if (isLoading) {
+    contents = <div>Loading...</div>;
+  } else {
+    contents = (
+      <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+        {projectData.map(card => (
+          <CardView key={card.id} type="PROJECT_CARD" cardData={card} />
+        ))}
+      </ul>
+    );
+  }
 
   return (
     <main>
       <div className="flex flex-col w-full">
-        <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
-          {projectListData.map(card => (
-            <CardView
-              key={card.projectListId}
-              type="PROJECT_CARD"
-              cardData={card}
-            />
-          ))}
-        </ul>
+        <ActionButton style="self-end" handleClick={handleCreateCardBtnClick}>
+          카드 작성하기
+        </ActionButton>
+        {contents}
       </div>
     </main>
   );

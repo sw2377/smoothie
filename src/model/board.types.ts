@@ -12,21 +12,21 @@ export interface UserCardListDataType {
 }
 
 export interface ProjectListDataType {
-  projectListId: number;
+  id: number; // PK
   title: string;
   content: string;
   position: string;
   status: string;
   views: number;
-  techTagList: string[];
+  techTags: string[];
   startDate: string | Date;
   endDate: string | Date;
   createdAt: string | Date;
   modifiedAt: string | Date;
-  writerId: number;
-  writerNickName: string;
-  writerImageURL: string;
+  userId: number; // FK
   replyList?: ReplyDataType[];
+  // writerNickName: string;
+  // writerImageURL: string;
 }
 
 export interface ReplyDataType {

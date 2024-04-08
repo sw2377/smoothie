@@ -2,12 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import { userCardListReducer } from "./slices/userCardListSlice";
-import { projectReducer } from "./slices/projects";
+import { projectListReducer } from "./slices/projectListSlice";
 
 export const store = configureStore({
   reducer: {
     usercards: userCardListReducer,
-    projects: projectReducer,
+    projects: projectListReducer,
   },
 });
 

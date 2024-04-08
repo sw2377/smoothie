@@ -4,39 +4,43 @@ import { supabase } from "../../app/supabase";
 
 interface ProjectListState {
   data: ProjectListDataType[];
+  isLoading: boolean;
+  error: string | null;
 }
 
 const initialState: ProjectListState = {
   data: [],
+  isLoading: false,
+  error: null,
 };
 
 /** FETCH 모든 게시글 조회 */
 export const fetchProjectList = createAsyncThunk(
   "projectlist/fetch",
   async () => {
-    const response = await supabase.from("projectlist").select();
+    const response = await supabase.from("projectList").select();
     return response.data || [];
   },
 );
 
-const projectSlice = createSlice({
-  name: "projects",
+const projectListSlice = createSlice({
+  name: "projectlist",
   initialState,
   reducers: {},
   extraReducers(builder) {
-    // Fetch
-    builder.addCase(fetchProjectList.pending, () => {
-      console.log("PENDING...");
+    // FETCH
+    builder.addCase(fetchProjectList.pending, state => {
+      state.isLoading = true;
     });
     builder.addCase(fetchProjectList.fulfilled, (state, action) => {
-      console.log("FULFILLED", state, action);
+      state.isLoading = false;
       state.data = action.payload;
     });
-    builder.addCase(fetchProjectList.rejected, () => {
-      console.log("REJECT");
+    builder.addCase(fetchProjectList.rejected, state => {
+      state.isLoading = false;
     });
   },
 });
 
 // export const { } = projectListSlice.actions;
-export const projectReducer = projectSlice.reducer;
+export const projectListReducer = projectListSlice.reducer;

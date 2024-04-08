@@ -78,10 +78,29 @@ function CardEditor({ originCard }: CardEditorProps) {
     techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시
     // userId: 11, // 임시
   };
-  console.log("🔖 REQ DATA", reqData);
 
-  /** Add or Edit Card */
+  // 모든 입력값이 빈값이 아님을 확인 // 임시
+  const isFieldEmpty = () => {
+    const checkTitle = title.trim().length === 0;
+    const checkKeywords = keywords.length === 0;
+
+    if (checkTitle || checkKeywords) {
+      return false;
+    }
+
+    return true;
+  };
+
+  /** ADD & MODIFIED */
   const handleActionBtnClick = async () => {
+    console.log("🔖 REQ DATA", reqData);
+    console.log(isFieldEmpty());
+
+    if (!isFieldEmpty()) {
+      alert("제목과 키워드를 모두 입력해주세요.");
+      return;
+    }
+
     if (
       window.confirm(
         originCard

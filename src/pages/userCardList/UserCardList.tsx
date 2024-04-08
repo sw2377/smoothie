@@ -12,7 +12,6 @@ function UserCardList() {
     state => state.usercards,
   );
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   /** FETCH 모든 유저 카드 조회 */
@@ -23,8 +22,6 @@ function UserCardList() {
   }, [dispatch]);
 
   const handleCreateCardBtnClick = () => {
-    console.log("🚀 handleCreateCardBtnClick");
-
     if (session === null) {
       window.alert("회원만 카드를 작성할 수 있어요!");
       navigate("/login");

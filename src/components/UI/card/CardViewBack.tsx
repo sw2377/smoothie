@@ -13,8 +13,6 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
   const { id, keywords, userId } = cardData;
   const navigate = useNavigate();
 
-  console.log(session);
-
   const handleUserImageClick = () => {
     if (session === null) {
       window.alert("회원만 다른 유저의 프로필을 조회할 수 있어요!");
