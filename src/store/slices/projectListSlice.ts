@@ -9,6 +9,13 @@ interface ProjectListState {
   error: string | null;
 }
 
+interface reqDataType {
+  title: string;
+  position: string;
+  keywords: string[];
+  techTags: string[];
+}
+
 const initialState: ProjectListState = {
   data: [],
   isLoading: false,
@@ -49,6 +56,17 @@ export const getProject = createAsyncThunk(
 );
 
 /** POST 게시글 작성 */
+export const addProject = createAsyncThunk(
+  "projectlist/add",
+  async (postData: reqDataType) => {
+    const { error } = await supabase.from("projectList").insert(postData);
+
+    if (error) {
+      console.warn("카드 작성 실패", error);
+      throw error;
+    }
+  },
+);
 
 /** PATCH 게시글 수정 */
 
@@ -78,6 +96,17 @@ const projectListSlice = createSlice({
       state.currentData = action.payload;
     });
     builder.addCase(getProject.rejected, state => {
+      state.isLoading = false;
+    });
+
+    // POST
+    builder.addCase(addProject.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(addProject.fulfilled, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(addProject.rejected, state => {
       state.isLoading = false;
     });
   },
