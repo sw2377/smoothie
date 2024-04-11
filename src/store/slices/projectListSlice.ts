@@ -11,9 +11,16 @@ interface ProjectListState {
 
 interface reqDataType {
   title: string;
-  position: string;
-  keywords: string[];
+  content: string;
+  startDate: string | Date;
+  endDate: string | Date;
+  position: string[];
   techTags: string[];
+}
+
+interface modifiedProjectParams {
+  targetId: number | undefined;
+  reqData: reqDataType;
 }
 
 const initialState: ProjectListState = {
@@ -69,6 +76,20 @@ export const addProject = createAsyncThunk(
 );
 
 /** PATCH 게시글 수정 */
+export const modifiedProject = createAsyncThunk(
+  "usercardlist/modified",
+  async ({ targetId, reqData }: modifiedProjectParams) => {
+    const { error } = await supabase
+      .from("projectList")
+      .update(reqData)
+      .eq("id", targetId);
+
+    if (error) {
+      console.warn("게시글 수정 실패", error);
+      throw error;
+    }
+  },
+);
 
 const projectListSlice = createSlice({
   name: "projectlist",

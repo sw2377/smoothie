@@ -68,19 +68,8 @@ function CardEditor({ originCard }: CardEditorProps) {
     createdAt: createdDate,
   };
 
-  const reqData = {
-    // id: 1, // 임시
-    title,
-    position: "프론트엔드", // 임시
-    keywords,
-    // createdAt: Date.now, // 임시
-    // modifiedAt: Date.now, // 임시
-    techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시
-    // userId: 11, // 임시
-  };
-
-  // 모든 입력값이 빈값이 아님을 확인 // 임시
-  const isFieldEmpty = () => {
+  // 모든 입력값이 채워졌는지 확인 // 임시
+  const isFieldFilled = () => {
     const checkTitle = title.trim().length === 0;
     const checkKeywords = keywords.length === 0;
 
@@ -93,10 +82,20 @@ function CardEditor({ originCard }: CardEditorProps) {
 
   /** ADD & MODIFIED */
   const handleActionBtnClick = async () => {
-    console.log("🔖 REQ DATA", reqData);
-    console.log(isFieldEmpty());
+    const reqData = {
+      // id: 1, // 임시
+      title,
+      position: "프론트엔드", // 임시
+      keywords,
+      // createdAt: Date.now, // 임시
+      // modifiedAt: Date.now, // 임시
+      techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시
+      // userId: 11, // 임시
+    };
 
-    if (!isFieldEmpty()) {
+    console.log("🔖 REQ DATA", reqData);
+
+    if (!isFieldFilled()) {
       alert("제목과 키워드를 모두 입력해주세요.");
       return;
     }

@@ -15,7 +15,7 @@ export interface ProjectListDataType {
   id: number; // PK
   title: string;
   content: string;
-  position: string;
+  position: string[];
   status: string;
   views: number;
   techTags: string[];

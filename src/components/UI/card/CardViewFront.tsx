@@ -56,7 +56,8 @@ function CardViewFront({
         <div className="display-clamp text-xl font-bold">{title}</div>
       </div>
       <div onClick={e => e.stopPropagation()}>
-        <div>{position}</div>
+        {typeof position === "string" && <div>{position}</div>}
+        {Array.isArray(position) && <div>{position.join(", ")}</div>}
         <Swiper
           slidesPerView={5}
           spaceBetween={10}

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -6,6 +6,11 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "../../QuillEditor.css";
 
+import {
+  addProject,
+  modifiedProject,
+} from "../../store/slices/projectListSlice";
+import { useAppDispatch } from "../../store";
 import { ProjectListDataType } from "../../model/board.types";
 import GetTechLogo from "../GetTechLogo";
 import ActionButton from "../UI/button/ActionButton";
@@ -16,7 +21,10 @@ interface PostEditorPorps {
 }
 
 function PostEditor({ originPost }: PostEditorPorps) {
+  console.log("🔖 ORIGIN POST", originPost);
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [content, setContent] = useState("");
 
@@ -35,13 +43,12 @@ function PostEditor({ originPost }: PostEditorPorps) {
     [],
   );
 
-  // 임시 ReqDataType
   interface ProjectFormDataType {
     title: string;
     // content: string;
     positionName: string;
     positionCount: number;
-    techTags: string[];
+    techTags: string;
     startDate: string | Date;
     endDate: string | Date;
   }
@@ -49,20 +56,18 @@ function PostEditor({ originPost }: PostEditorPorps) {
   // react hook form
   const {
     register,
-    // watch,
     getValues,
     resetField,
-    handleSubmit,
-    formState: { errors },
+    // handleSubmit,
+    // formState: { errors },
   } = useForm<ProjectFormDataType>();
-  // const watchPositionName = watch("positionName");
-  // const watchPositionCount = watch("positionCount");
-  const onSubmit: SubmitHandler<ProjectFormDataType> = data =>
-    console.log(data);
+  // const onSubmit: SubmitHandler<ProjectFormDataType> = data => {
+  //   console.log(data);
+  //   console.log(content);
+  // };
 
   /** 포지션 */
   const [position, setPosition] = useState<string[]>([]); // ex. ["프론트엔드 1명", "백엔드 1명"]
-  // const requestPositionInfo = position.join(", "); // ex. "프론트엔드 1명, 백엔드 1명"
 
   // 포지션 추가
   const addPosition = () => {
@@ -73,7 +78,6 @@ function PostEditor({ originPost }: PostEditorPorps) {
     if (!PositionName || !PositionCount) return;
 
     if (PositionName && PositionCount) {
-      console.log("addPosition");
       const positionNameAndCount = `${PositionName} ${PositionCount}명`;
 
       // 같은 포지션은 추가 금지
@@ -255,179 +259,247 @@ function PostEditor({ originPost }: PostEditorPorps) {
       tagType: "ETC",
     },
   ];
-  const [selectedTechTag, setSelectedTechTag] = useState([]);
+  const [selectedTechTags, setSelectedTechTags] = useState<string[]>([]);
 
   // 기술스택 선택
-  const handleTechTagChange = (selected: string) => {
-    console.log("handleTechTagChange", selected);
+  const handleTechTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = e.target.value;
 
     // 이미 선택된 기술스택 선택 금지
-    if (!selectedTechTag.includes(selected)) {
-      setTechTag(selected);
-      setSelectedTechTag(prev => {
-        return [...prev, selected];
+    if (!selectedTechTags.includes(selectedOption)) {
+      setSelectedTechTags(prev => {
+        return [...prev, selectedOption];
       });
     }
   };
 
   // 기술스택 삭제
   const removeTechTag = (targetTechTag: string) => {
-    console.log(targetTechTag);
-    // const updatedTag = selectedTechTag.filter(tag => tag !== target);
-    // setSelectedTechTag(updatedTag);
+    const updatedTechTags = selectedTechTags.filter(
+      techTag => techTag !== targetTechTag,
+    );
+    setSelectedTechTags(updatedTechTags);
+  };
+
+  useEffect(() => {
+    if (originPost) {
+      setPosition(originPost.position);
+      setSelectedTechTags(originPost.techTags);
+      setContent(originPost.content);
+    }
+  }, [originPost]);
+
+  // 모든 입력값이 채워졌는지 확인 // 임시
+  const isFieldFilled = () => {
+    const checkPosition = position.length === 0;
+    const checkTechTags = selectedTechTags.length === 0;
+    const checkContent = content.trim().length === 0;
+
+    if (checkPosition || checkTechTags || checkContent) {
+      return false;
+    }
+
+    return true;
+  };
+
+  /** ADD & MODIFIED */
+  const handleActionBtnClick = async () => {
+    const reqData = {
+      title: getValues("title"),
+      content: content,
+      startDate: getValues("startDate"),
+      endDate: getValues("endDate"),
+      position: position,
+      techTags: selectedTechTags,
+    };
+
+    console.log("🔖 REQ DATA", reqData);
+
+    if (!isFieldFilled()) {
+      alert("입력칸을 모두 입력해 주세요.");
+      return;
+    }
+
+    if (
+      window.confirm(
+        originPost ? "글을 수정하시겠습니까?" : "새로운 글을 작성하시겠습니까?",
+      )
+    ) {
+      // 게시글 작성
+      if (!originPost) {
+        dispatch(addProject(reqData)).then(() => {
+          window.alert("새 글이 등록되었습니다.");
+          navigate("/projectlist");
+        });
+      }
+
+      // 게시글 수정
+      if (originPost) {
+        const targetId = originPost.id;
+        dispatch(modifiedProject({ targetId, reqData })).then(() => {
+          window.alert("게시글이 수정되었습니다.");
+          navigate(`/projectlist/${targetId}`);
+        });
+      }
+    }
   };
 
   return (
-    <div className="w-full">
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
-        {/* Title */}
-        <h2 className="border-b border-gray_4">
-          <input
-            {...register("title", {
-              required: "제목을 입력해 주세요.",
-            })}
-            type="text"
-            placeholder="제목을 입력해 주세요."
-            className="w-full border-none text-4xl px-0 placeholder:text-4xl"
-          />
-          {/* {errors.title && window.alert(`${errors.title.message}`)} */}
-        </h2>
+    <main>
+      <div className="w-full">
+        <form className="flex flex-col gap-6">
+          {/* Title */}
+          <h2 className="border-b border-gray_4">
+            <input
+              {...register("title", {
+                required: "제목을 입력해 주세요.",
+              })}
+              type="text"
+              placeholder="제목을 입력해 주세요."
+              className="w-full border-none text-4xl px-0 placeholder:text-4xl"
+              defaultValue={originPost?.title}
+            />
+          </h2>
 
-        {/* Info */}
-        <div className="flex flex-col gap-4 py-4">
-          <dl className="flex items-center">
-            <dt className="min-w-[204px] text-xl">프로젝트 예상기간</dt>
-            <dd className="flex gap-2">
-              <input
-                {...register("startDate", {
-                  required: "시작 예정일을 선택해 주세요.",
-                })}
-                type="date"
-                className="py-2"
-              />
-              <input
-                {...register("endDate", {
-                  required: "종료 예정일을 선택해 주세요.",
-                })}
-                type="date"
-                className="py-2"
-              />
-            </dd>
-          </dl>
-          <dl className="flex items-center">
-            <dt className="min-w-[204px] text-xl">포지션 및 인원</dt>
-            <dd className="flex gap-2">
-              <select
-                {...register("positionName")}
-                className="py-2"
-                defaultValue={""}
-              >
-                <option value="">포지션</option>
-                <option value="프론트엔드">프론트엔드</option>
-                <option value="백엔드">백엔드</option>
-                <option value="디자이너">디자이너</option>
-              </select>
-              <input
-                {...register("positionCount")}
-                type="number"
-                placeholder="00 명"
-                className="py-2 w-[100px]"
-              />
-              <button onClick={addPosition}>추가</button>
-            </dd>
-          </dl>
-          {position.length > 0 ? (
+          {/* Info */}
+          <div className="flex flex-col gap-4 py-4">
             <dl className="flex items-center">
-              <dt className="min-w-[204px] invisible">선택된 포지션 및 인원</dt>
-              <dd>
-                <ul className="flex gap-2">
-                  {position.map(position => (
-                    <TextTag
-                      key={position}
-                      text={position}
-                      onDelete={removePosition}
-                    />
-                  ))}
-                </ul>
+              <dt className="min-w-[204px] text-xl">프로젝트 예상기간</dt>
+              <dd className="flex gap-2">
+                <input
+                  {...register("startDate", {
+                    required: "시작 예정일을 선택해 주세요.",
+                  })}
+                  type="date"
+                  className="py-2"
+                  defaultValue={originPost?.startDate.toLocaleString()}
+                />
+                <input
+                  {...register("endDate", {
+                    required: "종료 예정일을 선택해 주세요.",
+                  })}
+                  type="date"
+                  className="py-2"
+                  defaultValue={originPost?.endDate.toLocaleString()}
+                />
               </dd>
             </dl>
-          ) : null}
-          <dl className="flex items-center">
-            <dt className="min-w-[204px] text-xl">기술 스택</dt>
-            <dd>
-              <select
-                {...register("techTags")}
-                className="py-2"
-                defaultValue={""}
-                onChange={() => handleTechTagChange}
-              >
-                <option value="">기술스택</option>
-                {techTags.map(techTag => (
-                  <option key={techTag.id} value={techTag.techName}>
-                    {techTag.techName}
-                  </option>
-                ))}
-              </select>
-            </dd>
-          </dl>
-          {selectedTechTag.length > 0 ? (
-            <dl>
-              <dt className="min-w-[204px] invisible">선택된 기술 스택</dt>
-              <dd>
-                <ul className={"techTags"}>
-                  {selectedTechTag.map(techName => (
-                    <li
-                      key={techName}
-                      className={"techTag"}
-                      onClick={() => removeTechTag(techName)}
-                    >
-                      <GetTechLogo logoTitle={techName} />
-                    </li>
-                  ))}
-                </ul>
+            <dl className="flex items-center">
+              <dt className="min-w-[204px] text-xl">포지션 및 인원</dt>
+              <dd className="flex gap-2">
+                <select
+                  {...register("positionName")}
+                  className="py-2"
+                  defaultValue={""}
+                >
+                  <option value="">포지션</option>
+                  <option value="프론트엔드">프론트엔드</option>
+                  <option value="백엔드">백엔드</option>
+                  <option value="디자이너">디자이너</option>
+                </select>
+                <input
+                  {...register("positionCount")}
+                  type="number"
+                  placeholder="00 명"
+                  className="py-2 w-[100px]"
+                />
+                <button type="button" onClick={addPosition}>
+                  추가
+                </button>
               </dd>
             </dl>
-          ) : null}
-        </div>
+            {position.length > 0 ? (
+              <dl className="flex items-center">
+                <dt className="min-w-[204px] invisible">
+                  선택된 포지션 및 인원
+                </dt>
+                <dd>
+                  <ul className="flex gap-2">
+                    {position.map(position => (
+                      <TextTag
+                        key={position}
+                        text={position}
+                        onDelete={removePosition}
+                      />
+                    ))}
+                  </ul>
+                </dd>
+              </dl>
+            ) : null}
+            <dl className="flex items-center">
+              <dt className="min-w-[204px] text-xl">기술 스택</dt>
+              <dd>
+                <select
+                  {...register("techTags")}
+                  className="py-2"
+                  defaultValue={""}
+                  onChange={handleTechTagChange}
+                >
+                  <option value="">기술스택</option>
+                  {techTags.map(techTag => (
+                    <option key={techTag.id} value={techTag.techName}>
+                      {techTag.techName}
+                    </option>
+                  ))}
+                </select>
+              </dd>
+            </dl>
+            {selectedTechTags.length > 0 ? (
+              <dl className="flex items-center">
+                <dt className="min-w-[204px] invisible">선택된 기술 스택</dt>
+                <dd>
+                  <ul className="flex flex-wrap gap-2">
+                    {selectedTechTags.map(techName => (
+                      <li
+                        key={techName}
+                        className="w-10 h-10"
+                        onClick={() => removeTechTag(techName)}
+                      >
+                        <GetTechLogo logoTitle={techName} />
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </dl>
+            ) : null}
+          </div>
 
-        {/* Editor */}
-        <div>
-          <h3 className="mb-4 text-2xl">프로젝트 소개</h3>
-          <ReactQuill
-            theme="snow"
-            placeholder="프로젝트를 소개해 주세요!"
-            value={content}
-            onChange={setContent}
-            modules={modules}
-            className="quillEditor"
-          />
-        </div>
+          {/* Editor */}
+          <div>
+            <h3 className="mb-4 text-2xl">프로젝트 소개</h3>
+            <ReactQuill
+              theme="snow"
+              placeholder="프로젝트를 소개해 주세요!"
+              value={content}
+              onChange={setContent}
+              modules={modules}
+              className="quillEditor"
+            />
+          </div>
 
-        {/* Button Area */}
-        <div className="flex gap-2 justify-end">
-          <ActionButton
-            type="outline"
-            handleClick={() => {
-              if (
-                window.confirm(
-                  `게시글 ${originPost ? "수정" : "작성"}을 취소하시겠습니까?`,
-                )
-              ) {
-                navigate("/projectlist", { replace: true });
-              }
-            }}
-          >
-            취소
-          </ActionButton>
-          <ActionButton
-            buttonType="submit"
-            handleClick={handleSubmit(onSubmit)}
-          >
-            {originPost ? "게시글 수정하기" : "게시글 등록하기"}
-          </ActionButton>
-        </div>
-      </form>
-    </div>
+          {/* Button Area */}
+          <div className="flex gap-2 justify-end">
+            <ActionButton
+              type="outline"
+              handleClick={() => {
+                if (
+                  window.confirm(
+                    `글 ${originPost ? "수정" : "작성"}을 취소하시겠습니까?`,
+                  )
+                ) {
+                  navigate("/projectlist", { replace: true });
+                }
+              }}
+            >
+              취소
+            </ActionButton>
+            <ActionButton handleClick={handleActionBtnClick}>
+              {originPost ? "글 수정하기" : "글 등록하기"}
+            </ActionButton>
+          </div>
+        </form>
+      </div>
+    </main>
   );
 }
 

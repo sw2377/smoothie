@@ -1,11 +1,7 @@
 import PostEditor from "../../components/projectList/PostEditor";
 
 function NewPost() {
-  return (
-    <main>
-      <PostEditor />
-    </main>
-  );
+  return <PostEditor />;
 }
 
 export default NewPost;
