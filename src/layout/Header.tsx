@@ -4,6 +4,9 @@ import SmoothieLgooSVG from "../assets/logo.svg?react";
 import ActionButton from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
 
+import { session } from "../app/supabase";
+import Logout from "../pages/auth/Logout";
+
 const nav: { name: string; url: string; filter: "category" | "auth" }[] = [
   {
     name: "유저카드",
@@ -70,16 +73,33 @@ function Header() {
             </ul>
           </nav>
         </div>
-        <div className="hidden sm:flex gap-2">
-          {authList.map(list => (
-            <ActionButton
-              key={list.name}
-              handleClick={() => navigate(list.url)}
+        {session === null ? (
+          <div className="hidden sm:flex items-center gap-2">
+            {authList.map(list => (
+              <ActionButton
+                key={list.name}
+                handleClick={() => navigate(list.url)}
+              >
+                {list.name}
+              </ActionButton>
+            ))}
+          </div>
+        ) : (
+          <div className="hidden sm:flex items-center gap-6">
+            <Link
+              to={`/mypage/${session.user.id}`}
+              className="flex gap-3 items-center"
             >
-              {list.name}
-            </ActionButton>
-          ))}
-        </div>
+              <img
+                className="w-[60px] h-[60px] rounded-full"
+                src={`${session.user.user_metadata.avatar_url}`}
+                alt={`${session.user.user_metadata.user_name}의 프로필 사진`}
+              />
+              <span>{session.user.user_metadata.user_name}</span>
+            </Link>
+            <Logout />
+          </div>
+        )}
         {/* mobile */}
         <div className="flex sm:hidden">
           <button className="border-none px-0 py-0" onClick={mobileToggleMenu}>
@@ -104,17 +124,22 @@ function Header() {
                   </li>
                 ))}
               </ul>
-              <ul className="mt-auto pt-5 border-t border-gray_5">
-                {authList.map(list => (
-                  <li
-                    key={list.name}
-                    className={`text-3xl font-bold py-2 ${location.pathname === list.url ? "text-primary" : ""}`}
-                    onClick={mobileToggleMenu}
-                  >
-                    <Link to={list.url}>{list.name}</Link>
-                  </li>
-                ))}
-              </ul>
+              {session === null ? (
+                <ul className="mt-auto pt-5 border-t border-gray_5">
+                  {authList.map(list => (
+                    <li
+                      key={list.name}
+                      className={`text-3xl font-bold py-2 ${location.pathname === list.url ? "text-primary" : ""}`}
+                      onClick={mobileToggleMenu}
+                    >
+                      <Link to={list.url}>{list.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                // TODO
+                <div>Logout 버튼 넣기</div>
+              )}
             </nav>
           )}
         </div>

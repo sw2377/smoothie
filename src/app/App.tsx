@@ -6,6 +6,8 @@ import Home from "../pages/home/Home";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
 
+import Profile from "../pages/mypage/Profile";
+
 import UserCardList from "../pages/userCardList/UserCardList";
 import NewCard from "../pages/userCardList/NewCard";
 import EditCard from "../pages/userCardList/EditCard";
@@ -36,6 +38,12 @@ const router = createBrowserRouter([
             element: <SignUp />,
           },
         ],
+      },
+
+      /*** 📌 마이페이지 ***/
+      {
+        path: "mypage/:id",
+        children: [{ index: true, element: <Profile /> }],
       },
 
       /*** 📌 유저카드 ***/
