@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { signInWithEmail } from "../../store/slices/authSlice";
 import { LoginDataType } from "../../model/auth.types";
 import ActionButton from "../../components/UI/button/ActionButton";
 import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
@@ -9,19 +11,39 @@ import GithubLogoSVG from "../../assets/icons/github.svg?react";
 import { supabase } from "../../app/supabase";
 
 function Login() {
+  const { isLoading, error, isLoggedIn } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginDataType>();
-  const onSubmit: SubmitHandler<LoginDataType> = data => console.log(data);
+  const onSubmit: SubmitHandler<LoginDataType> = data => {
+    const reqData = {
+      email: data.email,
+      password: data.password,
+    };
+    dispatch(signInWithEmail(reqData))
+      .unwrap()
+      .then(() => {
+        alert("로그인 되었습니다.");
+        navigate("/");
+      });
+  };
 
   const signInWithGithub = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "github",
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+      });
 
-    console.log(data, error);
+      console.log(data, error);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

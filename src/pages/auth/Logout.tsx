@@ -1,10 +1,10 @@
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 import ActionButton from "../../components/UI/button/ActionButton";
 import { supabase } from "../../app/supabase";
 
 function Logout() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const SignOut = async () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
@@ -13,6 +13,8 @@ function Logout() {
       if (error) {
         console.log(error);
       }
+
+      navigate("/");
     }
   };
 

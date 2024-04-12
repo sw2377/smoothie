@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAppSelector } from "../store";
 import SmoothieLgooSVG from "../assets/logo.svg?react";
 import ActionButton from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
@@ -35,10 +36,11 @@ const categoryList = nav.filter(item => item.filter === "category");
 const authList = nav.filter(item => item.filter === "auth");
 
 function Header() {
+  const { isLoggedIn } = useAppSelector(state => state.auth);
+  console.log("isLoggedIn", isLoggedIn);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const mobileToggleMenu = () => {
@@ -52,16 +54,6 @@ function Header() {
       document.body.style.overflow = "auto";
     }
   }, [isOpenMenu]);
-
-  useEffect(() => {
-    if (session === null) {
-      setIsLoggedIn(false);
-    } else {
-      setIsLoggedIn(true);
-    }
-  }, [isLoggedIn]);
-
-  console.log("isLoggedIn", isLoggedIn);
 
   const userImage = session?.user.user_metadata.avatar_url || profileDefaultImg;
   const userName = session?.user.user_metadata.user_name;

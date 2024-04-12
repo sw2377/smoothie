@@ -1,15 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { SignupDataType } from "../../model/auth.types";
+import { signUpNewUser } from "../../store/slices/authSlice";
 import ActionButton from "../../components/UI/button/ActionButton";
 import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
 import GoogleLogoSVG from "../../assets/icons/google.svg?react";
 import GithubLogoSVG from "../../assets/icons/github.svg?react";
 
-import { supabase } from "../../app/supabase";
-
 function Signup() {
+  const { isLoading, error, isLoggedIn } = useAppSelector(state => state.auth);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  console.log("📌 isLoading", isLoading);
+  console.log("📌 error", error);
+  console.log("📌 isLoggedIn", isLoggedIn);
 
   const {
     register,
@@ -17,42 +23,26 @@ function Signup() {
     handleSubmit,
     formState: { errors },
   } = useForm<SignupDataType>();
+
   const onSubmit: SubmitHandler<SignupDataType> = data => {
     if (window.confirm(`${data.email}로 회원가입 하시겠습니까?`)) {
-      signUpNewUser(data.email, data.username, data.password);
+      const reqData = {
+        email: data.email,
+        password: data.password,
+        username: data.username,
+      };
+      dispatch(signUpNewUser(reqData))
+        .unwrap() // 이걸써야지 catch가 동작함,,
+        .then(() => {
+          alert("회원가입 되었습니다.");
+          navigate("/");
+        })
+        .catch(error => {
+          console.warn("error!!", error.message);
+          alert(error.message); // 이렇게 alert?
+        });
     }
   };
-
-  async function signUpNewUser(
-    email: string,
-    username: string,
-    password: string,
-  ) {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            user_name: username,
-            avatar_url: "",
-          },
-        },
-      });
-
-      if (error?.status === 422) {
-        alert("이미 가입된 이메일입니다.");
-      }
-
-      if (data) {
-        console.log(data);
-        alert("회원가입 되었습니다.");
-        navigate("/");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   return (
     <main>
