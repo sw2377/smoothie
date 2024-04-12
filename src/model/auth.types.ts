@@ -5,6 +5,7 @@ export interface LoginDataType {
 
 export interface SignupDataType {
   email: string;
+  username: string;
   password: string;
   confirmPassword: string;
 }

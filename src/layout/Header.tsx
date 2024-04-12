@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import SmoothieLgooSVG from "../assets/logo.svg?react";
 import ActionButton from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
+import profileDefaultImg from "../assets/profile-default.svg";
 
 import { session } from "../app/supabase";
 import Logout from "../pages/auth/Logout";
@@ -37,6 +38,7 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const mobileToggleMenu = () => {
@@ -50,6 +52,19 @@ function Header() {
       document.body.style.overflow = "auto";
     }
   }, [isOpenMenu]);
+
+  useEffect(() => {
+    if (session === null) {
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+    }
+  }, [isLoggedIn]);
+
+  console.log("isLoggedIn", isLoggedIn);
+
+  const userImage = session?.user.user_metadata.avatar_url || profileDefaultImg;
+  const userName = session?.user.user_metadata.user_name;
 
   return (
     <header className="fixed top-0 z-50 flex justify-center items-center w-full h-20 p-6 shadow bg-white">
@@ -73,7 +88,22 @@ function Header() {
             </ul>
           </nav>
         </div>
-        {session === null ? (
+        {isLoggedIn ? (
+          <div className="hidden sm:flex items-center gap-6">
+            <Link
+              to={`/mypage/${session?.user.id}`}
+              className="flex gap-3 items-center"
+            >
+              <img
+                className="w-[60px] h-[60px] rounded-full"
+                src={userImage}
+                alt={`${userName}의 프로필 사진`}
+              />
+              <span>{userName}</span>
+            </Link>
+            <Logout />
+          </div>
+        ) : (
           <div className="hidden sm:flex items-center gap-2">
             {authList.map(list => (
               <ActionButton
@@ -83,21 +113,6 @@ function Header() {
                 {list.name}
               </ActionButton>
             ))}
-          </div>
-        ) : (
-          <div className="hidden sm:flex items-center gap-6">
-            <Link
-              to={`/mypage/${session.user.id}`}
-              className="flex gap-3 items-center"
-            >
-              <img
-                className="w-[60px] h-[60px] rounded-full"
-                src={`${session.user.user_metadata.avatar_url}`}
-                alt={`${session.user.user_metadata.user_name}의 프로필 사진`}
-              />
-              <span>{session.user.user_metadata.user_name}</span>
-            </Link>
-            <Logout />
           </div>
         )}
         {/* mobile */}
@@ -124,7 +139,10 @@ function Header() {
                   </li>
                 ))}
               </ul>
-              {session === null ? (
+              {isLoggedIn ? (
+                // TODO
+                <div>Logout 버튼 넣기</div>
+              ) : (
                 <ul className="mt-auto pt-5 border-t border-gray_5">
                   {authList.map(list => (
                     <li
@@ -136,9 +154,6 @@ function Header() {
                     </li>
                   ))}
                 </ul>
-              ) : (
-                // TODO
-                <div>Logout 버튼 넣기</div>
               )}
             </nav>
           )}

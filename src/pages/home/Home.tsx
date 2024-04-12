@@ -14,6 +14,15 @@ function Home() {
 
   checkLogin();
 
+  const getUser = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    console.log(user);
+  };
+  getUser();
+
   return (
     <main>
       <div>Home</div>

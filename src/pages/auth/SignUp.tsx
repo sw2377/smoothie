@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignupDataType } from "../../model/auth.types";
 import ActionButton from "../../components/UI/button/ActionButton";
@@ -9,6 +9,8 @@ import GithubLogoSVG from "../../assets/icons/github.svg?react";
 import { supabase } from "../../app/supabase";
 
 function Signup() {
+  const navigate = useNavigate();
+
   const {
     register,
     getValues,
@@ -16,20 +18,40 @@ function Signup() {
     formState: { errors },
   } = useForm<SignupDataType>();
   const onSubmit: SubmitHandler<SignupDataType> = data => {
-    console.log(data);
-    signUpNewUser(data.email, data.password);
+    if (window.confirm(`${data.email}로 회원가입 하시겠습니까?`)) {
+      signUpNewUser(data.email, data.username, data.password);
+    }
   };
 
-  async function signUpNewUser(email: string, password: string) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: "https://example.com/welcome",
-      },
-    });
+  async function signUpNewUser(
+    email: string,
+    username: string,
+    password: string,
+  ) {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            user_name: username,
+            avatar_url: "",
+          },
+        },
+      });
 
-    console.log(data, error);
+      if (error?.status === 422) {
+        alert("이미 가입된 이메일입니다.");
+      }
+
+      if (data) {
+        console.log(data);
+        alert("회원가입 되었습니다.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -55,6 +77,21 @@ function Signup() {
             />
             {errors.email && (
               <span className="text-xs text-error">{errors.email.message}</span>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-bold">User Name</label>
+            <input
+              {...register("username", {
+                required: "이름을 입력해 주세요.",
+              })}
+              type="text"
+              placeholder="Enter your name"
+            />
+            {errors.username && (
+              <span className="text-xs text-error">
+                {errors.username.message}
+              </span>
             )}
           </div>
           <div className="flex flex-col gap-2">
