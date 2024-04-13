@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { getProject } from "../../store/slices/projectListSlice";
 import { extractTextAfterColon } from "../../utils/exceptColonFromTechResponse";
 import { getStringDate } from "../../utils/formatDate";
-import GetTechLogo from "../GetTechLogo";
+import GetTechLogo from "../common/GetTechLogo";
 
 import { session } from "../../app/supabase";
 

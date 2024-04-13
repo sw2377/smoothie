@@ -12,7 +12,7 @@ import {
 } from "../../store/slices/projectListSlice";
 import { useAppDispatch } from "../../store";
 import { ProjectListDataType } from "../../model/board.types";
-import GetTechLogo from "../GetTechLogo";
+import GetTechLogo from "../common/GetTechLogo";
 import ActionButton from "../UI/button/ActionButton";
 import TextTag from "../UI/TextTag";
 

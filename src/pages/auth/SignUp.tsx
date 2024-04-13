@@ -32,14 +32,14 @@ function Signup() {
         username: data.username,
       };
       dispatch(signUpNewUser(reqData))
-        .unwrap() // 이걸써야지 catch가 동작함,,
+        .unwrap()
         .then(() => {
-          alert("회원가입 되었습니다.");
+          alert("회원가입이 완료되었습니다.");
           navigate("/");
         })
         .catch(error => {
-          console.warn("error!!", error.message);
-          alert(error.message); // 이렇게 alert?
+          console.warn("❌ ERROR : SIGN UP WITH EMAIL", error);
+          alert(error);
         });
     }
   };

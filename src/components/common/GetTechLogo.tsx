@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import zeplin from "../assets/icons/zeplin.svg";
+import zeplin from "../../assets/icons/zeplin.svg";
 
 interface GetLogoProps {
   logoTitle: string;

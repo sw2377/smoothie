@@ -6,6 +6,18 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Auth Infomation
+// Auth Infomation (session)
 export const authInfo = await supabase.auth.getSession(); // { data, error }
 export const session = authInfo.data.session;
+
+export const getUser = async () => {
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    return user;
+  } catch (error) {
+    console.log("GET USER ERROR", error);
+  }
+};

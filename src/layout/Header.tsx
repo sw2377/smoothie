@@ -6,8 +6,9 @@ import ActionButton from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
 import profileDefaultImg from "../assets/profile-default.svg";
 
-import { session } from "../app/supabase";
+import { session, getUser } from "../app/supabase";
 import Logout from "../pages/auth/Logout";
+import { User } from "@supabase/supabase-js";
 
 const nav: { name: string; url: string; filter: "category" | "auth" }[] = [
   {
@@ -55,8 +56,18 @@ function Header() {
     }
   }, [isOpenMenu]);
 
-  const userImage = session?.user.user_metadata.avatar_url || profileDefaultImg;
-  const userName = session?.user.user_metadata.user_name;
+  // 로그인 되었다면 userInfo 가져오기
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+
+  useEffect(() => {
+    getUser().then(value => {
+      if (value) setUserInfo(value);
+    });
+  }, [isLoggedIn]);
+
+  const userImage: string =
+    userInfo?.user_metadata.avatar_url || profileDefaultImg;
+  const userName: string = userInfo?.user_metadata.user_name || "user name";
 
   return (
     <header className="fixed top-0 z-50 flex justify-center items-center w-full h-20 p-6 shadow bg-white">
