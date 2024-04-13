@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { supabase } from "../../app/supabase";
 import { AuthError } from "@supabase/supabase-js";
 

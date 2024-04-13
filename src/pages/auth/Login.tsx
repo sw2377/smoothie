@@ -11,8 +11,10 @@ import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
 import GoogleLogoSVG from "../../assets/icons/google.svg?react";
 import GithubLogoSVG from "../../assets/icons/github.svg?react";
 
+// import Loading from "../../components/common/Loading";
+
 function Login() {
-  // const { isLoading, error, isLoggedIn } = useAppSelector(state => state.auth);
+  // const { isLoading } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
