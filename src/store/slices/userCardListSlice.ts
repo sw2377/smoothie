@@ -1,18 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { UserCardListDataType } from "../../model/board.types";
 import { supabase } from "../../app/supabase";
+import { PostgrestError } from "@supabase/supabase-js";
 
 interface UserCardListState {
   data: UserCardListDataType[];
   isLoading: boolean;
-  error: string | null;
+  error: PostgrestError | null;
 }
 
 interface reqDataType {
   title: string;
   position: string;
   keywords: string[];
-  techTags: string[];
+  tech_tags: string[];
+  user_name: string;
+  avatar_url: string;
 }
 
 interface modifiedUserCardParams {
@@ -30,26 +33,34 @@ const initialState: UserCardListState = {
 export const fetchUserCardList = createAsyncThunk(
   "usercardlist/fetch",
   async () => {
-    const { data, error } = await supabase.from("userCardList").select();
+    try {
+      const { data, error } = await supabase.from("usercard_list").select();
 
-    if (error) {
-      console.warn("모든 유저 카드 조회 실패", error);
-      throw error;
+      if (error) {
+        console.warn("모든 유저 카드 조회 실패", error);
+        throw error;
+      }
+
+      return data || [];
+    } catch (error) {
+      console.log(error);
     }
-
-    return data || [];
   },
 );
 
 /** POST 유저 카드 작성 */
 export const addUserCard = createAsyncThunk(
   "usercardlist/add",
-  async (cardData: reqDataType) => {
-    const { error } = await supabase.from("userCardList").insert(cardData);
+  async (cardData: reqDataType, { rejectWithValue }) => {
+    try {
+      const { error } = await supabase.from("usercard_listt").insert(cardData);
 
-    if (error) {
-      console.warn("카드 작성 실패", error);
-      throw error;
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      const pgError = error as PostgrestError;
+      return rejectWithValue(pgError.message);
     }
   },
 );
@@ -58,14 +69,18 @@ export const addUserCard = createAsyncThunk(
 export const modifiedUserCard = createAsyncThunk(
   "usercardlist/modified",
   async ({ targetId, reqData }: modifiedUserCardParams) => {
-    const { error } = await supabase
-      .from("userCardList")
-      .update(reqData)
-      .eq("id", targetId);
+    try {
+      const { error } = await supabase
+        .from("usercard_list")
+        .update(reqData)
+        .eq("id", targetId);
 
-    if (error) {
-      console.warn("카드 수정 실패", error);
-      throw error;
+      if (error) {
+        console.warn("카드 수정 실패", error);
+        throw error;
+      }
+    } catch (error) {
+      console.log(error);
     }
   },
 );
@@ -94,8 +109,9 @@ const userCardListSlice = createSlice({
     builder.addCase(addUserCard.fulfilled, state => {
       state.isLoading = false;
     });
-    builder.addCase(addUserCard.rejected, state => {
+    builder.addCase(addUserCard.rejected, (state, action) => {
       state.isLoading = false;
+      state.error = action.payload as PostgrestError;
     });
 
     // PATCH

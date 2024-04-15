@@ -5,12 +5,12 @@ import { fetchUserCardList } from "../../store/slices/userCardListSlice";
 import CardView from "../../components/UI/card/CardView";
 import ActionButton from "../../components/UI/button/ActionButton";
 
-import { session } from "../../app/supabase";
-
 function UserCardList() {
+  const { isLoggedIn } = useAppSelector(state => state.auth);
   const { data: userCardData, isLoading } = useAppSelector(
     state => state.usercards,
   );
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -22,11 +22,11 @@ function UserCardList() {
   }, [dispatch]);
 
   const handleCreateCardBtnClick = () => {
-    if (session === null) {
+    if (isLoggedIn) {
+      navigate("/usercardlist/new");
+    } else {
       window.alert("회원만 카드를 작성할 수 있어요!");
       navigate("/login");
-    } else {
-      navigate("/usercardlist/new");
     }
   };
 

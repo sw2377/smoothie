@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../store";
 import { Pencil } from "lucide-react";
 import { UserCardListDataType } from "../../../model/board.types";
 
@@ -10,15 +11,17 @@ interface CardViewBackProps {
 }
 
 function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
-  const { id, keywords, userId } = cardData;
+  const { isLoggedIn } = useAppSelector(state => state.auth);
+
+  const { id, keywords, user_id, user_name, avatar_url } = cardData;
   const navigate = useNavigate();
 
   const handleUserImageClick = () => {
-    if (session === null) {
+    if (isLoggedIn) {
+      navigate(`/mypage/${user_id}`);
+    } else {
       window.alert("회원만 다른 유저의 프로필을 조회할 수 있어요!");
       navigate("/login");
-    } else {
-      navigate(`/mypage/${userId}`);
     }
   };
 
@@ -27,7 +30,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
       className={`${isPreview ? "w-[282px] h-[348px]" : "absolute top-0 left-0 w-full h-full rotate-y-180"} card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] backface-hidden`}
     >
       <div className="flex justify-end h-6">
-        {session?.user.id === userId ? (
+        {session?.user.id === user_id ? (
           <span
             className="cursor-pointer"
             onClick={() => {
@@ -43,7 +46,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
           className="overflow-hidden w-[85px] h-[85px] my-0 mx-auto rounded-full cursor-pointer border bg-default-profile bg-no-repeat bg-cover"
           onClick={handleUserImageClick}
         >
-          <img src="" alt="" />
+          <img src={avatar_url} alt={`${user_name} 님의 profile`} />
         </div>
         <div className="display-clamp mt-5">
           {keywords.map(item => (
@@ -55,9 +58,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
       </div>
       <div>
         <div className="text-xxs text-center text-gray_3">
-          <span className="font-bold text-xs">
-            {session?.user.user_metadata.user_name}
-          </span>
+          <span className="font-bold text-xs">{user_name}</span>
           님이 더 궁금하신가요?
           <br />
           프로필 사진을 클릭해 보세요!

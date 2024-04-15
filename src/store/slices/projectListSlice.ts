@@ -1,21 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { ProjectListDataType } from "../../model/board.types";
 import { supabase } from "../../app/supabase";
+import { PostgrestError } from "@supabase/supabase-js";
 
 interface ProjectListState {
   data: ProjectListDataType[];
   currentData?: ProjectListDataType;
   isLoading: boolean;
-  error: string | null;
+  error: PostgrestError | null;
 }
 
 interface reqDataType {
   title: string;
   content: string;
-  startDate: string | Date;
-  endDate: string | Date;
+  start_date: string | Date;
+  end_date: string | Date;
   position: string[];
-  techTags: string[];
+  tech_tags: string[];
 }
 
 interface modifiedProjectParams {
@@ -33,7 +34,7 @@ const initialState: ProjectListState = {
 export const fetchProjectList = createAsyncThunk(
   "projectlist/fetch",
   async () => {
-    const { data, error } = await supabase.from("projectList").select();
+    const { data, error } = await supabase.from("project_list").select();
 
     if (error) {
       console.warn("모든 프로젝트 게시글 조회 실패", error);
@@ -49,7 +50,7 @@ export const getProject = createAsyncThunk(
   "projectlist/get",
   async (targetId: string) => {
     const { data, error } = await supabase
-      .from("projectList")
+      .from("project_list")
       .select()
       .eq("id", targetId);
 
@@ -65,12 +66,16 @@ export const getProject = createAsyncThunk(
 /** POST 게시글 작성 */
 export const addProject = createAsyncThunk(
   "projectlist/add",
-  async (postData: reqDataType) => {
-    const { error } = await supabase.from("projectList").insert(postData);
+  async (postData: reqDataType, { rejectWithValue }) => {
+    try {
+      const { error } = await supabase.from("project_list").insert(postData);
 
-    if (error) {
-      console.warn("카드 작성 실패", error);
-      throw error;
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      const pgError = error as PostgrestError;
+      return rejectWithValue(pgError.message);
     }
   },
 );
@@ -80,7 +85,7 @@ export const modifiedProject = createAsyncThunk(
   "usercardlist/modified",
   async ({ targetId, reqData }: modifiedProjectParams) => {
     const { error } = await supabase
-      .from("projectList")
+      .from("project_list")
       .update(reqData)
       .eq("id", targetId);
 
@@ -127,8 +132,9 @@ const projectListSlice = createSlice({
     builder.addCase(addProject.fulfilled, state => {
       state.isLoading = false;
     });
-    builder.addCase(addProject.rejected, state => {
+    builder.addCase(addProject.rejected, (state, action) => {
       state.isLoading = false;
+      state.error = action.payload as PostgrestError;
     });
   },
 });

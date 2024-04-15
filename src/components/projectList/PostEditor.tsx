@@ -16,6 +16,8 @@ import GetTechLogo from "../common/GetTechLogo";
 import ActionButton from "../UI/button/ActionButton";
 import TextTag from "../UI/TextTag";
 
+import { session } from "../../app/supabase";
+
 interface PostEditorPorps {
   originPost?: ProjectListDataType;
 }
@@ -284,7 +286,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
   useEffect(() => {
     if (originPost) {
       setPosition(originPost.position);
-      setSelectedTechTags(originPost.techTags);
+      setSelectedTechTags(originPost.tech_tags);
       setContent(originPost.content);
     }
   }, [originPost]);
@@ -307,10 +309,12 @@ function PostEditor({ originPost }: PostEditorPorps) {
     const reqData = {
       title: getValues("title"),
       content: content,
-      startDate: getValues("startDate"),
-      endDate: getValues("endDate"),
+      start_date: getValues("startDate"),
+      end_date: getValues("endDate"),
       position: position,
-      techTags: selectedTechTags,
+      tech_tags: selectedTechTags,
+      user_name: session?.user.user_metadata.user_name,
+      avatar_url: session?.user.user_metadata.avatar_url,
     };
 
     console.log("🔖 REQ DATA", reqData);
@@ -327,19 +331,31 @@ function PostEditor({ originPost }: PostEditorPorps) {
     ) {
       // 게시글 작성
       if (!originPost) {
-        dispatch(addProject(reqData)).then(() => {
-          window.alert("새 글이 등록되었습니다.");
-          navigate("/projectlist");
-        });
+        dispatch(addProject(reqData))
+          .unwrap()
+          .then(() => {
+            window.alert("새 글이 등록되었습니다.");
+            navigate("/projectlist");
+          })
+          .catch(error => {
+            console.warn("❌ ERROR : ADD PROJECT CARD", error);
+            alert(error.message);
+          });
       }
 
       // 게시글 수정
       if (originPost) {
         const targetId = originPost.id;
-        dispatch(modifiedProject({ targetId, reqData })).then(() => {
-          window.alert("게시글이 수정되었습니다.");
-          navigate(`/projectlist/${targetId}`);
-        });
+        dispatch(modifiedProject({ targetId, reqData }))
+          .unwrap()
+          .then(() => {
+            window.alert("게시글이 수정되었습니다.");
+            navigate(`/projectlist/${targetId}`);
+          })
+          .catch(error => {
+            console.warn("❌ ERROR : UPDATE PROJECT CARD", error);
+            alert(error.message);
+          });
       }
     }
   };
@@ -372,7 +388,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
                   })}
                   type="date"
                   className="py-2"
-                  defaultValue={originPost?.startDate.toLocaleString()}
+                  defaultValue={originPost?.start_date.toLocaleString()}
                 />
                 <input
                   {...register("endDate", {
@@ -380,7 +396,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
                   })}
                   type="date"
                   className="py-2"
-                  defaultValue={originPost?.endDate.toLocaleString()}
+                  defaultValue={originPost?.end_date.toLocaleString()}
                 />
               </dd>
             </dl>

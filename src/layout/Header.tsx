@@ -68,7 +68,7 @@ function Header() {
 
   const userImage: string =
     userInfo?.user_metadata.avatar_url || profileDefaultImg;
-  const userName: string = userInfo?.user_metadata.user_name || "user name";
+  const userName: string = userInfo?.user_metadata.user_name || "loading...";
 
   return (
     <>

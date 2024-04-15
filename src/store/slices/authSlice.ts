@@ -115,7 +115,6 @@ export const signInWithGithub = createAsyncThunk(
 export const signOut = createAsyncThunk("auth/signout", async () => {
   try {
     const { error } = await supabase.auth.signOut();
-    console.log("SIGN OUT THUNK");
 
     if (error) {
       console.log(error);

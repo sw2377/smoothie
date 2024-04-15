@@ -18,6 +18,8 @@ function CardView({ type, cardData }: CardViewProps) {
 
   const navigate = useNavigate();
 
+  // console.log("🔖 CARD DATA", cardData);
+
   return (
     <li className="group h-[348px] [perspective:1100px]">
       <div

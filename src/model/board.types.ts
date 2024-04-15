@@ -1,14 +1,16 @@
+// 이건 Response Data Type인가..?
+
 export interface UserCardListDataType {
   id?: number;
   title: string;
   position: string;
   keywords: string[];
-  createdAt: string | Date;
-  modifiedAt?: string | Date;
-  techTags: string[];
-  userId?: string;
-  // nickname: string; // userNickname
-  // userImageUrl: string;
+  created_at: string | Date;
+  modified_at?: string | Date;
+  tech_tags: string[];
+  user_id?: string;
+  user_name: string;
+  avatar_url: string;
 }
 
 export interface ProjectListDataType {
@@ -18,15 +20,15 @@ export interface ProjectListDataType {
   position: string[];
   status: string;
   views: number;
-  techTags: string[];
-  startDate: string | Date;
-  endDate: string | Date;
-  createdAt: string | Date;
-  modifiedAt: string | Date;
-  userId: number; // FK
-  replyList?: ReplyDataType[];
-  // writerNickName: string;
-  // writerImageURL: string;
+  tech_tags: string[];
+  start_date: string | Date;
+  end_date: string | Date;
+  created_at: string | Date;
+  modified_at: string | Date;
+  user_id: number;
+  user_name: string;
+  avatar_url: string;
+  reply_list?: ReplyDataType[];
 }
 
 export interface ReplyDataType {

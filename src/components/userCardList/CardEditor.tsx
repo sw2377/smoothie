@@ -14,6 +14,8 @@ import TextTag from "../UI/TextTag";
 import CardViewFront from "../UI/card/CardViewFront";
 import CardViewBack from "../UI/card/CardViewBack";
 
+import { session } from "../../app/supabase";
+
 interface CardEditorProps {
   originCard?: UserCardListDataType; // origin card가 있으면 수정, 없으면 생성
 }
@@ -28,7 +30,7 @@ function CardEditor({ originCard }: CardEditorProps) {
   const [title, setTitle] = useState("");
 
   /** 작성일 */
-  const createdDate = originCard?.createdAt || new Date();
+  const createdDate = originCard?.created_at || new Date();
 
   /** 키워드 */
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -83,14 +85,12 @@ function CardEditor({ originCard }: CardEditorProps) {
   /** ADD & MODIFIED */
   const handleActionBtnClick = async () => {
     const reqData = {
-      // id: 1, // 임시
       title,
       position: "프론트엔드", // 임시
       keywords,
-      // createdAt: Date.now, // 임시
-      // modifiedAt: Date.now, // 임시
-      techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시
-      // userId: 11, // 임시
+      tech_tags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시
+      user_name: session?.user.user_metadata.user_name,
+      avatar_url: session?.user.user_metadata.avatar_url,
     };
 
     console.log("🔖 REQ DATA", reqData);
@@ -109,19 +109,31 @@ function CardEditor({ originCard }: CardEditorProps) {
     ) {
       // 카드 작성
       if (!originCard) {
-        dispatch(addUserCard(reqData)).then(() => {
-          window.alert("새 카드가 등록되었습니다.");
-          navigate("/usercardlist");
-        });
+        dispatch(addUserCard(reqData))
+          .unwrap()
+          .then(() => {
+            alert("새 카드가 등록되었습니다.");
+            navigate("/usercardlist");
+          })
+          .catch(error => {
+            console.warn("❌ ERROR : ADD USER CARD", error);
+            alert(error.message);
+          });
       }
 
       // 카드 수정
       if (originCard) {
         const targetId = originCard.id;
-        dispatch(modifiedUserCard({ targetId, reqData })).then(() => {
-          window.alert("카드가 수정되었습니다.");
-          navigate("/usercardlist");
-        });
+        dispatch(modifiedUserCard({ targetId, reqData }))
+          .unwrap()
+          .then(() => {
+            alert("카드가 수정되었습니다.");
+            navigate("/usercardlist");
+          })
+          .catch(error => {
+            console.warn("❌ ERROR : UPDATE USER CARD", error);
+            alert(error);
+          });
       }
     }
   };

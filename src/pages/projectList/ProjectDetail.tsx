@@ -1,4 +1,4 @@
-import PostComments from "../../components/projectList/PostComments";
+// import PostComments from "../../components/projectList/PostComments";
 import PostContent from "../../components/projectList/PostContent";
 
 function ProjectDetail() {
@@ -6,7 +6,7 @@ function ProjectDetail() {
     <main>
       <div className="w-full">
         <PostContent />
-        <PostComments />
+        {/* <PostComments /> */}
       </div>
     </main>
   );

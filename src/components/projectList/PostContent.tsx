@@ -10,9 +10,12 @@ import GetTechLogo from "../common/GetTechLogo";
 import { session } from "../../app/supabase";
 
 function PostContent() {
+  const { isLoggedIn } = useAppSelector(state => state.auth);
   const { currentData, isLoading } = useAppSelector(state => state.projects);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const { id } = useParams() as { id: string };
 
   /** GET 게시글 조회 */
@@ -24,28 +27,26 @@ function PostContent() {
     title,
     content,
     position,
-    techTags,
-    createdAt,
-    startDate,
-    endDate,
-    userId,
+    tech_tags,
+    created_at,
+    start_date,
+    end_date,
+    user_id,
+    user_name,
+    avatar_url,
   } = currentData || {};
 
-  // 유저 정보 임시
-  const writerId = 123;
-  const writerNickName = "임시닉네임";
+  const createdDateString = created_at && getStringDate(created_at);
+  const startDateString = start_date && getStringDate(start_date);
+  const endDateString = end_date && getStringDate(end_date);
+  const techTagNames = extractTextAfterColon(tech_tags);
 
-  const createdDateString = createdAt && getStringDate(createdAt);
-  const startDateString = startDate && getStringDate(startDate);
-  const endDateString = endDate && getStringDate(endDate);
-  const techTagNames = extractTextAfterColon(techTags);
-
-  const handleUserImageClick = (writerId: number) => {
-    if (session === null) {
+  const handleUserImageClick = (userId: number) => {
+    if (isLoggedIn) {
+      navigate(`/mypage/${userId}`);
+    } else {
       window.alert("회원만 다른 유저의 프로필을 조회할 수 있어요!");
       navigate("/login");
-    } else {
-      navigate(`/mypage/${writerId}`);
     }
   };
 
@@ -59,15 +60,15 @@ function PostContent() {
           <div className="flex gap-3 items-center py-6 border-b border-gray_4">
             <div
               className="overflow-hidden w-[45px] h-[45px] rounded-full cursor-pointer bg-default-profile bg-no-repeat bg-cover"
-              onClick={() => handleUserImageClick(writerId)}
+              onClick={() => handleUserImageClick(user_id)}
             >
-              <img src="" alt="" />
+              <img src={avatar_url} alt={`${user_name}님의 Profile`} />
             </div>
-            <div className="text-lg font-bold">{writerNickName}</div>
+            <div className="text-lg font-bold">{user_name}</div>
             <div className="text-lg before:content-[''] before:inline-block before:w-[6px] before:h-[6px] before:mr-3 before:mb-[2px] before:bg-gray_4 before:rounded-full">
               {createdDateString}
             </div>
-            {session?.user.id === userId ? (
+            {session?.user.id === user_id ? (
               <span
                 className="ml-auto cursor-pointer"
                 onClick={() => {
