@@ -1,12 +1,5 @@
-import SideMenu from "../../components/mypage/SideMenu";
-
 function Summary() {
-  return (
-    <div className="flex h-screen">
-      <SideMenu />
-      <main className="w-3/4">Summary</main>
-    </div>
-  );
+  return <main className="w-3/4">써머리</main>;
 }
 
 export default Summary;

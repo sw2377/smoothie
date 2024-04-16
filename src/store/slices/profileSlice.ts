@@ -29,7 +29,7 @@ export const getProfile = createAsyncThunk(
       }
 
       if (data) {
-        return data;
+        return data[0];
       }
     } catch (error) {
       console.log(error);

@@ -1,12 +1,5 @@
-import SideMenu from "../../components/mypage/SideMenu";
-
 function Profile() {
-  return (
-    <div className="flex h-screen">
-      <SideMenu />
-      <main className="w-3/4">Profile</main>
-    </div>
-  );
+  return <main className="w-3/4">프로필</main>;
 }
 
 export default Profile;

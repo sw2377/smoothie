@@ -48,11 +48,12 @@ const router = createBrowserRouter([
       {
         path: "mypage/:id",
         children: [
-          { index: true, element: <Profile /> },
-          { path: "summary", element: <Summary /> },
-          { path: "profile", element: <Profile /> },
-          { path: "review", element: <Review /> },
-          { path: "myinfo", element: <MyInfo /> },
+          { index: true, element: <MyPageWrapper /> },
+          // { index: true, element: <Profile /> },
+          // { path: "summary", element: <Summary /> },
+          // { path: "profile", element: <Profile /> },
+          // { path: "review", element: <Review /> },
+          // { path: "myinfo", element: <MyInfo /> },
         ],
       },
 

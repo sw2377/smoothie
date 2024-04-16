@@ -1,40 +1,45 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { getProfile } from "../../store/slices/profileSlice";
 
-import profileDefaultImg from "../../assets/profile-default.svg";
-import { ProfileDataType } from "../../model/profile.types";
+interface SideMenuProps {
+  selectedMenu: string;
+  setSelectedMenu: (title: string) => void;
+}
 
-function SideMenu() {
+function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
   const { data } = useAppSelector(state => state.profiles);
-  console.log(data);
-  const [userData, setUserData] = useState<ProfileDataType | null>(null);
-  console.log(userData);
+
+  const userName = data?.user_name;
+  const userEmail = data?.email;
+  const userImageUrl = data?.avatar_url;
+  const userPosition = data?.position;
 
   const dispatch = useAppDispatch();
 
   const { id } = useParams<{ id: string }>();
 
-  const menu: { title: string; url: string; private?: boolean }[] = [
-    { title: "내가 쓴 글", url: `/mypage/${id}/summary` },
-    { title: "프로필", url: `/mypage/${id}/profile` },
-    { title: "리뷰", url: `/mypage/${id}/review` },
-    { title: "내 정보", url: `/mypage/${id}/myInfo`, private: true },
+  const menu: {
+    title: string;
+    value: string;
+    url: string;
+    private?: boolean;
+  }[] = [
+    { title: "Summary", value: "summary", url: `/mypage/${id}/summary` },
+    { title: "Profile", value: "profile", url: `/mypage/${id}/profile` },
+    { title: "Peer Review", value: "review", url: `/mypage/${id}/review` },
+    {
+      title: "My Info",
+      value: "myinfo",
+      url: `/mypage/${id}/myInfo`,
+      private: true,
+    },
   ];
 
   useEffect(() => {
     if (id) {
       dispatch(getProfile(id));
-      data && setUserData(data[0]);
-      //   .unwrap()
-      //   .then(data => {
-      //     console.log("GET PROFILE 성공");
-      //     data && setUserData(data[0]);
-      //   });
-      // // .catch(error => {
-      // //   console.warn(error);
-      // // });
     }
   }, [dispatch, id]);
 
@@ -43,15 +48,12 @@ function SideMenu() {
       {/* 프로필 */}
       <div className="flex flex-col items-center mt-[3.75rem] mb-10 ">
         <div className="overflow-hidden w-20 h-20 rounded-full my-3">
-          <img
-            src={userData?.avatar_url}
-            alt={`${userData?.user_name}의 프로필 사진`}
-          />
+          <img src={userImageUrl} alt="" />
         </div>
         <div className="text-center">
-          <p>{userData?.user_name}</p>
-          <p>{userData?.email}</p>
-          <p>{userData?.position || "임시포지션"}</p>
+          <p>{userName}</p>
+          <p>{userEmail}</p>
+          <p>{userPosition}</p>
         </div>
       </div>
 
@@ -60,11 +62,13 @@ function SideMenu() {
         {menu.map(item => (
           <li
             key={item.title}
-            className="rounded-l-[36px] text-right bg-slate-100"
+            className={`px-4 py-5 rounded-l-[36px] text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
+            onClick={() => setSelectedMenu(item.value)}
           >
-            <Link to={item.url} className="block p-4">
+            {item.title}
+            {/* <Link to={item.url} className="block p-4">
               {item.title}
-            </Link>
+            </Link> */}
           </li>
         ))}
       </ul>
