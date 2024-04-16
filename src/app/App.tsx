@@ -6,7 +6,11 @@ import Home from "../pages/home/Home";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
 
+import MyPageWrapper from "../pages/mypage/MyPage";
+import Summary from "../pages/mypage/Summary";
 import Profile from "../pages/mypage/Profile";
+import Review from "../pages/mypage/Review";
+import MyInfo from "../pages/mypage/MyInfo";
 
 import UserCardList from "../pages/userCardList/UserCardList";
 import NewCard from "../pages/userCardList/NewCard";
@@ -43,7 +47,13 @@ const router = createBrowserRouter([
       /*** 📌 마이페이지 ***/
       {
         path: "mypage/:id",
-        children: [{ index: true, element: <Profile /> }],
+        children: [
+          { index: true, element: <Profile /> },
+          { path: "summary", element: <Summary /> },
+          { path: "profile", element: <Profile /> },
+          { path: "review", element: <Review /> },
+          { path: "myinfo", element: <MyInfo /> },
+        ],
       },
 
       /*** 📌 유저카드 ***/
