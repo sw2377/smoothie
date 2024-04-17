@@ -82,7 +82,7 @@ export const addProject = createAsyncThunk(
 
 /** PATCH 게시글 수정 */
 export const modifiedProject = createAsyncThunk(
-  "usercardlist/modified",
+  "projectlist/modified",
   async ({ targetId, reqData }: modifiedProjectParams) => {
     const { error } = await supabase
       .from("project_list")
@@ -92,6 +92,41 @@ export const modifiedProject = createAsyncThunk(
     if (error) {
       console.warn("게시글 수정 실패", error);
       throw error;
+    }
+  },
+);
+
+/** DELETE 게시글 삭제 */
+export const removeProject = createAsyncThunk(
+  "projectlist/remove",
+  async (targetId: string) => {
+    try {
+      const { error } = await supabase
+        .from("project_list")
+        .delete()
+        .eq("id", targetId);
+
+      if (error) throw error;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
+
+/** FILTER 특정 유저의 카드 조회 */
+export const filteredProjectCardByUserId = createAsyncThunk(
+  "projectlist/filterbyid",
+  async (targetId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("project_list")
+        .select()
+        .eq("user_id", targetId);
+
+      if (error) throw error;
+      if (data) return data;
+    } catch (error) {
+      console.log(error);
     }
   },
 );
@@ -133,6 +168,30 @@ const projectListSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(addProject.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload as PostgrestError;
+    });
+
+    /** DELETE 게시글 삭제 */
+    builder.addCase(removeProject.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(removeProject.fulfilled, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(removeProject.rejected, state => {
+      state.isLoading = false;
+    });
+
+    /** FILTER 특정 유저의 카드 조회 */
+    builder.addCase(filteredProjectCardByUserId.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(filteredProjectCardByUserId.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(filteredProjectCardByUserId.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as PostgrestError;
     });

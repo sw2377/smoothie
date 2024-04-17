@@ -85,6 +85,41 @@ export const modifiedUserCard = createAsyncThunk(
   },
 );
 
+/** DELETE 유저 카드 삭제 */
+export const removeUserCard = createAsyncThunk(
+  "usercardlist/remove",
+  async (targetId: string) => {
+    try {
+      const { error } = await supabase
+        .from("usercard_list")
+        .delete()
+        .eq("id", targetId);
+
+      if (error) throw error;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
+
+/** FILTER 특정 유저의 카드 조회 */
+export const filteredUserCardByUserId = createAsyncThunk(
+  "usercardlist/filterbyid",
+  async (targetId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("usercard_list")
+        .select()
+        .eq("user_id", targetId);
+
+      if (error) throw error;
+      if (data) return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
+
 const userCardListSlice = createSlice({
   name: "usercardlist",
   initialState,
@@ -122,6 +157,29 @@ const userCardListSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(modifiedUserCard.rejected, state => {
+      state.isLoading = false;
+    });
+
+    /** DELETE 유저 카드 삭제 */
+    builder.addCase(removeUserCard.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(removeUserCard.fulfilled, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(removeUserCard.rejected, state => {
+      state.isLoading = false;
+    });
+
+    /** FILTER 특정 유저의 카드 조회 */
+    builder.addCase(filteredUserCardByUserId.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(filteredUserCardByUserId.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(filteredUserCardByUserId.rejected, state => {
       state.isLoading = false;
     });
   },

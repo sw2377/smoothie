@@ -9,8 +9,12 @@ function MyPageWrapper() {
   return (
     <div className="flex h-screen">
       <SideMenu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      {selectedMenu === "profile" && <Profile />}
-      {selectedMenu === "summary" && <Summary />}
+      <main className="w-3/4 px-6 items-start">
+        <div className="flex flex-col gap-16 w-full">
+          {selectedMenu === "profile" && <Profile />}
+          {selectedMenu === "summary" && <Summary />}
+        </div>
+      </main>
     </div>
   );
 }
