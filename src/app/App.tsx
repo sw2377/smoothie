@@ -6,11 +6,12 @@ import Home from "../pages/home/Home";
 import Login from "../pages/auth/Login";
 import SignUp from "../pages/auth/SignUp";
 
-import MyPageWrapper from "../pages/mypage/MyPage";
 import Summary from "../pages/mypage/Summary";
 import Profile from "../pages/mypage/Profile";
 import Review from "../pages/mypage/Review";
 import MyInfo from "../pages/mypage/MyInfo";
+import ProfileEditor from "../components/mypage/ProfileEditor";
+import EditProfile from "../pages/mypage/EditProfile";
 
 import UserCardList from "../pages/userCardList/UserCardList";
 import NewCard from "../pages/userCardList/NewCard";
@@ -48,12 +49,12 @@ const router = createBrowserRouter([
       {
         path: "mypage/:id",
         children: [
-          { index: true, element: <MyPageWrapper /> },
-          // { index: true, element: <Profile /> },
-          // { path: "summary", element: <Summary /> },
-          // { path: "profile", element: <Profile /> },
-          // { path: "review", element: <Review /> },
-          // { path: "myinfo", element: <MyInfo /> },
+          { index: true, element: <Profile /> },
+          { path: "profile/edit", element: <EditProfile /> },
+          { path: "summary", element: <Summary /> },
+          { path: "profile", element: <Profile /> },
+          { path: "review", element: <Review /> },
+          { path: "myinfo", element: <MyInfo /> },
         ],
       },
 

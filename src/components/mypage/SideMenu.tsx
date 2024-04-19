@@ -28,13 +28,13 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
   }[] = [
     { title: "Summary", value: "summary", url: `/mypage/${id}/summary` },
     { title: "Profile", value: "profile", url: `/mypage/${id}/profile` },
-    { title: "Peer Review", value: "review", url: `/mypage/${id}/review` },
-    {
-      title: "My Info",
-      value: "myinfo",
-      url: `/mypage/${id}/myInfo`,
-      private: true,
-    },
+    // { title: "Peer Review", value: "review", url: `/mypage/${id}/review` },
+    // {
+    //   title: "My Info",
+    //   value: "myinfo",
+    //   url: `/mypage/${id}/myInfo`,
+    //   private: true,
+    // },
   ];
 
   useEffect(() => {
@@ -62,13 +62,13 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
         {menu.map(item => (
           <li
             key={item.title}
-            className={`px-4 py-5 rounded-l-[36px] text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
+            className={` rounded-l-[36px] text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
             onClick={() => setSelectedMenu(item.value)}
           >
-            {item.title}
-            {/* <Link to={item.url} className="block p-4">
+            {/* {item.title} */}
+            <Link to={item.url} className="block px-4 py-5">
               {item.title}
-            </Link> */}
+            </Link>
           </li>
         ))}
       </ul>
