@@ -7,10 +7,15 @@ import { Plus } from "lucide-react";
 import ActionButton from "../../components/UI/button/ActionButton";
 import { modifiedProfile } from "../../store/slices/profileSlice";
 import TextTag from "../../components/UI/TextTag";
+import { fetchTechTags } from "../../store/slices/techTagsSlice";
+import GetTechLogo from "../../components/common/GetTechLogo";
 
 function EditProfile() {
   const { data: userProfile } = useAppSelector(state => state.profiles);
+  const { data: techTags } = useAppSelector(state => state.techtags);
   console.log("userProfile", userProfile);
+  console.log("techTags", techTags);
+
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -19,6 +24,11 @@ function EditProfile() {
 
   /** 자기소개 */
   const [coverLetter, setCoverLetter] = useState("");
+
+  /** 기술스택 */
+  // const [techTags, setTechTags] = useState();
+  // const techTagNames = techTags.map(list => list.name);
+  const [userTechTags, setUserTechTags] = useState<string[]>([]);
 
   /** 하드스킬 */
   const [hardSkills, setHardSkills] = useState<string[]>([]);
@@ -63,8 +73,11 @@ function EditProfile() {
   };
 
   useEffect(() => {
+    dispatch(fetchTechTags());
+
     if (userProfile) {
       setCoverLetter(userProfile.cover_letter);
+      setUserTechTags(userProfile.tech_tags);
       setHardSkills(userProfile.hard_skills);
       setSoftSkills(userProfile.soft_skills);
     }
@@ -113,13 +126,14 @@ function EditProfile() {
           <section>
             <h3 className="text-2xl font-bold">기술 스택</h3>
             <ul className="flex flex-wrap gap-2">
-              {/* {techTagNames?.map(techName => {
+              {techTags.map(item => {
                 return (
-                  <li key={techName} className="w-10 h-10">
-                    <GetTechLogo logoTitle={techName} />
+                  <li key={item.id} className="w-10 h-10">
+                    <GetTechLogo logoTitle={item.name} />
+                    <span>{item.name}</span>
                   </li>
                 );
-              })} */}
+              })}
             </ul>
           </section>
           <section>
@@ -166,7 +180,16 @@ function EditProfile() {
             <h3 className="text-2xl font-bold">참여한 프로젝트</h3>
           </section>
           <div>
-            <ActionButton type="outline" handleClick={() => {}}>
+            <ActionButton
+              type="outline"
+              handleClick={() => {
+                if (window.confirm("프로필 수정을 취소하시겠습니까?")) {
+                  navigate(`/mypage/${userProfile?.id}/profile`, {
+                    replace: true,
+                  });
+                }
+              }}
+            >
               취소
             </ActionButton>
             <ActionButton handleClick={handleActionBtnClick}>
