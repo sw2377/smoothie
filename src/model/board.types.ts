@@ -13,7 +13,7 @@ export interface UserCardListDataType {
   avatar_url: string;
 }
 
-export interface ProjectListDataType {
+export interface ProjectCardListDataType {
   id: number; // PK
   title: string;
   content: string;
@@ -55,4 +55,4 @@ export interface ApiResonse<T> {
 }
 
 // export type UserListResponse = ApiResonse<UserListDataType>;
-// export type ProjectListResponse = ApiResonse<ProjectListDataType>;
+// export type ProjectListResponse = ApiResonse<ProjectCardListDataType>;

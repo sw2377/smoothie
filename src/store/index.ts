@@ -3,7 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import { authReducer } from "./slices/authSlice";
 import { userCardListReducer } from "./slices/userCardListSlice";
-import { projectListReducer } from "./slices/projectListSlice";
+import { projectListReducer } from "./slices/projectCardListSlice";
 import { profileReducer } from "./slices/profileSlice";
 import { techTagsReducer } from "./slices/techTagsSlice";
 

@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { ProjectListDataType } from "../../model/board.types";
+import { ProjectCardListDataType } from "../../model/board.types";
 import { supabase } from "../../app/supabase";
 import { PostgrestError } from "@supabase/supabase-js";
 
-interface ProjectListState {
-  data: ProjectListDataType[];
-  currentData?: ProjectListDataType;
+interface ProjectCardListState {
+  data: ProjectCardListDataType[];
+  currentData?: ProjectCardListDataType;
   isLoading: boolean;
   error: PostgrestError | null;
 }
@@ -19,22 +19,22 @@ interface reqDataType {
   tech_tags: string[];
 }
 
-interface modifiedProjectParams {
+interface modifiedProjectCardParams {
   targetId: number | undefined;
   reqData: reqDataType;
 }
 
-const initialState: ProjectListState = {
+const initialState: ProjectCardListState = {
   data: [],
   isLoading: false,
   error: null,
 };
 
 /** FETCH 모든 게시글 조회 */
-export const fetchProjectList = createAsyncThunk(
-  "projectlist/fetch",
+export const fetchProjectCardList = createAsyncThunk(
+  "projectcardlist/fetch",
   async () => {
-    const { data, error } = await supabase.from("project_list").select();
+    const { data, error } = await supabase.from("projectcard_list").select();
 
     if (error) {
       console.warn("모든 프로젝트 게시글 조회 실패", error);
@@ -46,11 +46,11 @@ export const fetchProjectList = createAsyncThunk(
 );
 
 /** GET 현재 게시글 조회 */
-export const getProject = createAsyncThunk(
-  "projectlist/get",
+export const getProjectCard = createAsyncThunk(
+  "projectcardlist/get",
   async (targetId: string) => {
     const { data, error } = await supabase
-      .from("project_list")
+      .from("projectcard_list")
       .select()
       .eq("id", targetId);
 
@@ -64,11 +64,13 @@ export const getProject = createAsyncThunk(
 );
 
 /** POST 게시글 작성 */
-export const addProject = createAsyncThunk(
-  "projectlist/add",
+export const addProjectCard = createAsyncThunk(
+  "projectcardlist/add",
   async (postData: reqDataType, { rejectWithValue }) => {
     try {
-      const { error } = await supabase.from("project_list").insert(postData);
+      const { error } = await supabase
+        .from("projectcard_list")
+        .insert(postData);
 
       if (error) {
         throw error;
@@ -81,11 +83,11 @@ export const addProject = createAsyncThunk(
 );
 
 /** PATCH 게시글 수정 */
-export const modifiedProject = createAsyncThunk(
-  "projectlist/modified",
-  async ({ targetId, reqData }: modifiedProjectParams) => {
+export const modifiedProjectCard = createAsyncThunk(
+  "projectcardlist/modified",
+  async ({ targetId, reqData }: modifiedProjectCardParams) => {
     const { error } = await supabase
-      .from("project_list")
+      .from("projectcard_list")
       .update(reqData)
       .eq("id", targetId);
 
@@ -97,12 +99,12 @@ export const modifiedProject = createAsyncThunk(
 );
 
 /** DELETE 게시글 삭제 */
-export const removeProject = createAsyncThunk(
-  "projectlist/remove",
+export const removeProjectCard = createAsyncThunk(
+  "projectcardlist/remove",
   async (targetId: string) => {
     try {
       const { error } = await supabase
-        .from("project_list")
+        .from("projectcard_list")
         .delete()
         .eq("id", targetId);
 
@@ -119,7 +121,7 @@ export const filteredProjectCardByUserId = createAsyncThunk(
   async (targetId: string) => {
     try {
       const { data, error } = await supabase
-        .from("project_list")
+        .from("projectcard_list")
         .select()
         .eq("user_id", targetId);
 
@@ -136,50 +138,62 @@ const projectListSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    // FETCH
-    builder.addCase(fetchProjectList.pending, state => {
+    /** FETCH 모든 게시글 조회 */
+    builder.addCase(fetchProjectCardList.pending, state => {
       state.isLoading = true;
     });
-    builder.addCase(fetchProjectList.fulfilled, (state, action) => {
+    builder.addCase(fetchProjectCardList.fulfilled, (state, action) => {
       state.isLoading = false;
       state.data = action.payload;
     });
-    builder.addCase(fetchProjectList.rejected, state => {
+    builder.addCase(fetchProjectCardList.rejected, state => {
       state.isLoading = false;
     });
 
-    // GET
-    builder.addCase(getProject.pending, state => {
+    /** GET 현재 게시글 조회 */
+    builder.addCase(getProjectCard.pending, state => {
       state.isLoading = true;
     });
-    builder.addCase(getProject.fulfilled, (state, action) => {
+    builder.addCase(getProjectCard.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentData = action.payload;
     });
-    builder.addCase(getProject.rejected, state => {
+    builder.addCase(getProjectCard.rejected, state => {
       state.isLoading = false;
     });
 
-    // POST
-    builder.addCase(addProject.pending, state => {
+    /** POST 게시글 작성 */
+    builder.addCase(addProjectCard.pending, state => {
       state.isLoading = true;
     });
-    builder.addCase(addProject.fulfilled, state => {
+    builder.addCase(addProjectCard.fulfilled, state => {
       state.isLoading = false;
     });
-    builder.addCase(addProject.rejected, (state, action) => {
+    builder.addCase(addProjectCard.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload as PostgrestError;
+    });
+
+    /** PATCH 게시글 수정 */
+    builder.addCase(modifiedProjectCard.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(modifiedProjectCard.fulfilled, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(modifiedProjectCard.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as PostgrestError;
     });
 
     /** DELETE 게시글 삭제 */
-    builder.addCase(removeProject.pending, state => {
+    builder.addCase(removeProjectCard.pending, state => {
       state.isLoading = true;
     });
-    builder.addCase(removeProject.fulfilled, state => {
+    builder.addCase(removeProjectCard.fulfilled, state => {
       state.isLoading = false;
     });
-    builder.addCase(removeProject.rejected, state => {
+    builder.addCase(removeProjectCard.rejected, state => {
       state.isLoading = false;
     });
 

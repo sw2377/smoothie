@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { getProject } from "../../store/slices/projectListSlice";
+import { getProjectCard } from "../../store/slices/projectCardListSlice";
 import { extractTextAfterColon } from "../../utils/exceptColonFromTechResponse";
 import { getStringDate } from "../../utils/formatDate";
 import GetTechLogo from "../common/GetTechLogo";
@@ -20,7 +20,7 @@ function PostContent() {
 
   /** GET 게시글 조회 */
   useEffect(() => {
-    dispatch(getProject(id));
+    dispatch(getProjectCard(id));
   }, [dispatch, id]);
 
   const {

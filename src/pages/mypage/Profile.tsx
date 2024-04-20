@@ -44,7 +44,7 @@ function Profile() {
   return (
     <>
       {isLoading && <Loading />}
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col min-h-screen md:flex-row">
         <SideMenu
           selectedMenu={selectedMenu}
           setSelectedMenu={setSelectedMenu}

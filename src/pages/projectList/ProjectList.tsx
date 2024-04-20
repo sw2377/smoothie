@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/index";
-import { fetchProjectList } from "../../store/slices/projectListSlice";
+import { fetchProjectCardList } from "../../store/slices/projectCardListSlice";
 import CardView from "../../components/UI/card/CardView";
 import ActionButton from "../../components/UI/button/ActionButton";
 
@@ -17,7 +17,7 @@ function ProjectList() {
 
   /** FETCH 모든 게시글 조회 */
   useEffect(() => {
-    dispatch(fetchProjectList());
+    dispatch(fetchProjectCardList());
   }, [dispatch]);
 
   const handleCreateCardBtnClick = () => {

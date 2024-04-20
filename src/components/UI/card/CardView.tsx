@@ -4,7 +4,7 @@ import CardViewFront from "./CardViewFront";
 import { CardType, CardDataType } from "../../../model/card.types";
 import {
   UserCardListDataType,
-  ProjectListDataType,
+  ProjectCardListDataType,
 } from "../../../model/board.types";
 
 interface CardViewProps {
@@ -15,7 +15,7 @@ interface CardViewProps {
 
 function CardView({ type, cardData, handleClick }: CardViewProps) {
   const isUserCard = type === "USER_CARD";
-  const { id } = cardData as ProjectListDataType;
+  const { id } = cardData as ProjectCardListDataType;
 
   const navigate = useNavigate();
 

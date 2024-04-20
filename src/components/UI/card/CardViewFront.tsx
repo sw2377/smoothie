@@ -1,5 +1,5 @@
 import {
-  ProjectListDataType,
+  ProjectCardListDataType,
   UserCardListDataType,
 } from "../../../model/board.types";
 import { CardType, CardDataType } from "../../../model/card.types";
@@ -27,7 +27,7 @@ function CardViewFront({
 
   const { title, position, created_at, tech_tags } =
     cardData as UserCardListDataType;
-  const { views, status, writerNickName } = cardData as ProjectListDataType;
+  const { views, status, writerNickName } = cardData as ProjectCardListDataType;
 
   const date = new Date(created_at).toLocaleDateString();
   const techTagNames = extractTextAfterColon(tech_tags);

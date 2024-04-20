@@ -9,8 +9,8 @@ import {
 import CardView from "../../components/UI/card/CardView";
 import {
   filteredProjectCardByUserId,
-  removeProject,
-} from "../../store/slices/projectListSlice";
+  removeProjectCard,
+} from "../../store/slices/projectCardListSlice";
 import { getUser } from "../../app/supabase";
 import SideMenu from "../../components/mypage/SideMenu";
 
@@ -78,7 +78,7 @@ function Summary() {
       isRemoveProjectCardBtnActive &&
       window.confirm("카드를 정말 삭제하시겠습니까?")
     ) {
-      dispatch(removeProject(targetId))
+      dispatch(removeProjectCard(targetId))
         .unwrap()
         .then(() => {
           alert("삭제되었습니다.");
@@ -92,7 +92,7 @@ function Summary() {
   const [selectedMenu, setSelectedMenu] = useState("summary");
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col min-h-screen md:flex-row">
       <SideMenu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
       <main className="w-full md:w-3/4 md:px-6 items-start">
         <div className="flex flex-col gap-16 w-full">

@@ -7,11 +7,11 @@ import "react-quill/dist/quill.snow.css";
 import "../../QuillEditor.css";
 
 import {
-  addProject,
-  modifiedProject,
-} from "../../store/slices/projectListSlice";
+  addProjectCard,
+  modifiedProjectCard,
+} from "../../store/slices/projectCardListSlice";
 import { useAppDispatch } from "../../store";
-import { ProjectListDataType } from "../../model/board.types";
+import { ProjectCardListDataType } from "../../model/board.types";
 import GetTechLogo from "../common/GetTechLogo";
 import ActionButton from "../UI/button/ActionButton";
 import TextTag from "../UI/TextTag";
@@ -19,7 +19,7 @@ import TextTag from "../UI/TextTag";
 import { session } from "../../app/supabase";
 
 interface PostEditorPorps {
-  originPost?: ProjectListDataType;
+  originPost?: ProjectCardListDataType;
 }
 
 function PostEditor({ originPost }: PostEditorPorps) {
@@ -331,7 +331,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
     ) {
       // 게시글 작성
       if (!originPost) {
-        dispatch(addProject(reqData))
+        dispatch(addProjectCard(reqData))
           .unwrap()
           .then(() => {
             window.alert("새 글이 등록되었습니다.");
@@ -346,7 +346,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
       // 게시글 수정
       if (originPost) {
         const targetId = originPost.id;
-        dispatch(modifiedProject({ targetId, reqData }))
+        dispatch(modifiedProjectCard({ targetId, reqData }))
           .unwrap()
           .then(() => {
             window.alert("게시글이 수정되었습니다.");

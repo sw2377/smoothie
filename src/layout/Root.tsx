@@ -6,7 +6,7 @@ function RootLayout() {
   return (
     <>
       <Header />
-      <div className="max-w-[1200px] mx-auto my-0 pt-20 px-6">
+      <div className="max-w-[1200px] min-h-screen mx-auto my-0 pt-20 px-6">
         <Outlet />
       </div>
       <Footer />

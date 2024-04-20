@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../store";
-import { ProjectListDataType } from "../../model/board.types";
+import { ProjectCardListDataType } from "../../model/board.types";
 
 import PostEditor from "../../components/projectList/PostEditor";
 
@@ -11,7 +11,7 @@ function EditPost() {
   const { id } = useParams() as { id: string };
 
   const projectPostData = useAppSelector(state => state.projects.data);
-  const [originPost, setOriginPost] = useState<ProjectListDataType | null>(
+  const [originPost, setOriginPost] = useState<ProjectCardListDataType | null>(
     null,
   );
 
