@@ -29,6 +29,7 @@ function EditProfile() {
   // const [techTags, setTechTags] = useState();
   // const techTagNames = techTags.map(list => list.name);
   const [userTechTags, setUserTechTags] = useState<string[]>([]);
+  console.log("userTechTags", userTechTags);
 
   /** 하드스킬 */
   const [hardSkills, setHardSkills] = useState<string[]>([]);
@@ -87,7 +88,7 @@ function EditProfile() {
     console.log("handleActionBtnClick");
     const reqData = {
       cover_letter: coverLetter,
-      tech_tags: ["13:JavaScript", "14:TypeScript", "15:React"],
+      tech_tags: userTechTags,
       hard_skills: hardSkills,
       soft_skills: softSkills,
       projects: [],
@@ -111,40 +112,43 @@ function EditProfile() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col md:flex-row">
       <SideMenu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      <main className="w-3/4 px-6 items-start">
+      <main className="w-full md:w-3/4 md:px-6 items-start">
         <div className="flex flex-col gap-16 w-full">
           <section>
-            <h3 className="text-2xl font-bold">저를 소개합니다.</h3>
+            <h3 className="mb-4 text-2xl font-bold">저를 소개합니다.</h3>
             <textarea
-              className="w-full"
+              className="w-full min-h-48 resize-none"
               value={coverLetter}
               onChange={e => setCoverLetter(e.target.value)}
             />
           </section>
           <section>
-            <h3 className="text-2xl font-bold">기술 스택</h3>
+            <h3 className="mb-4 text-2xl font-bold">기술 스택</h3>
             <ul className="flex flex-wrap gap-2">
               {techTags.map(item => {
                 return (
-                  <li key={item.id} className="w-10 h-10">
-                    <GetTechLogo logoTitle={item.name} />
-                    <span>{item.name}</span>
+                  <li
+                    key={item.id}
+                    className={`overflow-hidden flex items-center cursor-pointer border rounded-3xl text-sm ${userTechTags.includes(item.name) ? "bg-secondary border-yellow-200 font-bold" : ""}`}
+                    onClick={() =>
+                      setUserTechTags(prev => [...prev, item.name])
+                    }
+                  >
+                    <GetTechLogo
+                      logoTitle={item.name}
+                      style="w-10 h-10 p-2 rounded-full"
+                    />
+                    <span className="pr-2">{item.name}</span>
                   </li>
                 );
               })}
             </ul>
           </section>
           <section>
-            <h3 className="text-2xl font-bold">하드 스킬</h3>
+            <h3 className="mb-4 text-2xl font-bold">하드 스킬</h3>
             <div className="flex flex-col gap-3">
-              <TextInput
-                placeholder="Enter를 눌러 추가할 수 있습니다."
-                onSubmit={skill => addHardSkill(skill)}
-              >
-                <Plus color="#BDBDBD" />
-              </TextInput>
               <ul className="flex flex-wrap gap-2">
                 {hardSkills.map(skill => (
                   <TextTag
@@ -154,17 +158,17 @@ function EditProfile() {
                   />
                 ))}
               </ul>
-            </div>
-          </section>
-          <section>
-            <h3 className="text-2xl font-bold">소프트 스킬</h3>
-            <div className="flex flex-col gap-3">
               <TextInput
                 placeholder="Enter를 눌러 추가할 수 있습니다."
-                onSubmit={skill => addSoftSkill(skill)}
+                onSubmit={skill => addHardSkill(skill)}
               >
                 <Plus color="#BDBDBD" />
               </TextInput>
+            </div>
+          </section>
+          <section>
+            <h3 className="mb-4 text-2xl font-bold">소프트 스킬</h3>
+            <div className="flex flex-col gap-3">
               <ul className="flex flex-wrap gap-2">
                 {softSkills.map(skill => (
                   <TextTag
@@ -174,12 +178,18 @@ function EditProfile() {
                   />
                 ))}
               </ul>
+              <TextInput
+                placeholder="Enter를 눌러 추가할 수 있습니다."
+                onSubmit={skill => addSoftSkill(skill)}
+              >
+                <Plus color="#BDBDBD" />
+              </TextInput>
             </div>
           </section>
           <section>
-            <h3 className="text-2xl font-bold">참여한 프로젝트</h3>
+            <h3 className="mb-4 text-2xl font-bold">참여한 프로젝트</h3>
           </section>
-          <div>
+          <div className="flex gap-2 justify-end">
             <ActionButton
               type="outline"
               handleClick={() => {

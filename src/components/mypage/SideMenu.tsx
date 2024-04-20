@@ -44,13 +44,13 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
   }, [dispatch, id]);
 
   return (
-    <div className="w-1/4 border-r-4 border-r-primary">
+    <div className="w-full md:w-1/4 md:border-r-4 md:border-r-primary">
       {/* 프로필 */}
-      <div className="flex flex-col items-center mt-[3.75rem] mb-10 ">
-        <div className="overflow-hidden w-20 h-20 rounded-full my-3">
-          <img src={userImageUrl} alt="" />
+      <div className="flex md:flex-col justify-center items-center mt-[3.75rem] mb-10">
+        <div className="m-3 overflow-hidden w-20 h-20 rounded-full">
+          <img src={userImageUrl} alt={`${userName}님의 프로필 사진`} />
         </div>
-        <div className="text-center">
+        <div className="md:text-center">
           <p>{userName}</p>
           <p>{userEmail}</p>
           <p>{userPosition}</p>
@@ -58,11 +58,11 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
       </div>
 
       {/* 메뉴 */}
-      <ul>
+      <ul className="flex md:flex-col">
         {menu.map(item => (
           <li
             key={item.title}
-            className={` rounded-l-[36px] text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
+            className={`w-full text-center rounded-t-3xl md:rounded-l-[36px] md:rounded-tr-none md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
             onClick={() => setSelectedMenu(item.value)}
           >
             {/* {item.title} */}

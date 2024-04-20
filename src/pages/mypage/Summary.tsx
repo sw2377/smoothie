@@ -92,9 +92,9 @@ function Summary() {
   const [selectedMenu, setSelectedMenu] = useState("summary");
 
   return (
-    <div className="flex h-screen">
+    <div className="flex flex-col md:flex-row">
       <SideMenu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-      <main className="w-3/4 px-6 items-start">
+      <main className="w-full md:w-3/4 md:px-6 items-start">
         <div className="flex flex-col gap-16 w-full">
           <section>
             <div className="flex justify-between items-center mb-5">

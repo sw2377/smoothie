@@ -3,9 +3,10 @@ import zeplin from "../../assets/icons/zeplin.svg";
 
 interface GetLogoProps {
   logoTitle: string;
+  style?: string;
 }
 
-function GetTechLogo({ logoTitle }: GetLogoProps) {
+function GetTechLogo({ logoTitle, style }: GetLogoProps) {
   const [logoSrc, setLogoSrc] = useState<string | null>(null);
   let logoName = logoTitle.toLowerCase();
 
@@ -62,7 +63,13 @@ function GetTechLogo({ logoTitle }: GetLogoProps) {
       });
   }, [logoName]);
 
-  return <>{logoSrc && <img src={logoSrc} alt={`${logoTitle} logo`} />}</>;
+  return (
+    <>
+      {logoSrc && (
+        <img src={logoSrc} alt={`${logoTitle} logo`} className={style} />
+      )}
+    </>
+  );
 }
 
 export default GetTechLogo;
