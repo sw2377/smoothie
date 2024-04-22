@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { getProfile } from "../../store/slices/profileSlice";
+import { getUser } from "../../app/supabase";
 
 interface SideMenuProps {
   selectedMenu: string;
@@ -10,6 +11,8 @@ interface SideMenuProps {
 
 function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
   const { data } = useAppSelector(state => state.profiles);
+
+  const [isAuthor, setIsAuthor] = useState(false);
 
   const userName = data?.user_name;
   const userEmail = data?.email;
@@ -43,6 +46,16 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
     }
   }, [dispatch, id]);
 
+  useEffect(() => {
+    getUser().then(data => {
+      if (data?.id === id) {
+        setIsAuthor(true);
+      } else {
+        setIsAuthor(false);
+      }
+    });
+  }, []);
+
   return (
     <div className="w-full md:w-1/4 md:border-r-4 md:border-r-primary">
       {/* 프로필 */}
@@ -59,18 +72,37 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
 
       {/* 메뉴 */}
       <ul className="flex md:flex-col">
-        {menu.map(item => (
-          <li
-            key={item.title}
-            className={`w-full text-center rounded-t-3xl md:rounded-l-[36px] md:rounded-tr-none md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
-            onClick={() => setSelectedMenu(item.value)}
-          >
-            {/* {item.title} */}
-            <Link to={item.url} className="block px-4 py-5">
-              {item.title}
-            </Link>
-          </li>
-        ))}
+        {menu.map(item => {
+          if (item.private !== true) {
+            return (
+              <li
+                key={item.title}
+                className={`w-full text-center rounded-t-3xl md:rounded-l-[36px] md:rounded-tr-none md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
+                onClick={() => setSelectedMenu(item.value)}
+              >
+                <Link to={item.url} className="block px-4 py-5">
+                  {item.title}
+                </Link>
+              </li>
+            );
+          }
+        })}
+        {isAuthor &&
+          menu.map(item => {
+            if (item.private === true) {
+              return (
+                <li
+                  key={item.title}
+                  className={`w-full text-center rounded-t-3xl md:rounded-l-[36px] md:rounded-tr-none md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
+                  onClick={() => setSelectedMenu(item.value)}
+                >
+                  <Link to={item.url} className="block px-4 py-5">
+                    {item.title}
+                  </Link>
+                </li>
+              );
+            }
+          })}
       </ul>
     </div>
   );

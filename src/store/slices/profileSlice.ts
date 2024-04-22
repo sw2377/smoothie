@@ -9,7 +9,7 @@ interface ProfileState {
   error: PostgrestError | null;
 }
 
-interface reqDataType {
+interface reqProfileDataType {
   cover_letter: string;
   tech_tags: string[];
   hard_skills: string[];
@@ -17,9 +17,19 @@ interface reqDataType {
   projects: string[];
 }
 
+interface reqMyInfoDataType {
+  user_name: string;
+  position: string;
+}
+
 interface modifiedProfileParams {
   targetId: string | undefined;
-  reqData: reqDataType;
+  reqData: reqProfileDataType;
+}
+
+interface modifiedMyInfoParams {
+  targetId: string | undefined;
+  reqData: reqMyInfoDataType;
 }
 
 const initialState: ProfileState = {
@@ -51,10 +61,30 @@ export const getProfile = createAsyncThunk(
   },
 );
 
-/** PATCH 프로필 수정 */
+/** PATCH 프로필 수정 - 프로필 탭 프로필 수정 */
 export const modifiedProfile = createAsyncThunk(
   "profile/modified",
   async ({ targetId, reqData }: modifiedProfileParams, { rejectWithValue }) => {
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update(reqData)
+        .eq("id", targetId);
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      const pgError = error as PostgrestError;
+      return rejectWithValue(pgError.message);
+    }
+  },
+);
+
+/** PATCH 프로필 수정 - 나의 정보 수정 */
+export const modifiedMyInfo = createAsyncThunk(
+  "profile/modified/myinfo",
+  async ({ targetId, reqData }: modifiedMyInfoParams, { rejectWithValue }) => {
     try {
       const { error } = await supabase
         .from("profiles")
