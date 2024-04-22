@@ -28,13 +28,13 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
   }[] = [
     { title: "Summary", value: "summary", url: `/mypage/${id}/summary` },
     { title: "Profile", value: "profile", url: `/mypage/${id}/profile` },
-    // { title: "Peer Review", value: "review", url: `/mypage/${id}/review` },
-    // {
-    //   title: "My Info",
-    //   value: "myinfo",
-    //   url: `/mypage/${id}/myInfo`,
-    //   private: true,
-    // },
+    { title: "Peer Review", value: "review", url: `/mypage/${id}/review` },
+    {
+      title: "My Info",
+      value: "myinfo",
+      url: `/mypage/${id}/myInfo`,
+      private: true,
+    },
   ];
 
   useEffect(() => {

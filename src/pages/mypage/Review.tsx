@@ -1,10 +1,17 @@
+import { useState } from "react";
 import SideMenu from "../../components/mypage/SideMenu";
 
 function Review() {
+  const [selectedMenu, setSelectedMenu] = useState("review");
+
   return (
-    <div className="flex">
-      <SideMenu />
-      <main className="w-3/4">Review</main>
+    <div className="flex flex-col min-h-screen md:flex-row">
+      <SideMenu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
+      <main className="w-full md:w-3/4 md:px-6 items-start">
+        <div className="flex flex-col gap-16 w-full">
+          <section></section>
+        </div>
+      </main>
     </div>
   );
 }
