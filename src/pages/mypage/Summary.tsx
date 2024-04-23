@@ -16,7 +16,7 @@ import SideMenu from "../../components/mypage/SideMenu";
 
 function Summary() {
   const { data: userCardData } = useAppSelector(state => state.usercards);
-  const { data: projectCardData } = useAppSelector(state => state.projects);
+  const { data: projectCardData } = useAppSelector(state => state.projectcards);
   const dispatch = useAppDispatch();
 
   const { id } = useParams<{ id: string }>();

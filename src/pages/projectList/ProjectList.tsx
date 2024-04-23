@@ -9,7 +9,7 @@ import { session } from "../../app/supabase";
 
 function ProjectList() {
   const { data: projectData, isLoading } = useAppSelector(
-    state => state.projects,
+    state => state.projectcards,
   );
 
   const dispatch = useAppDispatch();

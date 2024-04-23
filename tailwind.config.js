@@ -21,6 +21,7 @@ export default {
       },
       backgroundImage: {
         "default-profile": "url('./assets/profile-default.svg')",
+        "defualt-project-thumb": "url('./assets/project-default.png)",
       },
     },
   },

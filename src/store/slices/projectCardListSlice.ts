@@ -213,4 +213,4 @@ const projectListSlice = createSlice({
 });
 
 // export const { } = projectListSlice.actions;
-export const projectListReducer = projectListSlice.reducer;
+export const projectCardListReducer = projectListSlice.reducer;

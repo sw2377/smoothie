@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { getUser } from "../../app/supabase";
@@ -14,6 +14,7 @@ function Profile() {
   const { isLoading, data: userProfile } = useAppSelector(
     state => state.profiles,
   );
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -113,6 +114,31 @@ function Profile() {
               </section>
               <section>
                 <h3 className="mb-4 text-2xl font-bold">참여한 프로젝트</h3>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {userProfile?.projects.map(project => {
+                    return (
+                      <li
+                        key={project.id}
+                        className={`relative w-full h-[150px] mb-10 border rounded-2xl bg-no-repeat bg-cover bg-center bg-defualt-project-thumb`}
+                      >
+                        <Link
+                          to={project.repo_url}
+                          target="_blank"
+                          className="block w-full h-full"
+                        >
+                          {project.inside_project && (
+                            <span className="absolute top-1 right-1 px-3 py-1 bg-primary text-white rounded-xl text-xs">
+                              스무디프로젝트
+                            </span>
+                          )}
+                        </Link>
+                        <span className="block pt-2 sm:text-center">
+                          {project.title}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
               </section>
             </div>
           </div>

@@ -45,7 +45,7 @@ export const getProfile = createAsyncThunk(
     try {
       const { data, error } = await supabase
         .from("profiles")
-        .select()
+        .select("*, projects(*)")
         .eq("id", targetId);
 
       if (error) {
@@ -53,6 +53,7 @@ export const getProfile = createAsyncThunk(
       }
 
       if (data) {
+        console.log("data", data);
         return data[0];
       }
     } catch (error) {

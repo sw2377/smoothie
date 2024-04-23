@@ -1,3 +1,15 @@
+interface ProjectDataType {
+  id: number;
+  title: string;
+  description: string;
+  repo_url: string;
+  image_url?: string;
+  inside_project: boolean;
+  created_at?: string | Date;
+  modified_at?: string | Date;
+  profile_id: string;
+}
+
 export interface ProfileDataType {
   id?: string;
   user_name: string;
@@ -10,5 +22,5 @@ export interface ProfileDataType {
   tech_tags: string[];
   hard_skills: string[];
   soft_skills: string[];
-  projects: string[];
+  projects: ProjectDataType[];
 }
