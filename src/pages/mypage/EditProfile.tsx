@@ -125,13 +125,6 @@ function EditProfile() {
   const onSubmit: SubmitHandler<AddProjectDataType> = data => {
     console.log(data);
 
-    // const reqData = {
-    //   user_name: data.username,
-    //   position: data.position,
-    // };
-
-    // console.log("🔖 REQ DATA", reqData);
-
     if (window.confirm("프로젝트를 추가하시겠습니까?")) {
       const reqData = {
         title: data.title,

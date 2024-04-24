@@ -13,6 +13,7 @@ import {
 } from "../../store/slices/projectCardListSlice";
 import { getUser } from "../../app/supabase";
 import SideMenu from "../../components/mypage/SideMenu";
+import NoContent from "../../components/common/NoContent";
 
 function Summary() {
   const { data: userCardData } = useAppSelector(state => state.usercards);
@@ -128,9 +129,7 @@ function Summary() {
                 ))}
               </ul>
             ) : (
-              <div className="flex flex-col justify-center items-center h-[100px]">
-                <div>아직 작성하신 카드가 없어요!</div>
-              </div>
+              <NoContent />
             )}
           </section>
           <section>
@@ -167,9 +166,7 @@ function Summary() {
                 ))}
               </ul>
             ) : (
-              <div className="flex flex-col justify-center items-center h-[100px]">
-                <div>아직 작성하신 카드가 없어요!</div>
-              </div>
+              <NoContent />
             )}
           </section>
         </div>
