@@ -20,8 +20,7 @@ export default {
         xxs: "0.625rem",
       },
       backgroundImage: {
-        "default-profile": "url('./assets/profile-default.svg')",
-        "defualt-project-thumb": "url('./assets/project-default.png)",
+        default_profile: "url('./assets/profile-default.svg')",
       },
     },
   },

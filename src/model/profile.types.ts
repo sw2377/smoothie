@@ -1,5 +1,5 @@
-interface ProjectDataType {
-  id: number;
+export interface ProjectDataType {
+  id?: number;
   title: string;
   description: string;
   repo_url: string;

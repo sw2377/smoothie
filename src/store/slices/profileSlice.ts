@@ -14,7 +14,7 @@ interface reqProfileDataType {
   tech_tags: string[];
   hard_skills: string[];
   soft_skills: string[];
-  projects: string[];
+  // projects: ProjectDataType[] | undefined;
 }
 
 interface reqMyInfoDataType {

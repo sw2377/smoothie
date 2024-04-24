@@ -5,6 +5,7 @@ import { authReducer } from "./slices/authSlice";
 import { userCardListReducer } from "./slices/userCardListSlice";
 import { projectCardListReducer } from "./slices/projectCardListSlice";
 import { profileReducer } from "./slices/profileSlice";
+import { projectReducer } from "./slices/projectSlice";
 import { techTagsReducer } from "./slices/techTagsSlice";
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     usercards: userCardListReducer,
     projectcards: projectCardListReducer,
     profiles: profileReducer,
+    projects: projectReducer,
     techtags: techTagsReducer,
   },
 });
