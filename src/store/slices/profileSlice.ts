@@ -53,7 +53,7 @@ export const getProfile = createAsyncThunk(
       }
 
       if (data) {
-        console.log("data", data);
+        // console.log("data", data);
         return data[0];
       }
     } catch (error) {

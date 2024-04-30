@@ -24,3 +24,14 @@ export interface ProfileDataType {
   soft_skills: string[];
   projects: ProjectDataType[];
 }
+
+export interface ReviewDataType {
+  id?: number;
+  title: string;
+  content: string;
+  writer_id: string;
+  project_id: number;
+  created_at?: string | Date;
+  receiver_id: string;
+  projects: ProjectDataType;
+}
