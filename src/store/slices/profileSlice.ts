@@ -87,14 +87,17 @@ export const modifiedMyInfo = createAsyncThunk(
   "profile/modified/myinfo",
   async ({ targetId, reqData }: modifiedMyInfoParams, { rejectWithValue }) => {
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("profiles")
         .update(reqData)
-        .eq("id", targetId);
+        .eq("id", targetId)
+        .select();
 
       if (error) {
         throw error;
       }
+
+      return data[0];
     } catch (error) {
       const pgError = error as PostgrestError;
       return rejectWithValue(pgError.message);
@@ -119,7 +122,7 @@ const profileSlice = createSlice({
       state.isLoading = false;
     });
 
-    /** PATCH 프로필 수정 */
+    /** PATCH 프로필 수정 - 프로필 탭 프로필 수정 */
     builder.addCase(modifiedProfile.pending, state => {
       state.isLoading = true;
     });
@@ -127,6 +130,19 @@ const profileSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(modifiedProfile.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload as PostgrestError;
+    });
+
+    /** PATCH 프로필 수정 - 나의 정보 수정 */
+    builder.addCase(modifiedMyInfo.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(modifiedMyInfo.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(modifiedMyInfo.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as PostgrestError;
     });

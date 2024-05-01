@@ -6,6 +6,8 @@ import { useAppSelector, useAppDispatch } from "../../store";
 import { getProfile, modifiedMyInfo } from "../../store/slices/profileSlice";
 import SideMenu from "../../components/mypage/SideMenu";
 import ActionButton from "../../components/UI/button/ActionButton";
+import Loading from "../../components/common/Loading";
+import { ProfileDataType } from "../../model/profile.types";
 
 interface ModifiedUserInfoDataType {
   username: string;
@@ -13,18 +15,24 @@ interface ModifiedUserInfoDataType {
 }
 
 function MyInfo() {
-  const { data } = useAppSelector(state => state.profiles);
-  const dispatch = useAppDispatch();
+  const [selectedMenu, setSelectedMenu] = useState("myinfo");
 
-  const userName = data?.user_name;
+  const [userInfo, setUserInfo] = useState<ProfileDataType | null>(null);
+  console.log("userInfo", userInfo);
+
+  const { isLoading, data } = useAppSelector(state => state.profiles);
+  const dispatch = useAppDispatch();
+  console.log("data", data);
+
+  // const userName = data?.user_name;
   const userEmail = data?.email;
   const userImageUrl = data?.avatar_url;
   const userPosition = data?.position;
 
-  // const [userName, setUserName] = useState(data?.user_name);
-  // const [userPosition, setUserPosition] = useState(data?.position);
-
-  const [selectedMenu, setSelectedMenu] = useState("myinfo");
+  const [isOpenUserInfoForm, setIsOpenUserInfoForm] = useState(false);
+  const handleChangeUserInfoBtnClick = () => {
+    setIsOpenUserInfoForm(!isOpenUserInfoForm);
+  };
 
   const { id } = useParams<{ id: string }>();
 
@@ -33,6 +41,12 @@ function MyInfo() {
       dispatch(getProfile(id));
     }
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (data) {
+      setUserInfo(data);
+    }
+  }, [data]);
 
   const {
     register,
@@ -49,7 +63,7 @@ function MyInfo() {
       position: data.position,
     };
 
-    console.log("🔖 REQ DATA", reqData);
+    // console.log("🔖 REQ DATA", reqData);
 
     if (window.confirm("프로필을 수정하시겠습니까?")) {
       const targetId = id;
@@ -57,6 +71,7 @@ function MyInfo() {
         .unwrap()
         .then(() => {
           alert("나의 정보가 수정되었습니다.");
+          setIsOpenUserInfoForm(false);
         })
         .catch(error => {
           console.warn("❌ ERROR : MODIFIED USER INFO", error);
@@ -76,26 +91,39 @@ function MyInfo() {
   return (
     <div className="flex flex-col min-h-screen md:flex-row">
       <SideMenu selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
+      {isLoading ? <Loading /> : null}
       <main className="w-full md:w-3/4 md:px-6 items-start">
         <div className="flex flex-col gap-16 w-full">
+          {/* 나의 정보 */}
           <section>
             <h3 className="mb-4 text-2xl font-bold">나의 정보</h3>
             <div className="flex gap-2 justify-end">
-              <button className="p-0 border-none text-xs">회원정보 변경</button>
-              <button className="p-0 border-none text-xs text-[#EB5757]">
+              <button
+                className="p-0 border-none text-xs"
+                onClick={handleChangeUserInfoBtnClick}
+              >
+                회원정보 변경
+              </button>
+              <button
+                className="p-0 border-none text-xs text-[#EB5757]"
+                onClick={() => {
+                  alert("아직 준비되지 않은 기능입니다 :)");
+                }}
+              >
                 회원탈퇴
               </button>
             </div>
-
-            {/* 나의 정보 */}
             <div className="flex items-center mt-4 mb-10">
               <div className="m-3 overflow-hidden w-20 h-20 rounded-full">
-                <img src={userImageUrl} alt={`${userName}님의 프로필 사진`} />
+                <img
+                  src={userImageUrl}
+                  alt={`${userInfo?.user_name}님의 프로필 사진`}
+                />
               </div>
               <div>
                 <div className="flex">
                   <span className="block min-w-[70px]">유저네임</span>
-                  <span>{userName}</span>
+                  <span>{userInfo?.user_name}</span>
                 </div>
                 <div className="flex">
                   <span className="block min-w-[70px]">계정</span>
@@ -107,10 +135,13 @@ function MyInfo() {
                 </div>
               </div>
             </div>
+          </section>
 
-            {/* 회원정보 변경 */}
+          {/* 회원정보 변경 */}
+          <section className={`${isOpenUserInfoForm ? "block" : "hidden"}`}>
+            <h4 className="mb-4 text-xl font-bold">회원정보 변경</h4>
             <form
-              className="flex flex-col gap-5 w-full"
+              className="flex flex-col gap-4 w-full"
               onSubmit={handleSubmit(onSubmit)}
             >
               <div className="flex flex-col gap-2">
@@ -155,6 +186,7 @@ function MyInfo() {
                   handleClick={() => {
                     if (window.confirm("회원정보 수정을 취소하시겠습니까?")) {
                       console.log("취소");
+                      setIsOpenUserInfoForm(false);
                     }
                   }}
                 >
