@@ -15,6 +15,23 @@ const initialState: ReviewState = {
   error: null,
 };
 
+/** FETCH 모든 리뷰 조회 */
+export const fetchReviews = createAsyncThunk("review/fetch", async () => {
+  try {
+    const { data, error } = await supabase.from("peer_reviews").select();
+
+    if (error) {
+      throw error;
+    }
+
+    if (data) {
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 /** GET 해당 유저의 리뷰 조회 */
 export const getReviews = createAsyncThunk(
   "review/get",
@@ -30,7 +47,6 @@ export const getReviews = createAsyncThunk(
       }
 
       if (data) {
-        console.log("data", data);
         return data;
       }
     } catch (error) {
@@ -44,6 +60,18 @@ const reviewSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
+    /** FETCH 모든 리뷰 조회 */
+    builder.addCase(fetchReviews.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchReviews.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(fetchReviews.rejected, state => {
+      state.isLoading = false;
+    });
+
     /** GET 해당 유저의 리뷰 조회 */
     builder.addCase(getReviews.pending, state => {
       state.isLoading = true;

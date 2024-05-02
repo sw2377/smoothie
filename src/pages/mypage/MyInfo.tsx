@@ -18,11 +18,9 @@ function MyInfo() {
   const [selectedMenu, setSelectedMenu] = useState("myinfo");
 
   const [userInfo, setUserInfo] = useState<ProfileDataType | null>(null);
-  console.log("userInfo", userInfo);
 
   const { isLoading, data } = useAppSelector(state => state.profiles);
   const dispatch = useAppDispatch();
-  console.log("data", data);
 
   // const userName = data?.user_name;
   const userEmail = data?.email;

@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store";
 import SideMenu from "../../components/mypage/SideMenu";
 import { getReviews } from "../../store/slices/reviewSlice";
+import { getProfile } from "../../store/slices/profileSlice";
 // import { ReviewDataType } from "../../model/profile.types";
 
 function Review() {
   const [selectedMenu, setSelectedMenu] = useState("review");
 
   const { data: userReviews } = useAppSelector(state => state.reviews);
+  const { data: userProfile } = useAppSelector(state => state.profiles);
 
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
@@ -16,6 +18,7 @@ function Review() {
   useEffect(() => {
     if (id) {
       dispatch(getReviews(id));
+      dispatch(getProfile(id));
     }
   }, [dispatch, id]);
 
@@ -26,13 +29,18 @@ function Review() {
         <div className="flex flex-col gap-16 w-full">
           <section>
             <h3 className="mb-4 text-2xl font-bold">
-              죠르디 님과 프로젝트를 함께한 동료
+              {userProfile?.user_name} 님과 프로젝트를 함께한 동료
             </h3>
-            <p className="pb-4">(임시) 죠르디 님은 이런 동료입니다!</p>
+            <p className="pb-4">
+              {userProfile?.user_name} 님은 이런 동료입니다!
+            </p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {userReviews !== null && userReviews.length > 0
                 ? userReviews.map(review => (
-                    <li className="overflow-hidden h-fit border rounded-2xl shadow-sm">
+                    <li
+                      key={review.id}
+                      className="overflow-hidden h-fit border rounded-2xl shadow-sm"
+                    >
                       <div className="flex flex-col gap-4 p-4 bg-primary text-white">
                         <span className="inline-block w-full text-xs text-right">
                           {new Date(review.created_at).toLocaleDateString()}

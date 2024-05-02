@@ -1,12 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 
 function RootLayout() {
+  const location = useLocation();
+
   return (
     <>
       <Header />
-      <div className="max-w-[1200px] min-h-screen mx-auto my-0 pt-20 px-6">
+      <div
+        className={`${location.pathname === "/" ? "w-full px-0" : "max-w-[1200px] px-6"} min-h-screen mx-auto my-0 pt-20`}
+      >
         <Outlet />
       </div>
       <Footer />
