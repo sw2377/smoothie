@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { fetchProjectCardList } from "../../store/slices/projectCardListSlice";
+import { getFourProjectCard } from "../../store/slices/projectCardListSlice";
 import { fetchReviews } from "../../store/slices/reviewSlice";
 import CardView from "../../components/UI/card/CardView";
 
@@ -23,7 +25,7 @@ function Home() {
 
   /** FETCH 모든 게시글 조회 */
   useEffect(() => {
-    dispatch(fetchProjectCardList());
+    dispatch(getFourProjectCard());
     dispatch(fetchReviews());
   }, [dispatch]);
 
@@ -44,6 +46,13 @@ function Home() {
           <h3 className="text-3xl font-bold text-center pb-20">
             프로젝트를 함께할 팀원을 모집중이에요!
           </h3>
+          <Link
+            to="/projectlist"
+            className="flex gap-1 items-center justify-end mb-4 font-semibold hover:text-primary"
+          >
+            <span>더 보러가기</span>
+            <ArrowRight width={16} height={16} />
+          </Link>
           <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
             {projectData.map(card => (
               <CardView key={card.id} type="PROJECT_CARD" cardData={card} />

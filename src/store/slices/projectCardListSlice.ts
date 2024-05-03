@@ -133,6 +133,24 @@ export const filteredProjectCardByUserId = createAsyncThunk(
   },
 );
 
+/** 게시글 4개 조회 */
+export const getFourProjectCard = createAsyncThunk(
+  "projectlist/getfourcard",
+  async () => {
+    try {
+      const { data, error } = await supabase
+        .from("projectcard_list")
+        .select()
+        .range(0, 3);
+
+      if (error) throw error;
+      if (data) return data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
+
 const projectListSlice = createSlice({
   name: "projectlist",
   initialState,
@@ -206,6 +224,19 @@ const projectListSlice = createSlice({
       state.data = action.payload;
     });
     builder.addCase(filteredProjectCardByUserId.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload as PostgrestError;
+    });
+
+    /** 게시글 4개 조회 */
+    builder.addCase(getFourProjectCard.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getFourProjectCard.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload;
+    });
+    builder.addCase(getFourProjectCard.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as PostgrestError;
     });
