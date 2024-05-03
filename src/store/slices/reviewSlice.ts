@@ -18,13 +18,16 @@ const initialState: ReviewState = {
 /** FETCH 모든 리뷰 조회 */
 export const fetchReviews = createAsyncThunk("review/fetch", async () => {
   try {
-    const { data, error } = await supabase.from("peer_reviews").select();
+    const { data, error } = await supabase
+      .from("peer_reviews")
+      .select("*, profiles(user_name)");
 
     if (error) {
       throw error;
     }
 
     if (data) {
+      console.log("data", data);
       return data;
     }
   } catch (error) {

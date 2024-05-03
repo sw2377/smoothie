@@ -34,4 +34,5 @@ export interface ReviewDataType {
   created_at?: string | Date;
   receiver_id: string;
   projects: ProjectDataType;
+  profiles: ProfileDataType;
 }

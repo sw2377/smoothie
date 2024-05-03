@@ -4,6 +4,12 @@ import { fetchProjectCardList } from "../../store/slices/projectCardListSlice";
 import { fetchReviews } from "../../store/slices/reviewSlice";
 import CardView from "../../components/UI/card/CardView";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
+
 import { session } from "../../app/supabase";
 
 function Home() {
@@ -33,7 +39,7 @@ function Home() {
       {/* 스무디소개 */}
 
       {/* 팀원모집카드 */}
-      <section className="w-full h-[700px]">
+      <section className="w-full">
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
           <h3 className="text-3xl font-bold text-center pb-20">
             프로젝트를 함께할 팀원을 모집중이에요!
@@ -47,22 +53,44 @@ function Home() {
       </section>
 
       {/* 리뷰 */}
-      <section className="w-full h-[700px]">
-        <div className="h-full mx-auto my-0 py-20">
+      <section className="w-full">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
           <h3 className="text-3xl font-bold text-center pb-20">
             작성된 팀원 리뷰도 확인해 보세요!
           </h3>
-          <ul className="flex gap-4">
+          <Swiper
+            spaceBetween={16}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+              },
+              768: {
+                slidesPerView: 3,
+              },
+              1024: {
+                slidesPerView: 4,
+              },
+            }}
+            modules={[Autoplay]}
+          >
             {reviewData?.map(review => (
-              <li
-                className="flex flex-col gap-4 justify-between w-[360px] h-fit min-h-40 p-8 border border-gray_4 rounded-[32px]"
+              <SwiperSlide
+                className="flex flex-col gap-4 justify-between h-fit min-h-40 p-8 border border-gray_4 rounded-[32px]"
                 key={review.id}
               >
                 <p>{review.content}</p>
-                <span className="self-end">- 로시님의 팀원 리뷰</span>
-              </li>
+                <span className="self-end">
+                  - {review.profiles.user_name} 님이 받은 팀원리뷰
+                </span>
+              </SwiperSlide>
             ))}
-          </ul>
+          </Swiper>
         </div>
       </section>
     </div>
