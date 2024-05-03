@@ -38,7 +38,77 @@ function Home() {
         </div>
       </section>
 
-      {/* 스무디소개 */}
+      {/* 스무디소개 1 */}
+      <section className="w-full">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
+          <h3 className="text-3xl font-bold text-center pb-20">
+            팀 프로젝트는 스무디와 함께! (여기 스무디에 일자로고 넣어도 될듯)
+          </h3>
+          <ul className="flex gap-10">
+            <li className="flex flex-col items-center gap-4">
+              <div className="w-[100px] h-[100px] bg-slate-200 rounded-full">
+                IMG
+              </div>
+              <div className="text-center">
+                <p className="font-bold">
+                  스무디에서 프로필카드를 등록하고, 나를 홍보하세요!
+                </p>
+                <p>
+                  사이드 프로젝트 팀원 모집부터 나의 작업물을 기록하는
+                  포트폴리오 페이지까지. 스무디에서 나를 홍보하고, 프로젝트
+                  팀원으로 지원해보세요!
+                </p>
+              </div>
+            </li>
+            <li className="flex flex-col items-center gap-4">
+              <div className="w-[100px] h-[100px] bg-slate-200 rounded-full">
+                IMG
+              </div>
+              <div className="text-center">
+                <p className="font-bold">
+                  스무디에서 프로필카드를 등록하고, 나를 홍보하세요!
+                </p>
+                <p>
+                  사이드 프로젝트 팀원 모집부터 나의 작업물을 기록하는
+                  포트폴리오 페이지까지. 스무디에서 나를 홍보하고, 프로젝트
+                  팀원으로 지원해보세요!
+                </p>
+              </div>
+            </li>
+            <li className="flex flex-col items-center gap-4">
+              <div className="w-[100px] h-[100px] bg-slate-200 rounded-full">
+                IMG
+              </div>
+              <div className="text-center">
+                <p className="font-bold">
+                  스무디에서 프로필카드를 등록하고, 나를 홍보하세요!
+                </p>
+                <p>
+                  사이드 프로젝트 팀원 모집부터 나의 작업물을 기록하는
+                  포트폴리오 페이지까지. 스무디에서 나를 홍보하고, 프로젝트
+                  팀원으로 지원해보세요!
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      {/* 스무디소개 2 */}
+      <section className="w-full bg-gray_5">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
+          <div className="flex gap-10">
+            <div className="border border-black w-1/2">카드섹션</div>
+            <div className="flex flex-col items-center gap-4">글 섹션</div>
+          </div>
+        </div>
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
+          <div className="flex gap-10">
+            <div className="flex flex-col items-center gap-4">글 섹션</div>
+            <div className="border border-black w-1/2">카드섹션</div>
+          </div>
+        </div>
+      </section>
 
       {/* 팀원모집카드 */}
       <section className="w-full">

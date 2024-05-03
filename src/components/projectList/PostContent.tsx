@@ -11,7 +11,9 @@ import { session } from "../../app/supabase";
 
 function PostContent() {
   const { isLoggedIn } = useAppSelector(state => state.auth);
-  const { currentData, isLoading } = useAppSelector(state => state.projects);
+  const { currentData, isLoading } = useAppSelector(
+    state => state.projectcards,
+  );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
