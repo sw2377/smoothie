@@ -53,7 +53,7 @@ export const addUserCard = createAsyncThunk(
   "usercardlist/add",
   async (cardData: reqDataType, { rejectWithValue }) => {
     try {
-      const { error } = await supabase.from("usercard_listt").insert(cardData);
+      const { error } = await supabase.from("usercard_list").insert(cardData);
 
       if (error) {
         throw error;

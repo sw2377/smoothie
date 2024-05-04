@@ -4,8 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { getFourProjectCard } from "../../store/slices/projectCardListSlice";
 import { fetchReviews } from "../../store/slices/reviewSlice";
-import CardView from "../../components/UI/card/CardView";
 
+import ProfileDefaultImg from "../../assets/profile-default.svg";
 import Illustrate1_SVG from "../../assets/images/illustrate-1.svg?react";
 import Illustrate2_SVG from "../../assets/images/illustrate-2.svg?react";
 import Illustrate3_SVG from "../../assets/images/illustrate-3.svg?react";
@@ -18,11 +18,25 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 
 import { session } from "../../app/supabase";
+import CardViewFront from "../../components/UI/card/CardViewFront";
+import CardViewBack from "../../components/UI/card/CardViewBack";
+import CardView from "../../components/UI/card/CardView";
 
 function Home() {
   console.log("HOME SESSION", session);
 
   const dispatch = useAppDispatch();
+
+  // 📌 스무디 소개
+  const intro_cardData = {
+    title: `나와 잘 맞는 팀원과 함께하는 사이드 프로젝트 플랫폼, “스무디" 팀입니다.`,
+    position: "프론트엔드",
+    keywords: ["스무디", "프로필카드", "사이드프로젝트", "팀 프로젝트"],
+    created_at: "2024.05.04",
+    tech_tags: ["TypeScript", "React", "Redux", "Tailwind", "Supabase"],
+    user_name: "스무디",
+    avatar_url: "",
+  };
 
   // 📌 팀원모집카드, 리뷰 조회
   const { data: projectData } = useAppSelector(state => state.projectcards);
@@ -82,24 +96,67 @@ function Home() {
       </section>
 
       {/* 스무디소개 2 */}
-      <section className="w-full bg-gray_5">
-        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
-          <div className="flex gap-10">
-            <div className="border border-black w-1/2">카드섹션</div>
-            <div className="flex flex-col items-center gap-4">글 섹션</div>
+      <section className="w-full bg-[#F5F5F5]">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex gap-6">
+              <div>
+                <CardViewFront
+                  type="USER_CARD"
+                  cardData={intro_cardData}
+                  isPreview={true}
+                />
+              </div>
+              <div className="mt-12">
+                <CardViewBack cardData={intro_cardData} isPreview={true} />
+              </div>
+            </div>
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <h4 className="font-bold text-2xl">
+                나만의 프로필 카드를 만들어 나를 홍보해 보세요!
+              </h4>
+              <p className="text-xl text-center md:text-left">
+                나를 표현하는 단어를 사용해 프로필 카드를 등록해 보세요. 다른
+                유저의 프로필 카드를 확인하여 나와 잘 맞을 것 같은 팀원을 탐색해
+                보세요.
+              </p>
+              <div className="hidden mt-10 md:block">
+                <button className="overflow-hidden z-[1] relative border-primary rounded-3xl text-primary font-bold hover:text-white after:content-[''] after:z-[-1] after:absolute after:top-0 after:left-[-10%] after:h-full after:w-0 after:bg-primary after:skew-x-[40deg] after:duration-500 hover:after:w-[120%]">
+                  스무디 시작하기
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
-          <div className="flex gap-10">
-            <div className="flex flex-col items-center gap-4">글 섹션</div>
-            <div className="border border-black w-1/2">카드섹션</div>
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex flex-col items-center md:items-start gap-4 order-2 md:order-1">
+              <h4 className="font-bold text-2xl">
+                프로젝트와 팀원리뷰를 모아보고, <br />
+                간편한 포트폴리오를 만들어 보세요!
+              </h4>
+              <p className="text-xl text-center md:text-left">
+                마이페이지에서 프로젝트를 등록하고, 진행한 프로젝트의 팀원리뷰를
+                통해 포트폴리오를 간편하게 완성해 보세요. <br />
+                나의 페이지 링크를 이력서에 첨부해 내가 진행한 프로젝트를 제출해
+                보세요.
+              </p>
+              <div className="hidden mt-10 md:block">
+                <button className="rounded-3xl bg-primary border-primary text-white">
+                  스무디 시작하기
+                </button>
+              </div>
+            </div>
+            <div className="order-1 md:order-2">
+              <Illustrate4_SVG />
+            </div>
           </div>
         </div>
       </section>
 
       {/* 팀원모집카드 */}
       <section className="w-full">
-        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
           <h3 className="text-3xl font-bold text-center pb-20">
             프로젝트를 함께할 팀원을 모집중이에요!
           </h3>
@@ -120,7 +177,7 @@ function Home() {
 
       {/* 리뷰 */}
       <section className="w-full">
-        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
           <h3 className="text-3xl font-bold text-center pb-20">
             작성된 팀원 리뷰도 확인해 보세요!
           </h3>
