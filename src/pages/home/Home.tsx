@@ -6,6 +6,11 @@ import { getFourProjectCard } from "../../store/slices/projectCardListSlice";
 import { fetchReviews } from "../../store/slices/reviewSlice";
 import CardView from "../../components/UI/card/CardView";
 
+import Illustrate1_SVG from "../../assets/images/illustrate-1.svg?react";
+import Illustrate2_SVG from "../../assets/images/illustrate-2.svg?react";
+import Illustrate3_SVG from "../../assets/images/illustrate-3.svg?react";
+import Illustrate4_SVG from "../../assets/images/illustrate-4.svg?react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -40,54 +45,36 @@ function Home() {
 
       {/* 스무디소개 1 */}
       <section className="w-full">
-        <div className="max-w-[1200px] h-full mx-auto my-0 py-20">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
           <h3 className="text-3xl font-bold text-center pb-20">
-            팀 프로젝트는 스무디와 함께! (여기 스무디에 일자로고 넣어도 될듯)
+            팀 프로젝트는 스무디와 함께!
           </h3>
-          <ul className="flex gap-10">
-            <li className="flex flex-col items-center gap-4">
-              <div className="w-[100px] h-[100px] bg-slate-200 rounded-full">
-                IMG
+          <ul className="flex flex-col gap-20 md:flex-row md:gap-6">
+            <li className="flex flex-col items-center justify-between gap-4 md:w-1/3 md:h-[282px]">
+              <div className="">
+                <Illustrate1_SVG />
               </div>
-              <div className="text-center">
-                <p className="font-bold">
-                  스무디에서 프로필카드를 등록하고, 나를 홍보하세요!
-                </p>
-                <p>
-                  사이드 프로젝트 팀원 모집부터 나의 작업물을 기록하는
-                  포트폴리오 페이지까지. 스무디에서 나를 홍보하고, 프로젝트
-                  팀원으로 지원해보세요!
-                </p>
+              <div className="text-center font-bold">
+                스무디에서 프로필 카드를 등록하고, <br />
+                나를 홍보하세요!
               </div>
             </li>
-            <li className="flex flex-col items-center gap-4">
-              <div className="w-[100px] h-[100px] bg-slate-200 rounded-full">
-                IMG
+            <li className="flex flex-col items-center justify-between gap-4 md:w-1/3 md:h-[282px]">
+              <div className="">
+                <Illustrate2_SVG />
               </div>
-              <div className="text-center">
-                <p className="font-bold">
-                  스무디에서 프로필카드를 등록하고, 나를 홍보하세요!
-                </p>
-                <p>
-                  사이드 프로젝트 팀원 모집부터 나의 작업물을 기록하는
-                  포트폴리오 페이지까지. 스무디에서 나를 홍보하고, 프로젝트
-                  팀원으로 지원해보세요!
-                </p>
+              <div className="text-center font-bold">
+                사이드 프로젝트 팀원을 모집하고, <br />
+                프로젝트에 참여해 보세요!
               </div>
             </li>
-            <li className="flex flex-col items-center gap-4">
-              <div className="w-[100px] h-[100px] bg-slate-200 rounded-full">
-                IMG
+            <li className="flex flex-col items-center justify-between gap-4 md:w-1/3 md:h-[282px]">
+              <div className="">
+                <Illustrate3_SVG />
               </div>
-              <div className="text-center">
-                <p className="font-bold">
-                  스무디에서 프로필카드를 등록하고, 나를 홍보하세요!
-                </p>
-                <p>
-                  사이드 프로젝트 팀원 모집부터 나의 작업물을 기록하는
-                  포트폴리오 페이지까지. 스무디에서 나를 홍보하고, 프로젝트
-                  팀원으로 지원해보세요!
-                </p>
+              <div className="text-center font-bold">
+                프로젝트와 팀원리뷰를 모아보고, <br />
+                간편한 포트폴리오를 만들어보세요!
               </div>
             </li>
           </ul>
