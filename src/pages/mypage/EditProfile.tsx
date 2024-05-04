@@ -207,7 +207,7 @@ function EditProfile() {
                 return (
                   <li
                     key={item.id}
-                    className={`overflow-hidden flex items-center cursor-pointer border rounded-3xl text-sm ${userTechTags.includes(item.name) ? "bg-secondary border-yellow-200 font-bold" : ""}`}
+                    className={`overflow-hidden flex items-center cursor-pointer border rounded-3xl text-sm ${userTechTags && userTechTags.includes(item.name) ? "bg-secondary border-yellow-200 font-bold" : ""}`}
                     onClick={() =>
                       setUserTechTags(prev => [...prev, item.name])
                     }
@@ -226,7 +226,7 @@ function EditProfile() {
             <h3 className="mb-4 text-2xl font-bold">하드 스킬</h3>
             <div className="flex flex-col gap-3">
               <ul className="flex flex-wrap gap-2">
-                {hardSkills.map(skill => (
+                {hardSkills?.map(skill => (
                   <TextTag
                     key={skill}
                     text={skill}
@@ -246,7 +246,7 @@ function EditProfile() {
             <h3 className="mb-4 text-2xl font-bold">소프트 스킬</h3>
             <div className="flex flex-col gap-3">
               <ul className="flex flex-wrap gap-2">
-                {softSkills.map(skill => (
+                {softSkills?.map(skill => (
                   <TextTag
                     key={skill}
                     text={skill}
