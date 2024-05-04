@@ -120,11 +120,11 @@ function Home() {
                 유저의 프로필 카드를 확인하여 나와 잘 맞을 것 같은 팀원을 탐색해
                 보세요.
               </p>
-              <div className="hidden mt-10 md:block">
+              <Link to="/signup" className="hidden mt-10 md:block">
                 <button className="overflow-hidden z-[1] relative border-primary rounded-3xl text-primary font-bold hover:text-white after:content-[''] after:z-[-1] after:absolute after:top-0 after:left-[-10%] after:h-full after:w-0 after:bg-primary after:skew-x-[40deg] after:duration-500 hover:after:w-[120%]">
                   스무디 시작하기
                 </button>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -141,11 +141,11 @@ function Home() {
                 나의 페이지 링크를 이력서에 첨부해 내가 진행한 프로젝트를 제출해
                 보세요.
               </p>
-              <div className="hidden mt-10 md:block">
+              <Link to="/signup" className="hidden mt-10 md:block">
                 <button className="rounded-3xl bg-primary border-primary text-white">
                   스무디 시작하기
                 </button>
-              </div>
+              </Link>
             </div>
             <div className="order-1 md:order-2">
               <Illustrate4_SVG />
