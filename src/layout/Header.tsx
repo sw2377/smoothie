@@ -13,12 +13,12 @@ import Loading from "../components/common/Loading";
 
 const nav: { name: string; url: string; filter: "category" | "auth" }[] = [
   {
-    name: "유저카드",
+    name: "프로필카드",
     url: "/usercardlist",
     filter: "category",
   },
   {
-    name: "프로젝트팀원모집",
+    name: "팀원모집",
     url: "/projectlist",
     filter: "category",
   },
