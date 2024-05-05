@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Hash } from "lucide-react";
 import { UserCardListDataType } from "../../model/board.types";
-import { useAppDispatch } from "../../store/index";
+import { useAppDispatch, useAppSelector } from "../../store/index";
 import {
   addUserCard,
   modifiedUserCard,
@@ -15,6 +15,8 @@ import CardViewFront from "../UI/card/CardViewFront";
 import CardViewBack from "../UI/card/CardViewBack";
 
 import { session } from "../../app/supabase";
+import { getProfile } from "../../store/slices/profileSlice";
+import GetTechLogo from "../common/GetTechLogo";
 
 interface CardEditorProps {
   originCard?: UserCardListDataType; // origin card가 있으면 수정, 없으면 생성
@@ -25,12 +27,29 @@ function CardEditor({ originCard }: CardEditorProps) {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const user_id = session?.user.user_metadata.sub;
+
+  const { data: userProfile } = useAppSelector(state => state.profiles);
+
+  useEffect(() => {
+    if (user_id) {
+      dispatch(getProfile(user_id));
+    }
+  }, [dispatch]);
 
   /** 제목 */
   const [title, setTitle] = useState("");
 
   /** 작성일 */
   const createdDate = originCard?.created_at || new Date();
+
+  /** 포지션 */
+  const position = userProfile?.position;
+
+  /** 기술스택: 내가 등록한 기술스택만 노출 */
+  const myTechTags = userProfile?.tech_tags;
+  const [selectedTechTags, setSelectedTechTags] = useState<string[]>([]);
+  console.log("selectedTechTags", selectedTechTags);
 
   /** 키워드 */
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -64,10 +83,12 @@ function CardEditor({ originCard }: CardEditorProps) {
 
   const cardData = {
     title,
-    position: "프론트엔드", // 임시
+    position,
     keywords,
-    techTags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시,
-    createdAt: createdDate,
+    tech_tags: selectedTechTags,
+    created_at: createdDate,
+    user_name: session?.user.user_metadata.user_name,
+    avatar_url: session?.user.user_metadata.avatar_url,
   };
 
   // 모든 입력값이 채워졌는지 확인 // 임시
@@ -86,9 +107,9 @@ function CardEditor({ originCard }: CardEditorProps) {
   const handleActionBtnClick = async () => {
     const reqData = {
       title,
-      position: "프론트엔드", // 임시
+      position,
       keywords,
-      tech_tags: ["13:JavaScript", "14:TypeScript", "15:React"], // 임시
+      tech_tags: selectedTechTags,
       user_name: session?.user.user_metadata.user_name,
       avatar_url: session?.user.user_metadata.avatar_url,
     };
@@ -141,7 +162,7 @@ function CardEditor({ originCard }: CardEditorProps) {
   return (
     <main>
       <div className="flex flex-col gap-5 w-full">
-        {/* Preview Area */}
+        {/* Card Preview Area */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 pb-8 border-dotted border-b border-gray_3">
           <CardViewFront
             type="USER_CARD"
@@ -163,6 +184,77 @@ function CardEditor({ originCard }: CardEditorProps) {
               value={title}
               onChange={e => setTitle(e.target.value)}
             />
+          </div>
+
+          {/* 포지션 */}
+          <div className="flex flex-col gap-3">
+            <h3 className="text-lg font-bold">지금 나의 포지션은?</h3>
+            {position ? (
+              <p>{position}</p>
+            ) : (
+              <div className="text-error">
+                <p>
+                  😮 현재 등록된 포지션 없습니다. <br />
+                  <Link
+                    className="font-bold text-lg underline"
+                    to={`/mypage/${user_id}/myInfo`}
+                  >
+                    마이페이지
+                  </Link>
+                  에서 나의 포지션을 등록해 주세요!
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* 기술스택 */}
+          <div className="flex flex-col gap-3">
+            <h3 className="text-lg font-bold">
+              카드에 등록할 나의 기술스택을 선택해 주세요.
+            </h3>
+            {myTechTags ? (
+              <ul className="flex flex-wrap gap-2">
+                {myTechTags.map(list => (
+                  <li
+                    key={list}
+                    className={`flex flex-col items-center ${selectedTechTags.includes(list) ? "opacity-30 rounded-full" : ""}`}
+                    onClick={() => {
+                      if (!selectedTechTags) {
+                        return setSelectedTechTags([list]);
+                      }
+
+                      if (selectedTechTags) {
+                        // 이미 선택된 태그를 다시 선택하면 삭제
+                        if (selectedTechTags.includes(list)) {
+                          const newSelectedTechTags = selectedTechTags.filter(
+                            techTag => techTag !== list,
+                          );
+                          return setSelectedTechTags(newSelectedTechTags);
+                        }
+
+                        // 태그 추가
+                        return setSelectedTechTags(prev => [...prev, list]);
+                      }
+                    }}
+                  >
+                    <GetTechLogo logoTitle={list} style="w-10 h-10" />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="text-error">
+                <p>
+                  😮 현재 등록된 기술스택이 없습니다. <br />
+                  <Link
+                    className="font-bold text-lg underline"
+                    to={`/mypage/${user_id}`}
+                  >
+                    마이페이지
+                  </Link>
+                  에서 나의 기술스택을 추가해 주세요!
+                </p>
+              </div>
+            )}
           </div>
 
           {/* 키워드 */}

@@ -12,6 +12,7 @@ import { fetchTechTags } from "../../store/slices/techTagsSlice";
 import GetTechLogo from "../../components/common/GetTechLogo";
 import { ProjectDataType } from "../../model/profile.types";
 import { addProject, removeProject } from "../../store/slices/projectSlice";
+import { TechTagTypes } from "../../model/techtag.types";
 
 interface AddProjectDataType {
   title: string;
@@ -35,8 +36,6 @@ function EditProfile() {
   const [coverLetter, setCoverLetter] = useState("");
 
   /** 기술스택 */
-  // const [techTags, setTechTags] = useState();
-  // const techTagNames = techTags.map(list => list.name);
   const [userTechTags, setUserTechTags] = useState<string[]>([]);
 
   /** 하드스킬 */
@@ -208,9 +207,24 @@ function EditProfile() {
                   <li
                     key={item.id}
                     className={`overflow-hidden flex items-center cursor-pointer border rounded-3xl text-sm ${userTechTags && userTechTags.includes(item.name) ? "bg-secondary border-yellow-200 font-bold" : ""}`}
-                    onClick={() =>
-                      setUserTechTags(prev => [...prev, item.name])
-                    }
+                    onClick={() => {
+                      if (!userTechTags) {
+                        return setUserTechTags([item.name]);
+                      }
+
+                      if (userTechTags) {
+                        // 이미 선택된 태그를 다시 선택하면 삭제
+                        if (userTechTags.includes(item.name)) {
+                          const newUserTechTags = userTechTags.filter(
+                            techTag => techTag !== item.name,
+                          );
+                          return setUserTechTags(newUserTechTags);
+                        }
+
+                        // 태그 추가
+                        return setUserTechTags(prev => [...prev, item.name]);
+                      }
+                    }}
                   >
                     <GetTechLogo
                       logoTitle={item.name}

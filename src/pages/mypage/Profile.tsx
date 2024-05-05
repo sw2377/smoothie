@@ -96,7 +96,6 @@ function Profile() {
               </section>
               <section>
                 <h3 className="mb-4 text-2xl font-bold">하드 스킬</h3>
-
                 {userProfile?.hard_skills ? (
                   <ul className="flex flex-wrap gap-2">
                     {userProfile.hard_skills.map(skill => {

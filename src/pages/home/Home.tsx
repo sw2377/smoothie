@@ -209,7 +209,7 @@ function Home() {
               >
                 <p>{review.content}</p>
                 <span className="self-end">
-                  - {review.profiles.user_name} 님이 받은 팀원리뷰
+                  - {review.profiles?.user_name} 님이 받은 팀원리뷰
                 </span>
               </SwiperSlide>
             ))}

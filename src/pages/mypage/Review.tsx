@@ -51,7 +51,7 @@ function Review() {
                               함께한 프로젝트
                             </span>
                             <span className="block font-bold">
-                              {review.projects.title}
+                              {review.projects?.title}
                             </span>
                           </div>
                           <div className="overflow-hidden w-[60px] h-[60px] rounded-full">
