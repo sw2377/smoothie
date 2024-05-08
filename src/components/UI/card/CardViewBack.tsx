@@ -5,6 +5,7 @@ import { UserCardListDataType } from "../../../model/board.types";
 import profileDefaultImg from "../../../assets/profile-default.svg?react";
 
 import { session } from "../../../app/supabase";
+import ProfileImg from "../../common/ProfileImg";
 
 interface CardViewBackProps {
   cardData: UserCardListDataType;
@@ -18,6 +19,10 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
   const navigate = useNavigate();
 
   const handleUserImageClick = () => {
+    if (isPreview === true) {
+      return;
+    }
+
     if (isLoggedIn) {
       navigate(`/mypage/${user_id}`);
     } else {
@@ -44,11 +49,13 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
       </div>
       <div className="mb-auto">
         <div
-          className="overflow-hidden w-[85px] h-[85px] my-0 mx-auto rounded-full cursor-pointer border bg-default-profile bg-no-repeat bg-cover"
+          className={`w-[85px] h-[85px] my-0 mx-auto ${!isPreview && "cursor-pointer"}`}
           onClick={handleUserImageClick}
         >
-          <img src={avatar_url} alt={`${user_name} 님의 profile`} />
-          {/* <img src={profileDefaultImg} alt={`${user_name} 님의 profile`} /> */}
+          <ProfileImg
+            avatarUrl={avatar_url ? avatar_url : ""}
+            userName={user_name ? user_name : ""}
+          />
         </div>
         <div className="display-clamp mt-5">
           {keywords.map(item => (
