@@ -8,6 +8,7 @@ import SideMenu from "../../components/mypage/SideMenu";
 import ActionButton from "../../components/UI/button/ActionButton";
 import Loading from "../../components/common/Loading";
 import { ProfileDataType } from "../../model/profile.types";
+import ProfileImg from "../../components/common/ProfileImg";
 
 interface ModifiedUserInfoDataType {
   username: string;
@@ -19,13 +20,10 @@ function MyInfo() {
 
   const [userInfo, setUserInfo] = useState<ProfileDataType | null>(null);
 
-  const { isLoading, data } = useAppSelector(state => state.profiles);
+  const { isLoading, data: userProfile } = useAppSelector(
+    state => state.profiles,
+  );
   const dispatch = useAppDispatch();
-
-  // const userName = data?.user_name;
-  const userEmail = data?.email;
-  const userImageUrl = data?.avatar_url;
-  const userPosition = data?.position;
 
   const [isOpenUserInfoForm, setIsOpenUserInfoForm] = useState(false);
   const handleChangeUserInfoBtnClick = () => {
@@ -41,10 +39,10 @@ function MyInfo() {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (data) {
-      setUserInfo(data);
+    if (userProfile) {
+      setUserInfo(userProfile);
     }
-  }, [data]);
+  }, [userProfile]);
 
   const {
     register,
@@ -80,11 +78,11 @@ function MyInfo() {
 
   // default value 임시
   useEffect(() => {
-    if (data) {
-      setValue("username", data.user_name);
-      setValue("position", data.position);
+    if (userProfile) {
+      setValue("username", userProfile.user_name);
+      setValue("position", userProfile.position);
     }
-  }, [data]);
+  }, [userProfile]);
 
   return (
     <div className="flex flex-col min-h-screen md:flex-row">
@@ -112,10 +110,10 @@ function MyInfo() {
               </button>
             </div>
             <div className="flex items-center mt-4 mb-10">
-              <div className="m-3 overflow-hidden w-20 h-20 rounded-full">
-                <img
-                  src={userImageUrl}
-                  alt={`${userInfo?.user_name}님의 프로필 사진`}
+              <div className="m-3 w-20 h-20">
+                <ProfileImg
+                  avatarUrl={userInfo ? userInfo.avatar_url : ""}
+                  userName={userInfo ? userInfo.user_name : ""}
                 />
               </div>
               <div>
@@ -125,11 +123,11 @@ function MyInfo() {
                 </div>
                 <div className="flex">
                   <span className="block min-w-[70px]">계정</span>
-                  <span>{userEmail}</span>
+                  <span>{userInfo?.email}</span>
                 </div>
                 <div className="flex">
                   <span className="block min-w-[70px]">포지션</span>
-                  <span>{userPosition}</span>
+                  <span>{userInfo?.position}</span>
                 </div>
               </div>
             </div>
