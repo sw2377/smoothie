@@ -8,6 +8,7 @@ import { getStringDate } from "../../utils/formatDate";
 import GetTechLogo from "../common/GetTechLogo";
 
 import { session } from "../../app/supabase";
+import ProfileImg from "../common/ProfileImg";
 
 function PostContent() {
   const { isLoggedIn } = useAppSelector(state => state.auth);
@@ -61,10 +62,13 @@ function PostContent() {
           <h2 className="text-4xl font-bold">{title}</h2>
           <div className="flex gap-3 items-center py-6 border-b border-gray_4">
             <div
-              className="overflow-hidden w-[45px] h-[45px] rounded-full cursor-pointer bg-default-profile bg-no-repeat bg-cover"
+              className="w-[45px] h-[45px] cursor-pointer"
               onClick={() => handleUserImageClick(user_id)}
             >
-              <img src={avatar_url} alt={`${user_name}님의 Profile`} />
+              <ProfileImg
+                avatarUrl={avatar_url ? avatar_url : ""}
+                userName={user_name ? user_name : ""}
+              />
             </div>
             <div className="text-lg font-bold">{user_name}</div>
             <div className="text-lg before:content-[''] before:inline-block before:w-[6px] before:h-[6px] before:mr-3 before:mb-[2px] before:bg-gray_4 before:rounded-full">
