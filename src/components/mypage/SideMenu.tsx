@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { getProfile } from "../../store/slices/profileSlice";
 import { getUser } from "../../app/supabase";
+import ProfileImg from "../common/ProfileImg";
 
 interface SideMenuProps {
   selectedMenu: string;
@@ -10,14 +11,9 @@ interface SideMenuProps {
 }
 
 function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
-  const { data } = useAppSelector(state => state.profiles);
+  const { data: userProfile } = useAppSelector(state => state.profiles);
 
   const [isAuthor, setIsAuthor] = useState(false);
-
-  const userName = data?.user_name;
-  const userEmail = data?.email;
-  const userImageUrl = data?.avatar_url;
-  const userPosition = data?.position;
 
   const dispatch = useAppDispatch();
 
@@ -60,14 +56,23 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
     <div className="w-full md:w-1/4 md:border-r-4 md:border-r-primary">
       {/* 프로필 */}
       <div className="flex md:flex-col justify-center items-center mt-[3.75rem] mb-10">
-        <div className="m-3 overflow-hidden w-20 h-20 rounded-full">
-          <img src={userImageUrl} alt={`${userName}님의 프로필 사진`} />
-        </div>
-        <div className="md:text-center">
-          <p>{userName}</p>
-          <p>{userEmail}</p>
-          <p>{userPosition}</p>
-        </div>
+        {userProfile ? (
+          <>
+            <div className="m-3 w-20 h-20">
+              <ProfileImg
+                avatarUrl={userProfile.avatar_url}
+                userName={userProfile.user_name}
+              />
+            </div>
+            <div className="md:text-center">
+              <p>{userProfile.user_name}</p>
+              <p>{userProfile.email}</p>
+              <p>{userProfile.position}</p>
+            </div>
+          </>
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
 
       {/* 메뉴 */}

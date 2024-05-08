@@ -24,7 +24,7 @@ function ProfileImg({ avatarUrl, userName, style }: ProfileImgProps) {
     <img
       src={avatarUrl || defaultProfileImg}
       alt={`${userName}님의 프로필 사진`}
-      className={`overflow-hidden rounded-full w-[60px] h-[60px] ${style}`}
+      className={`overflow-hidden rounded-full w-full h-full ${style}`}
     />
   );
 }
