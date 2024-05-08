@@ -23,7 +23,7 @@ import CardViewBack from "../../components/UI/card/CardViewBack";
 import CardView from "../../components/UI/card/CardView";
 
 function Home() {
-  console.log("HOME SESSION", session);
+  // console.log("HOME SESSION", session);
 
   const dispatch = useAppDispatch();
 

@@ -27,7 +27,7 @@ export const fetchReviews = createAsyncThunk("review/fetch", async () => {
     }
 
     if (data) {
-      console.log("data", data);
+      // console.log("data", data);
       return data;
     }
   } catch (error) {

@@ -25,7 +25,7 @@ function CardViewFront({
   const isProjectCard = type === "PROJECT_CARD";
   const isUserCard = type === "USER_CARD";
 
-  console.log("🔖 cardData", cardData);
+  // console.log("🔖 cardData", cardData);
   const { title, position, created_at, tech_tags } =
     cardData as UserCardListDataType;
   const { views, status, user_name } = cardData as ProjectCardListDataType;

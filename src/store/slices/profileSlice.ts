@@ -48,16 +48,10 @@ export const getProfile = createAsyncThunk(
         .select("*, projects(*)")
         .eq("id", targetId);
 
-      if (error) {
-        throw error;
-      }
-
-      if (data) {
-        // console.log("data", data);
-        return data[0];
-      }
+      if (error) throw error;
+      if (data) return data[0];
     } catch (error) {
-      console.log(error);
+      console.error("GET PROFILE ERROR", error);
     }
   },
 );

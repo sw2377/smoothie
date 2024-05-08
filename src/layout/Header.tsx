@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useAppSelector } from "../store";
+import { useAppSelector, useAppDispatch } from "../store";
 import SmoothieLgooSVG from "../assets/logo.svg?react";
 import ActionButton from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
-import profileDefaultImg from "../assets/profile-default.svg";
 
-import { session, getUser } from "../app/supabase";
 import Logout from "../pages/auth/Logout";
-import { User } from "@supabase/supabase-js";
 import Loading from "../components/common/Loading";
+import { ProfileDataType } from "../model/profile.types";
+import { getProfile } from "../store/slices/profileSlice";
+import ProfileImg from "../components/common/ProfileImg";
 
 const nav: { name: string; url: string; filter: "category" | "auth" }[] = [
   {
@@ -38,10 +38,16 @@ const categoryList = nav.filter(item => item.filter === "category");
 const authList = nav.filter(item => item.filter === "auth");
 
 function Header() {
-  const { isLoggedIn, isLoading } = useAppSelector(state => state.auth);
+  const { isLoggedIn, currentUserId, isLoading } = useAppSelector(
+    state => state.auth,
+  );
+  const { isLoading: profileStateIsLoading } = useAppSelector(
+    state => state.profiles,
+  );
 
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
@@ -57,18 +63,25 @@ function Header() {
     }
   }, [isOpenMenu]);
 
-  // 로그인 되었다면 userInfo 가져오기
-  const [userInfo, setUserInfo] = useState<User | null>(null);
+  // 로그인 되었다면 currentUser 가져오기
+  const [currentUser, setCurrentUser] = useState<ProfileDataType | null>(null);
 
   useEffect(() => {
-    getUser().then(value => {
-      if (value) setUserInfo(value);
-    });
-  }, [isLoggedIn]);
+    const fetchUserProfile = async () => {
+      try {
+        if (currentUserId) {
+          const profile = await dispatch(getProfile(currentUserId)).unwrap();
+          setCurrentUser(profile);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const userImage: string =
-    userInfo?.user_metadata.avatar_url || profileDefaultImg;
-  const userName: string = userInfo?.user_metadata.user_name || "loading...";
+    if (isLoggedIn && currentUserId) {
+      fetchUserProfile();
+    }
+  }, [isLoggedIn, currentUserId, dispatch]);
 
   return (
     <>
@@ -95,17 +108,21 @@ function Header() {
           </div>
           {isLoggedIn ? (
             <div className="hidden sm:flex items-center gap-6">
-              <Link
-                to={`/mypage/${session?.user.id}`}
-                className="flex gap-3 items-center"
-              >
-                <img
-                  className="w-[60px] h-[60px] rounded-full"
-                  src={userImage}
-                  alt={`${userName}의 프로필 사진`}
-                />
-                <span>{userName}</span>
-              </Link>
+              {profileStateIsLoading && <p>Loading...</p>}
+              {!profileStateIsLoading && currentUser && (
+                <>
+                  <Link
+                    to={`/mypage/${currentUserId}`}
+                    className="flex gap-3 items-center"
+                  >
+                    <ProfileImg
+                      avatarUrl={currentUser.avatar_url}
+                      userName={currentUser.user_name}
+                    />
+                    <span>{currentUser.user_name}</span>
+                  </Link>
+                </>
+              )}
               <Logout />
             </div>
           ) : (

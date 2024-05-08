@@ -2,10 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { supabase } from "../../app/supabase";
 import { AuthError } from "@supabase/supabase-js";
 
-import { session } from "../../app/supabase";
-
 interface AuthState {
   isLoggedIn: boolean;
+  currentUserId: string | null;
   isLoading: boolean;
   error: AuthError | null;
   // error: string | null;
@@ -17,8 +16,13 @@ interface signUpReqDataType {
   password: string;
 }
 
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
 const initialState: AuthState = {
-  isLoggedIn: session !== null, // 이렇게 하는게 맞는 방법인가,,?
+  isLoggedIn: user !== null,
+  currentUserId: user ? user.id : null,
   isLoading: false,
   error: null,
 };
@@ -178,6 +182,7 @@ const authSlice = createSlice({
     builder.addCase(signOut.fulfilled, state => {
       state.isLoading = false;
       state.isLoggedIn = false;
+      state.currentUserId = null;
     });
     builder.addCase(signOut.rejected, state => {
       state.isLoading = false;
