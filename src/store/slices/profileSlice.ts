@@ -102,7 +102,13 @@ export const modifiedMyInfo = createAsyncThunk(
 const profileSlice = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    clearProfile: state => {
+      state.data = null;
+      state.isLoading = false;
+      state.error = null;
+    },
+  },
   extraReducers(builder) {
     /** GET 해당 유저의 프로필 조회 */
     builder.addCase(getProfile.pending, state => {
@@ -143,4 +149,5 @@ const profileSlice = createSlice({
   },
 });
 
+export const { clearProfile } = profileSlice.actions;
 export const profileReducer = profileSlice.reducer;

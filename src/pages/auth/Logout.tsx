@@ -3,9 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { signOut } from "../../store/slices/authSlice";
 
 import ActionButton from "../../components/UI/button/ActionButton";
+import { clearProfile } from "../../store/slices/profileSlice";
 
 function Logout() {
   const { isLoading } = useAppSelector(state => state.auth);
+
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ function Logout() {
       dispatch(signOut()).then(() => {
         navigate("/");
       });
+      dispatch(clearProfile());
     }
   };
 
