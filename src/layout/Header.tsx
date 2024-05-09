@@ -6,7 +6,6 @@ import ActionButton from "../components/UI/button/ActionButton";
 import { Menu, X } from "lucide-react";
 
 import Logout from "../pages/auth/Logout";
-import Loading from "../components/common/Loading";
 import { ProfileDataType } from "../model/profile.types";
 import { getProfile } from "../store/slices/profileSlice";
 import ProfileImg from "../components/common/ProfileImg";
@@ -38,9 +37,7 @@ const categoryList = nav.filter(item => item.filter === "category");
 const authList = nav.filter(item => item.filter === "auth");
 
 function Header() {
-  const { isLoggedIn, currentUserId, isLoading } = useAppSelector(
-    state => state.auth,
-  );
+  const { isLoggedIn, currentUserId } = useAppSelector(state => state.auth);
   const { isLoading: profileStateIsLoading } = useAppSelector(
     state => state.profiles,
   );
@@ -50,22 +47,9 @@ function Header() {
   const dispatch = useAppDispatch();
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-
-  const mobileToggleMenu = () => {
-    setIsOpenMenu(prev => !prev);
-  };
-
-  useEffect(() => {
-    if (isOpenMenu) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [isOpenMenu]);
-
-  // 로그인 되었다면 currentUser 가져오기
   const [currentUser, setCurrentUser] = useState<ProfileDataType | null>(null);
 
+  // 로그인 되었다면 currentUser 가져오기
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -83,22 +67,35 @@ function Header() {
     }
   }, [isLoggedIn, currentUserId, dispatch]);
 
+  useEffect(() => {
+    if (isOpenMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpenMenu]);
+
+  const mobileMenuToggle = () => {
+    setIsOpenMenu(prev => !prev);
+  };
+
   return (
     <>
-      <header className="fixed top-0 z-40 flex justify-center items-center w-full h-20 p-6 shadow bg-white">
-        <div className="flex justify-between items-center gap-5 w-full max-w-[1200px] md:px-6 sm:justify-normal">
+      <header className="fixed top-0 z-40 flex justify-center items-center w-full h-16 p-6 bg-white border-b border-b-gray_5">
+        <div className="flex justify-between items-center gap-4 w-full max-w-[1200px] md:px-6 sm:justify-normal">
           <h1 className="transition ease duration-300 hover:scale-105">
             <Link to="/">
-              <SmoothieLgooSVG width="60" height="60" />
+              <SmoothieLgooSVG width="50" height="50" />
             </Link>
           </h1>
+          {/* w-640px 이상일 경우 */}
           <div className="hidden sm:flex items-center gap-5 mr-auto">
             <nav>
               <ul className="flex gap-5">
                 {categoryList.map(list => (
                   <li
                     key={list.name}
-                    className={`text-lg hover:font-bold hover:text-primary ${location.pathname === list.url ? "font-bold text-primary" : ""}`}
+                    className={`text-sm font-bold hover:text-primary ${location.pathname === list.url ? "text-primary" : "text-gray_1"}`}
                   >
                     <Link to={list.url}>{list.name}</Link>
                   </li>
@@ -108,16 +105,17 @@ function Header() {
           </div>
           {isLoggedIn ? (
             <div className="hidden sm:flex items-center gap-6">
-              {profileStateIsLoading && <p>Loading...</p>}
+              {profileStateIsLoading && <span>Loading...</span>}
               {!profileStateIsLoading && currentUser && (
                 <>
                   <Link
                     to={`/mypage/${currentUserId}`}
-                    className="flex gap-3 items-center"
+                    className="flex gap-2 items-center"
                   >
                     <ProfileImg
                       avatarUrl={currentUser.avatar_url}
                       userName={currentUser.user_name}
+                      style="w-[50px]"
                     />
                     <span>{currentUser.user_name}</span>
                   </Link>
@@ -137,11 +135,12 @@ function Header() {
               ))}
             </div>
           )}
-          {/* mobile */}
+
+          {/* w-640px 미만일 경우 */}
           <div className="flex sm:hidden">
             <button
               className="border-none px-0 py-0"
-              onClick={mobileToggleMenu}
+              onClick={mobileMenuToggle}
             >
               <Menu size={40} />
             </button>
@@ -157,23 +156,43 @@ function Header() {
                   {categoryList.map(list => (
                     <li
                       key={list.name}
-                      className={`text-5xl font-bold py-2 ${location.pathname === list.url ? "text-primary" : ""}`}
-                      onClick={mobileToggleMenu}
+                      className={`py-2 text-5xl font-bold hover:text-primary ${location.pathname === list.url ? "text-primary" : "text-gray_1"}`}
+                      onClick={mobileMenuToggle}
                     >
                       <Link to={list.url}>{list.name}</Link>
                     </li>
                   ))}
                 </ul>
                 {isLoggedIn ? (
-                  // TODO
-                  <div>Logout 버튼 넣기</div>
+                  <div className="mt-auto">
+                    {profileStateIsLoading && <span>Loading...</span>}
+                    {!profileStateIsLoading && currentUser && (
+                      <>
+                        <Link
+                          to={`/mypage/${currentUserId}`}
+                          className="flex gap-2 items-center my-4"
+                          onClick={mobileMenuToggle}
+                        >
+                          <ProfileImg
+                            avatarUrl={currentUser.avatar_url}
+                            userName={currentUser.user_name}
+                            style="w-[50px]"
+                          />
+                          <span>{currentUser.user_name}</span>
+                        </Link>
+                      </>
+                    )}
+                    <div className="pt-5 border-t border-gray_5">
+                      <Logout /> {/* 임시 버튼형태의 로그아웃 */}
+                    </div>
+                  </div>
                 ) : (
                   <ul className="mt-auto pt-5 border-t border-gray_5">
                     {authList.map(list => (
                       <li
                         key={list.name}
-                        className={`text-3xl font-bold py-2 ${location.pathname === list.url ? "text-primary" : ""}`}
-                        onClick={mobileToggleMenu}
+                        className={`py-2 text-3xl font-bold hover:text-primary ${location.pathname === list.url ? "text-primary" : "text-gray_1"}`}
+                        onClick={mobileMenuToggle}
                       >
                         <Link to={list.url}>{list.name}</Link>
                       </li>
@@ -185,7 +204,6 @@ function Header() {
           </div>
         </div>
       </header>
-      {isLoading && <Loading />}
     </>
   );
 }
