@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { getFourProjectCard } from "../../store/slices/projectCardListSlice";
 import { fetchReviews } from "../../store/slices/reviewSlice";
 
-import ProfileDefaultImg from "../../assets/profile-default.svg";
+import MainImage from "../../assets/images/main-banner-image.svg?react";
+
 import Illustrate1_SVG from "../../assets/images/illustrate-1.svg?react";
 import Illustrate2_SVG from "../../assets/images/illustrate-2.svg?react";
 import Illustrate3_SVG from "../../assets/images/illustrate-3.svg?react";
@@ -17,7 +18,6 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 
-import { session } from "../../app/supabase";
 import CardViewFront from "../../components/UI/card/CardViewFront";
 import CardViewBack from "../../components/UI/card/CardViewBack";
 import CardView from "../../components/UI/card/CardView";
@@ -51,9 +51,29 @@ function Home() {
   return (
     <div className="w-full">
       {/* 메인배너 */}
-      <section className="w-full h-[700px] bg-[#064C37]">
-        <div className="max-w-[1200px] h-full mx-auto my-0 bg-primary">
-          <h2>메인배너</h2>
+      {/* <section className="w-full h-[622px] bg-[#064C37] bg-no-repeat bg-[url(./assets/images/main-banner-image.svg),_url(./assets/images/main-bg-shape-1.svg),_url(./assets/images/main-bg-shape-2.svg)] bg-[position:right_-5rem_bottom_-3rem,_left_-3rem_top_-5rem,_right_-15rem_top]"> */}
+      <section className="w-full h-[622px] bg-[#064C37] bg-no-repeat bg-[url(./assets/images/main-bg.png)] bg-left-top bg-cover">
+        <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
+          <div className="flex items-center justify-between h-full">
+            <div className="flex flex-col gap-6 min-w-fit">
+              <h2 className="font-[Katuri] text-white text-7xl">
+                Find Your <br />
+                Perfect Team
+              </h2>
+              <p className="text-white text-xl font-bold leading-relaxed">
+                사이드 프로젝트 부터 포트폴리오 까지 <br />
+                함께하는 즐거움의 시작, 스무디
+              </p>
+              <Link to="/signup" className="block mt-10">
+                <button className="overflow-hidden z-[1] relative border-[#FFEAEF] rounded-3xl text-white font-bold hover:text-black after:content-[''] after:z-[-1] after:absolute after:top-0 after:left-[-10%] after:h-full after:w-0 after:bg-[#FFEAEF] after:skew-x-[40deg] after:duration-500 hover:after:w-[120%]">
+                  스무디와 함께하기
+                </button>
+              </Link>
+            </div>
+            {/* <div className="bg-no-repeat bg-[url(./assets/images/main-banner-image.svg)]">
+              // <MainImage /> 
+            </div> */}
+          </div>
         </div>
       </section>
 

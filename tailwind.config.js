@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#16433E",
+        // primary: "#16433E", // 기존 색
+        primary: "#064C37", // 수정 색
         secondary: "#FFFBEA",
         info: "#2F80ED",
         success: "#27AE60",
@@ -20,7 +21,9 @@ export default {
         xxs: "0.625rem",
       },
       backgroundImage: {
-        default_profile: "url('./assets/profile-default.svg')",
+        "default-profile": "url('./assets/profile-default.svg')",
+        "shape-1": "url('./assets/images/main-bg-shape-1.svg')",
+        "shape-2": "url('./assets/images/main-bg-shape-2.svg')",
       },
     },
   },
