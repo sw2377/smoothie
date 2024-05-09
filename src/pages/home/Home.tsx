@@ -51,7 +51,6 @@ function Home() {
   return (
     <div className="w-full">
       {/* 메인배너 */}
-      {/* <section className="w-full h-[622px] bg-[#064C37] bg-no-repeat bg-[url(./assets/images/main-banner-image.svg),_url(./assets/images/main-bg-shape-1.svg),_url(./assets/images/main-bg-shape-2.svg)] bg-[position:right_-5rem_bottom_-3rem,_left_-3rem_top_-5rem,_right_-15rem_top]"> */}
       <section className="w-full h-[622px] bg-[#064C37] bg-no-repeat bg-[url(./assets/images/main-bg.png)] bg-left-top bg-cover">
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
           <div className="flex items-center justify-between h-full">
@@ -65,14 +64,11 @@ function Home() {
                 함께하는 즐거움의 시작, 스무디
               </p>
               <Link to="/signup" className="block mt-10">
-                <button className="overflow-hidden z-[1] relative border-[#FFEAEF] rounded-3xl text-white font-bold hover:text-black after:content-[''] after:z-[-1] after:absolute after:top-0 after:left-[-10%] after:h-full after:w-0 after:bg-[#FFEAEF] after:skew-x-[40deg] after:duration-500 hover:after:w-[120%]">
+                <button className="overflow-hidden z-[1] relative bg-[#FFEAEF] text-black border-[#FFEAEF] rounded-3xl font-bold md:text-white md:bg-transparent hover:text-black after:content-[''] after:z-[-1] after:absolute after:top-0 after:left-[-10%] after:h-full after:w-0 after:bg-[#FFEAEF] after:skew-x-[40deg] after:duration-500 hover:after:w-[120%]">
                   스무디와 함께하기
                 </button>
               </Link>
             </div>
-            {/* <div className="bg-no-repeat bg-[url(./assets/images/main-banner-image.svg)]">
-              // <MainImage /> 
-            </div> */}
           </div>
         </div>
       </section>
