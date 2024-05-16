@@ -27,7 +27,7 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
   }[] = [
     { title: "Summary", value: "summary", url: `/mypage/${id}/summary` },
     { title: "Profile", value: "profile", url: `/mypage/${id}/profile` },
-    { title: "Peer Review", value: "review", url: `/mypage/${id}/review` },
+    { title: "Review", value: "review", url: `/mypage/${id}/review` },
     {
       title: "My Info",
       value: "myinfo",
@@ -53,9 +53,9 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
   }, []);
 
   return (
-    <div className="w-full md:w-1/4 md:border-r-4 md:border-r-primary">
+    <div className="w-full md:w-1/4 md:border-r md:border-r-gray_5">
       {/* 프로필 */}
-      <div className="flex md:flex-col justify-center items-center mt-[3.75rem] mb-10">
+      <div className="flex md:flex-col justify-center items-center mt-10 mb-14">
         {userProfile ? (
           <>
             <div className="m-3 w-20 h-20">
@@ -64,7 +64,7 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
                 userName={userProfile.user_name}
               />
             </div>
-            <div className="md:text-center">
+            <div className="text-sm md:text-center">
               <p>{userProfile.user_name}</p>
               <p>{userProfile.email}</p>
               <p>{userProfile.position || "포지션: 등록전"}</p>
@@ -82,10 +82,10 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
             return (
               <li
                 key={item.title}
-                className={`w-full text-center rounded-t-3xl md:rounded-l-[36px] md:rounded-tr-none md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
+                className={`w-full text-center text-sm font-bold rounded-t-3xl md:rounded-t-none md:rounded-tl-[40px] md:rounded-bl-[40px] md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-[#FFEAEF]" : "bg-white "}`}
                 onClick={() => setSelectedMenu(item.value)}
               >
-                <Link to={item.url} className="block px-4 py-5">
+                <Link to={item.url} className="block px-4 md:px-6 py-5">
                   {item.title}
                 </Link>
               </li>
@@ -98,10 +98,10 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
               return (
                 <li
                   key={item.title}
-                  className={`w-full text-center rounded-t-3xl md:rounded-l-[36px] md:rounded-tr-none md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-primary text-white font-bold" : "bg-slate-100"}`}
+                  className={`w-full text-center text-sm font-bold rounded-t-3xl  md:rounded-t-none md:rounded-tl-[40px] md:rounded-bl-[40px] md:text-right cursor-pointer ${selectedMenu === item.value ? "bg-[#FFEAEF]" : "bg-white"}`}
                   onClick={() => setSelectedMenu(item.value)}
                 >
-                  <Link to={item.url} className="block px-4 py-5">
+                  <Link to={item.url} className="block px-4 md:px-6 py-5">
                     {item.title}
                   </Link>
                 </li>
