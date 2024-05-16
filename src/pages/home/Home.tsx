@@ -255,7 +255,7 @@ function Home() {
                 key={review.id}
               >
                 <p>{review.content}</p>
-                <span className="self-end">
+                <span className="self-end text-sm">
                   - {review.profiles?.user_name} 님이 받은 팀원리뷰
                 </span>
               </SwiperSlide>

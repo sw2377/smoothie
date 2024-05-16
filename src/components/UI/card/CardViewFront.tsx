@@ -28,7 +28,7 @@ function CardViewFront({
   // console.log("🔖 cardData", cardData);
   const { title, position, created_at, tech_tags } =
     cardData as UserCardListDataType;
-  const { views, status, user_name } = cardData as ProjectCardListDataType;
+  const { status, user_name } = cardData as ProjectCardListDataType;
 
   const date = new Date(created_at).toLocaleDateString();
   const techTagNames = extractTextAfterColon(tech_tags);
@@ -44,7 +44,7 @@ function CardViewFront({
       <div>
         <div className="flex justify-between">
           <span className="text-xs">{date}</span>
-          {isProjectCard && <span className="text-xs">조회수 {views}</span>}
+          {/* {isProjectCard && <span className="text-xs">조회수 {views}</span>} */}
         </div>
         {isProjectCard && (
           <div className="inline-block px-3 py-1 text-white bg-primary text-xxs rounded-[20px]">

@@ -7,8 +7,8 @@ export interface UserCardListDataType {
   modified_at?: string | Date;
   tech_tags: string[];
   user_id?: string;
-  user_name: string;
-  avatar_url: string;
+  user_name?: string;
+  avatar_url?: string;
 }
 
 export interface ProjectCardListDataType {

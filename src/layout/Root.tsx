@@ -9,7 +9,7 @@ function RootLayout() {
     <>
       <Header />
       <div
-        className={`${location.pathname === "/" ? "w-full px-0" : "max-w-[1200px] px-6"} mx-auto my-0 pt-16 pb-16`}
+        className={`${location.pathname === "/" ? "w-full px-0" : "max-w-[1200px] px-6"} mx-auto my-0 pt-16`}
       >
         <Outlet />
       </div>

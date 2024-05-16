@@ -6,6 +6,7 @@ import CardView from "../../components/UI/card/CardView";
 import ActionButton from "../../components/UI/button/ActionButton";
 
 import { session } from "../../app/supabase";
+import Loading from "../../components/common/Loading";
 
 function ProjectList() {
   const { data: projectData, isLoading } = useAppSelector(
@@ -29,26 +30,25 @@ function ProjectList() {
     }
   };
 
-  let contents;
-  if (isLoading) {
-    contents = <div>Loading...</div>;
-  } else {
-    contents = (
-      <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
-        {projectData.map(card => (
-          <CardView key={card.id} type="PROJECT_CARD" cardData={card} />
-        ))}
-      </ul>
-    );
-  }
-
   return (
     <main>
       <div className="flex flex-col w-full gap-4">
         <ActionButton style="self-end" handleClick={handleCreateCardBtnClick}>
           카드 작성하기
         </ActionButton>
-        {contents}
+        {isLoading && <Loading />}
+        {projectData.length === 0 && (
+          <div className="flex items-center justify-center min-h-[500px]">
+            아직 작성된 내용이 없어요!
+          </div>
+        )}
+        {!isLoading && projectData.length > 0 ? (
+          <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+            {projectData.map(card => (
+              <CardView key={card.id} type="PROJECT_CARD" cardData={card} />
+            ))}
+          </ul>
+        ) : null}
       </div>
     </main>
   );

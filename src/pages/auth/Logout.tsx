@@ -16,6 +16,7 @@ function Logout() {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       dispatch(signOut()).then(() => {
         navigate("/");
+        window.location.reload(); // 임시
       });
       dispatch(clearProfile());
     }
@@ -23,7 +24,7 @@ function Logout() {
 
   return (
     <ActionButton handleClick={handleLogoutBtnClick}>
-      {isLoading ? "..." : "Logout"}
+      {isLoading ? "......" : "Logout"}
     </ActionButton>
   );
 }

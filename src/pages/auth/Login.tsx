@@ -99,12 +99,12 @@ function Login() {
               </span>
             )}
           </div>
-          <Link
+          {/* <Link
             to="/findpassword"
             className="text-xs font-bold text-primary self-end"
           >
             Forgot Password
-          </Link>
+          </Link> */}
           <ActionButton
             buttonType="submit"
             style="py-3"

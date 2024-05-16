@@ -9,6 +9,7 @@ import GetTechLogo from "../common/GetTechLogo";
 
 import { session } from "../../app/supabase";
 import ProfileImg from "../common/ProfileImg";
+import Loading from "../common/Loading";
 
 function PostContent() {
   const { isLoggedIn } = useAppSelector(state => state.auth);
@@ -56,7 +57,7 @@ function PostContent() {
   return (
     <section className="flex flex-col gap-6">
       {isLoading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <>
           <h2 className="text-4xl font-bold">{title}</h2>
