@@ -5,8 +5,6 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { getFourProjectCard } from "../../store/slices/projectCardListSlice";
 import { fetchReviews } from "../../store/slices/reviewSlice";
 
-import MainImage from "../../assets/images/main-banner-image.svg?react";
-
 import Illustrate1_SVG from "../../assets/images/illustrate-1.svg?react";
 import Illustrate2_SVG from "../../assets/images/illustrate-2.svg?react";
 import Illustrate3_SVG from "../../assets/images/illustrate-3.svg?react";
@@ -183,11 +181,40 @@ function Home() {
             <span>더 보러가기</span>
             <ArrowRight width={16} height={16} />
           </Link>
-          <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+          {/* <ul className="grid gap-6 mb-auto lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
             {projectData.map(card => (
               <CardView key={card.id} type="PROJECT_CARD" cardData={card} />
             ))}
-          </ul>
+          </ul> */}
+          <Swiper
+            spaceBetween={24}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+              },
+              768: {
+                slidesPerView: 3,
+              },
+              1024: {
+                slidesPerView: 4,
+                loop: false,
+              },
+            }}
+            modules={[Autoplay]}
+            className="p-1"
+          >
+            {projectData?.map(card => (
+              <SwiperSlide key={card.id}>
+                <CardView key={card.id} type="PROJECT_CARD" cardData={card} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </section>
 
@@ -214,6 +241,7 @@ function Home() {
               },
               1024: {
                 slidesPerView: 4,
+                loop: false,
               },
             }}
             modules={[Autoplay]}

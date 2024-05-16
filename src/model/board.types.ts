@@ -1,12 +1,12 @@
 export interface UserCardListDataType {
-  id: number;
+  id?: number;
   title: string;
   position: string;
   keywords: string[];
   created_at: string | Date;
-  modified_at: string | Date;
+  modified_at?: string | Date;
   tech_tags: string[];
-  user_id: string;
+  user_id?: string;
   user_name: string;
   avatar_url: string;
 }
