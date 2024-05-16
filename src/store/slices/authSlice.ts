@@ -20,6 +20,8 @@ const {
   data: { user },
 } = await supabase.auth.getUser();
 
+console.log("authSlice USER ", user);
+
 const initialState: AuthState = {
   isLoggedIn: user !== null,
   currentUserId: user ? user.id : null,
@@ -86,7 +88,7 @@ export const signInWithEmail = createAsyncThunk(
       }
 
       if (data.session) {
-        return;
+        return data.session;
       }
     } catch (error) {
       const authError = error as AuthError;
@@ -152,9 +154,10 @@ const authSlice = createSlice({
       state.isLoading = true;
       state.error = null;
     });
-    builder.addCase(signInWithEmail.fulfilled, state => {
+    builder.addCase(signInWithEmail.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isLoggedIn = true;
+      state.currentUserId = action.payload?.user.id as string;
     });
     builder.addCase(signInWithEmail.rejected, (state, action) => {
       state.isLoading = false;

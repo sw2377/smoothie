@@ -1,21 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch } from "../../store";
 import { SignupDataType } from "../../model/auth.types";
 import { signUpNewUser } from "../../store/slices/authSlice";
 import ActionButton from "../../components/UI/button/ActionButton";
 import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
-import GoogleLogoSVG from "../../assets/icons/google.svg?react";
+import LogoKorean_SVG from "../../assets/logo-korean.svg?react";
+// import GoogleLogoSVG from "../../assets/icons/google.svg?react";
 import GithubLogoSVG from "../../assets/icons/github.svg?react";
 
 function Signup() {
-  const { isLoading, error, isLoggedIn } = useAppSelector(state => state.auth);
+  // const { isLoading, error, isLoggedIn } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  console.log("📌 isLoading", isLoading);
-  console.log("📌 error", error);
-  console.log("📌 isLoggedIn", isLoggedIn);
 
   const {
     register,
@@ -47,6 +44,9 @@ function Signup() {
   return (
     <main>
       <div className="flex flex-col gap-5 w-full max-w-96">
+        <div className="flex justify-center w-full mb-4">
+          <LogoKorean_SVG />
+        </div>
         <form
           className="flex flex-col gap-5 w-full"
           onSubmit={handleSubmit(onSubmit)}
@@ -136,11 +136,11 @@ function Signup() {
         </form>
         {/* Social Signup */}
         <div className="flex flex-col gap-2">
-          <SocialLoginButton
+          {/* <SocialLoginButton
             socialLogo={GoogleLogoSVG}
             text="Sign up with Google"
             handleClick={() => {}}
-          />
+          /> */}
           <SocialLoginButton
             socialLogo={GithubLogoSVG}
             text="Sign up with Github"

@@ -51,6 +51,12 @@ function Header() {
 
   // 로그인 되었다면 currentUser 가져오기
   useEffect(() => {
+    if (!isLoggedIn) {
+      setCurrentUser(null);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         if (currentUserId) {
@@ -78,6 +84,15 @@ function Header() {
   const mobileMenuToggle = () => {
     setIsOpenMenu(prev => !prev);
   };
+
+  console.log(
+    "📌 isLoaggedIn",
+    isLoggedIn,
+    "📌 currentUser",
+    currentUser,
+    "📌 currentUserId",
+    currentUserId,
+  );
 
   return (
     <>

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { getFourProjectCard } from "../../store/slices/projectCardListSlice";
 import { fetchReviews } from "../../store/slices/reviewSlice";
 
+import LogoKorean_SVG from "../../assets/logo-korean.svg?react";
 import Illustrate1_SVG from "../../assets/images/illustrate-1.svg?react";
 import Illustrate2_SVG from "../../assets/images/illustrate-2.svg?react";
 import Illustrate3_SVG from "../../assets/images/illustrate-3.svg?react";
@@ -21,8 +22,6 @@ import CardViewBack from "../../components/UI/card/CardViewBack";
 import CardView from "../../components/UI/card/CardView";
 
 function Home() {
-  // console.log("HOME SESSION", session);
-
   const dispatch = useAppDispatch();
 
   // 📌 스무디 소개
@@ -74,8 +73,12 @@ function Home() {
       {/* 스무디소개 1 */}
       <section className="w-full">
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
-          <h3 className="text-3xl font-bold text-center pb-20">
-            팀 프로젝트는 스무디와 함께!
+          <h3 className="flex justify-center items-center gap-2 text-3xl font-bold pb-20">
+            <span>팀 프로젝트는</span>
+            <span className="mb-4">
+              <LogoKorean_SVG />
+            </span>
+            <span>와 함께!</span>
           </h3>
           <ul className="flex flex-col gap-20 md:flex-row md:gap-6">
             <li className="flex flex-col items-center justify-between gap-4 md:w-1/3 md:h-[282px]">

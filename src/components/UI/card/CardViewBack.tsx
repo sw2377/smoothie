@@ -37,7 +37,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
       className={`${isPreview ? "w-[282px] h-[348px]" : "absolute top-0 left-0 w-full h-full rotate-y-180"} card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] backface-hidden`}
     >
       <div className="flex justify-end h-6">
-        {session?.user.id === user_id ? (
+        {!isPreview && session?.user.id === user_id ? (
           <span
             className="cursor-pointer"
             onClick={() => {

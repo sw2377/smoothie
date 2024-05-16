@@ -134,7 +134,7 @@ function Profile() {
               </section>
               <section>
                 <h3 className="mb-4 text-2xl font-bold">참여한 프로젝트</h3>
-                {userProfile?.projects ? (
+                {userProfile?.projects && userProfile.projects.length > 0 ? (
                   <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                     {userProfile.projects.map(project => {
                       return (

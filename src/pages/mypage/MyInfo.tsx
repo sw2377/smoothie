@@ -127,7 +127,7 @@ function MyInfo() {
                 </div>
                 <div className="flex">
                   <span className="block min-w-[70px]">포지션</span>
-                  <span>{userInfo?.position}</span>
+                  <span>{userInfo?.position || "등록해 주세요."}</span>
                 </div>
               </div>
             </div>
@@ -166,7 +166,7 @@ function MyInfo() {
                       required: "포지션을 입력해 주세요.",
                     })}
                     type="text"
-                    placeholder="Enter your password"
+                    placeholder="Enter your position"
                     className="w-full"
                   />
                 </div>

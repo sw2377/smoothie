@@ -45,7 +45,7 @@ function UserCardList() {
 
   return (
     <main>
-      <div className="flex flex-col gap-5 w-full">
+      <div className="flex flex-col w-full gap-4">
         <ActionButton style="self-end" handleClick={handleCreateCardBtnClick}>
           카드 작성하기
         </ActionButton>

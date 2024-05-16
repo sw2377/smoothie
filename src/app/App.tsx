@@ -10,7 +10,6 @@ import Summary from "../pages/mypage/Summary";
 import Profile from "../pages/mypage/Profile";
 import Review from "../pages/mypage/Review";
 import MyInfo from "../pages/mypage/MyInfo";
-import ProfileEditor from "../components/mypage/ProfileEditor";
 import EditProfile from "../pages/mypage/EditProfile";
 
 import UserCardList from "../pages/userCardList/UserCardList";

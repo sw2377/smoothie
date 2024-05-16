@@ -67,7 +67,7 @@ function SideMenu({ selectedMenu, setSelectedMenu }: SideMenuProps) {
             <div className="md:text-center">
               <p>{userProfile.user_name}</p>
               <p>{userProfile.email}</p>
-              <p>{userProfile.position}</p>
+              <p>{userProfile.position || "포지션: 등록전"}</p>
             </div>
           </>
         ) : (
