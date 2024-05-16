@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store";
 import { Pencil } from "lucide-react";
 import { UserCardListDataType } from "../../../model/board.types";
-import profileDefaultImg from "../../../assets/profile-default.svg?react";
 
 import { session } from "../../../app/supabase";
 import ProfileImg from "../../common/ProfileImg";
@@ -17,6 +16,8 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
 
   const { id, keywords, user_id, user_name, avatar_url } = cardData;
   const navigate = useNavigate();
+
+  // console.log(cardData);
 
   const handleUserImageClick = () => {
     if (isPreview === true) {

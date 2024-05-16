@@ -33,18 +33,10 @@ const initialState: UserCardListState = {
 export const fetchUserCardList = createAsyncThunk(
   "usercardlist/fetch",
   async () => {
-    try {
-      const { data, error } = await supabase.from("usercard_list").select();
+    const { data, error } = await supabase.from("usercard_list").select();
 
-      if (error) {
-        console.warn("모든 유저 카드 조회 실패", error);
-        throw error;
-      }
-
-      return data || [];
-    } catch (error) {
-      console.log(error);
-    }
+    if (error) throw error;
+    return data || [];
   },
 );
 
@@ -113,7 +105,8 @@ export const filteredUserCardByUserId = createAsyncThunk(
         .eq("user_id", targetId);
 
       if (error) throw error;
-      if (data) return data;
+      // if (data) return data;
+      return data || [];
     } catch (error) {
       console.log(error);
     }
@@ -125,7 +118,7 @@ const userCardListSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    // FETCH
+    /** FETCH 모든 유저 카드 조회 */
     builder.addCase(fetchUserCardList.pending, state => {
       state.isLoading = true;
     });
@@ -137,7 +130,7 @@ const userCardListSlice = createSlice({
       state.isLoading = false;
     });
 
-    // POST
+    /** POST 유저 카드 작성 */
     builder.addCase(addUserCard.pending, state => {
       state.isLoading = true;
     });
@@ -149,7 +142,7 @@ const userCardListSlice = createSlice({
       state.error = action.payload as PostgrestError;
     });
 
-    // PATCH
+    /** PATCH 유저 카드 수정 */
     builder.addCase(modifiedUserCard.pending, state => {
       state.isLoading = true;
     });

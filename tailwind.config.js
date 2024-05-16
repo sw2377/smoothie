@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        // primary: "#16433E", // 기존 색
-        primary: "#064C37", // 수정 색
+        // primary: "#16433E", // 기존 메인 컬러
+        primary: "#064C37", // 수정 컬러
         secondary: "#FFFBEA",
         info: "#2F80ED",
         success: "#27AE60",

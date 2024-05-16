@@ -10,7 +10,7 @@ function EditPost() {
 
   const { id } = useParams() as { id: string };
 
-  const projectPostData = useAppSelector(state => state.projects.data);
+  const projectPostData = useAppSelector(state => state.projectcards.data);
   const [originPost, setOriginPost] = useState<ProjectCardListDataType | null>(
     null,
   );

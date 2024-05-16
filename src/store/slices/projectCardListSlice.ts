@@ -36,11 +36,7 @@ export const fetchProjectCardList = createAsyncThunk(
   async () => {
     const { data, error } = await supabase.from("projectcard_list").select();
 
-    if (error) {
-      console.warn("모든 프로젝트 게시글 조회 실패", error);
-      throw error;
-    }
-
+    if (error) throw error;
     return data || [];
   },
 );

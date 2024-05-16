@@ -23,19 +23,18 @@ interface CardEditorProps {
 }
 
 function CardEditor({ originCard }: CardEditorProps) {
-  console.log("🔖 ORIGIN CARD", originCard);
+  const { data: userProfile } = useAppSelector(state => state.profiles);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user_id = session?.user.user_metadata.sub;
 
-  const { data: userProfile } = useAppSelector(state => state.profiles);
+  const userId = session?.user.id;
 
   useEffect(() => {
-    if (user_id) {
-      dispatch(getProfile(user_id));
+    if (userId) {
+      dispatch(getProfile(userId));
     }
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
   /** 제목 */
   const [title, setTitle] = useState("");
@@ -44,12 +43,13 @@ function CardEditor({ originCard }: CardEditorProps) {
   const createdDate = originCard?.created_at || new Date();
 
   /** 포지션 */
-  const position = userProfile?.position;
+  const position = userProfile?.position || "";
 
   /** 기술스택: 내가 등록한 기술스택만 노출 */
   const myTechTags = userProfile?.tech_tags;
-  const [selectedTechTags, setSelectedTechTags] = useState<string[]>([]);
-  console.log("selectedTechTags", selectedTechTags);
+  const [selectedTechTags, setSelectedTechTags] = useState<string[]>(
+    originCard ? originCard.tech_tags : [],
+  );
 
   /** 키워드 */
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -87,16 +87,17 @@ function CardEditor({ originCard }: CardEditorProps) {
     keywords,
     tech_tags: selectedTechTags,
     created_at: createdDate,
-    user_name: session?.user.user_metadata.user_name,
-    avatar_url: session?.user.user_metadata.avatar_url,
+    user_name: userProfile?.user_name,
+    avatar_url: userProfile?.avatar_url,
   };
 
-  // 모든 입력값이 채워졌는지 확인 // 임시
+  // 임시: 모든 입력값이 채워졌는지 확인
   const isFieldFilled = () => {
     const checkTitle = title.trim().length === 0;
+    const checkTechTags = selectedTechTags.length === 0;
     const checkKeywords = keywords.length === 0;
 
-    if (checkTitle || checkKeywords) {
+    if (checkTitle || checkTechTags || checkKeywords) {
       return false;
     }
 
@@ -110,14 +111,12 @@ function CardEditor({ originCard }: CardEditorProps) {
       position,
       keywords,
       tech_tags: selectedTechTags,
-      user_name: session?.user.user_metadata.user_name,
-      avatar_url: session?.user.user_metadata.avatar_url,
+      user_name: userProfile ? userProfile.user_name : "",
+      avatar_url: userProfile ? userProfile.avatar_url : "",
     };
 
-    console.log("🔖 REQ DATA", reqData);
-
     if (!isFieldFilled()) {
-      alert("제목과 키워드를 모두 입력해주세요.");
+      alert("입력사항을 모두 확인해 주세요.");
       return;
     }
 
@@ -197,7 +196,7 @@ function CardEditor({ originCard }: CardEditorProps) {
                   😮 현재 등록된 포지션 없습니다. <br />
                   <Link
                     className="font-bold text-lg underline"
-                    to={`/mypage/${user_id}/myInfo`}
+                    to={`/mypage/${userId}/myInfo`}
                   >
                     마이페이지
                   </Link>
@@ -247,7 +246,7 @@ function CardEditor({ originCard }: CardEditorProps) {
                   😮 현재 등록된 기술스택이 없습니다. <br />
                   <Link
                     className="font-bold text-lg underline"
-                    to={`/mypage/${user_id}`}
+                    to={`/mypage/${userId}`}
                   >
                     마이페이지
                   </Link>

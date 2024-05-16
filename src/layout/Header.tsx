@@ -115,7 +115,7 @@ function Header() {
                     <ProfileImg
                       avatarUrl={currentUser.avatar_url}
                       userName={currentUser.user_name}
-                      style="w-[50px]"
+                      size="w-[50px]"
                     />
                     <span>{currentUser.user_name}</span>
                   </Link>
@@ -176,7 +176,7 @@ function Header() {
                           <ProfileImg
                             avatarUrl={currentUser.avatar_url}
                             userName={currentUser.user_name}
-                            style="w-[50px]"
+                            size="w-[50px]"
                           />
                           <span>{currentUser.user_name}</span>
                         </Link>

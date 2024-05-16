@@ -42,15 +42,25 @@ function GetTechLogo({ logoTitle, style }: GetLogoProps) {
 
   useEffect(() => {
     if (logoName === "zeplin") {
-      setLogoSrc(zeplin);
+      setLogoSrc(zeplin as string);
       return;
     }
 
+    getTechLogo();
+  }, [logoName]);
+
+  const getTechLogo = () => {
     const originalURL = `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${logoName}/${logoName}-original.svg`;
+    const originalWordmarkURL = `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${logoName}/${logoName}-original-wordmark.svg`;
     const plainURL = `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${logoName}/${logoName}-plain.svg`;
 
     fetch(originalURL)
       .then(res => {
+        if (logoName === "amazonwebservices") {
+          setLogoSrc(originalWordmarkURL);
+          return;
+        }
+
         if (res.status === 200) {
           setLogoSrc(originalURL);
         } else {
@@ -58,10 +68,9 @@ function GetTechLogo({ logoTitle, style }: GetLogoProps) {
         }
       })
       .catch(err => {
-        console.info("Error fetching the logo:", err);
-        // setLogoSrc(plainURL); // ??
+        console.warn("ERROR FETCHING THE LOGO", err);
       });
-  }, [logoName]);
+  };
 
   return (
     <>

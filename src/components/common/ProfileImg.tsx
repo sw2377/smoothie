@@ -3,15 +3,15 @@ import defaultProfileImg from "../../assets/profile-default.svg";
 interface ProfileImgProps {
   avatarUrl: string;
   userName: string;
-  style?: string;
+  size?: string;
 }
 
-function ProfileImg({ avatarUrl, userName, style }: ProfileImgProps) {
+function ProfileImg({ avatarUrl, userName, size }: ProfileImgProps) {
   return (
     <img
-      src={avatarUrl || defaultProfileImg}
+      src={avatarUrl || (defaultProfileImg as string)}
       alt={`${userName}님의 프로필 사진`}
-      className={`overflow-hidden rounded-full w-full h-full ${style}`}
+      className={`overflow-hidden rounded-full ${size ? size : "w-full h-full"}`}
     />
   );
 }
