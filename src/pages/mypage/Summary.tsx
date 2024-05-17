@@ -70,6 +70,8 @@ function Summary() {
       // .catch(error => {
       //   console.warn(error);
       // });
+    } else {
+      setIsRemoveUserCardBtnActive(false);
     }
   };
 
@@ -91,6 +93,8 @@ function Summary() {
       // .catch(error => {
       //   console.warn(error);
       // });
+    } else {
+      setIsRemoveProjectCardBtnActive(false);
     }
   };
 
@@ -108,9 +112,7 @@ function Summary() {
           <div className="flex flex-col gap-16 w-full">
             <section>
               <div className="flex justify-between items-center mb-5">
-                <h3 className="text-2xl font-bold">
-                  유저카드 (저를 소개합니다)
-                </h3>
+                <h3 className="text-2xl font-bold">프로필카드</h3>
                 {isAuthor && (
                   <button
                     className="border-none"
@@ -134,7 +136,7 @@ function Summary() {
                       type="USER_CARD"
                       cardData={card}
                       handleClick={() =>
-                        handleRemoveUserCard(card.id?.toString())
+                        handleRemoveUserCard(card.id?.toString() as string)
                       }
                     />
                   ))}
@@ -146,7 +148,7 @@ function Summary() {
             <section>
               <div className="flex justify-between items-center mb-5">
                 <h3 className="text-2xl font-bold">
-                  프로젝트 카드 (저는 이런 프로젝트를 기획했어요!)
+                  프로젝트 카드 (팀원모집 카드)
                 </h3>
                 {isAuthor && (
                   <button

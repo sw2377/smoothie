@@ -37,6 +37,7 @@ function Login() {
       .then(() => {
         console.log("🚀 SIGN IN WITH EMAIL");
         navigate("/");
+        window.location.reload(); // 임시
       })
       .catch(error => {
         console.warn("❌ ERROR : SIGN IN WITH EMAIL", error);

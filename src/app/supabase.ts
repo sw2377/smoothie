@@ -10,7 +10,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export const authInfo = await supabase.auth.getSession(); // { data, error }
 export const session = authInfo.data.session;
 
-console.log("SUPABASE SESSION", session);
+// console.log("SUPABASE SESSION", session);
 
 export const getUser = async () => {
   try {

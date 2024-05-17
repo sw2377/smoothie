@@ -14,7 +14,7 @@ export interface UserCardListDataType {
 export interface ProjectCardListDataType {
   id: number; // PK
   title: string;
-  content: string;
+  content: string | TrustedHTML;
   position: string[];
   status: string;
   views: number;

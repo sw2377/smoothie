@@ -69,7 +69,7 @@ const reviewSlice = createSlice({
     });
     builder.addCase(fetchReviews.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.data = action.payload as ReviewDataType[];
     });
     builder.addCase(fetchReviews.rejected, state => {
       state.isLoading = false;
@@ -81,7 +81,7 @@ const reviewSlice = createSlice({
     });
     builder.addCase(getReviews.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.data = action.payload as ReviewDataType[];
     });
     builder.addCase(getReviews.rejected, state => {
       state.isLoading = false;

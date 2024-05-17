@@ -12,7 +12,6 @@ import { fetchTechTags } from "../../store/slices/techTagsSlice";
 import GetTechLogo from "../../components/common/GetTechLogo";
 import { ProjectDataType } from "../../model/profile.types";
 import { addProject, removeProject } from "../../store/slices/projectSlice";
-import { TechTagTypes } from "../../model/techtag.types";
 
 interface AddProjectDataType {
   title: string;
@@ -24,7 +23,7 @@ interface AddProjectDataType {
 function EditProfile() {
   const { data: userProfile } = useAppSelector(state => state.profiles);
   const { data: techTags } = useAppSelector(state => state.techtags);
-  console.log("userProfile", userProfile);
+  // console.log("userProfile", userProfile);
 
   const dispatch = useAppDispatch();
 
@@ -85,7 +84,7 @@ function EditProfile() {
   const [isAddProjectBtnActive, setIsAddProjectBtnActive] = useState(false);
   const [isRemoveProjectBtnActive, setIsRemoveProjectBtnActive] =
     useState(false);
-  console.log("PROJECT", projects);
+  // console.log("PROJECT", projects);
 
   const handleAddProjectBtnClick = () => {
     setIsAddProjectBtnActive(!isAddProjectBtnActive);
@@ -122,7 +121,7 @@ function EditProfile() {
   } = useForm<AddProjectDataType>({});
 
   const onSubmit: SubmitHandler<AddProjectDataType> = data => {
-    console.log(data);
+    // console.log(data);
 
     if (window.confirm("프로젝트를 추가하시겠습니까?")) {
       const reqData = {
@@ -131,13 +130,13 @@ function EditProfile() {
         repo_url: data.repo_url,
         image_url: data.image_url,
         inside_project: false, // 임시
-        profile_id: userProfile?.id, // 임시
+        profile_id: userProfile?.id as string, // 임시
       };
 
       dispatch(addProject(reqData));
 
       setProjects(prev => {
-        return [...prev, reqData];
+        return [...(prev as ProjectDataType[]), reqData];
       });
 
       reset();
@@ -160,7 +159,7 @@ function EditProfile() {
 
   // 수정/취소 버튼 클릭
   const handleActionBtnClick = () => {
-    console.log("handleActionBtnClick");
+    // console.log("handleActionBtnClick");
     const reqData = {
       cover_letter: coverLetter,
       tech_tags: userTechTags,
@@ -169,7 +168,7 @@ function EditProfile() {
       // projects: projects,
     };
 
-    console.log("🔖 REQ DATA", reqData);
+    // console.log("🔖 REQ DATA", reqData);
 
     if (window.confirm("프로필을 수정하시겠습니까?")) {
       const targetId = userProfile?.id;
@@ -399,7 +398,7 @@ function EditProfile() {
                   <li
                     key={project.id}
                     className={`relative w-full h-[150px] mb-10 border rounded-2xl bg-no-repeat bg-cover bg-center bg-default_profile ${isRemoveProjectBtnActive ? "cursor-pointer" : ""}`}
-                    onClick={() => handleRemoveProject(project.id)}
+                    onClick={() => handleRemoveProject(project.id as number)}
                   >
                     <div className="block w-full h-full">
                       {project.inside_project && (

@@ -85,14 +85,14 @@ function Header() {
     setIsOpenMenu(prev => !prev);
   };
 
-  console.log(
-    "📌 isLoaggedIn",
-    isLoggedIn,
-    "📌 currentUser",
-    currentUser,
-    "📌 currentUserId",
-    currentUserId,
-  );
+  // console.log(
+  //   "📌 isLoaggedIn",
+  //   isLoggedIn,
+  //   "📌 currentUser",
+  //   currentUser,
+  //   "📌 currentUserId",
+  //   currentUserId,
+  // );
 
   return (
     <>

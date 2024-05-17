@@ -20,7 +20,7 @@ const {
   data: { user },
 } = await supabase.auth.getUser();
 
-console.log("authSlice USER ", user);
+// console.log("authSlice USER ", user);
 
 const initialState: AuthState = {
   isLoggedIn: user !== null,

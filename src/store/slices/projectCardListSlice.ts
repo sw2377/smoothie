@@ -217,7 +217,7 @@ const projectListSlice = createSlice({
     });
     builder.addCase(filteredProjectCardByUserId.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.data = action.payload as ProjectCardListDataType[]; // 임시
     });
     builder.addCase(filteredProjectCardByUserId.rejected, (state, action) => {
       state.isLoading = false;
@@ -230,7 +230,7 @@ const projectListSlice = createSlice({
     });
     builder.addCase(getFourProjectCard.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.data = action.payload as ProjectCardListDataType[]; // 임시
     });
     builder.addCase(getFourProjectCard.rejected, (state, action) => {
       state.isLoading = false;
@@ -239,5 +239,4 @@ const projectListSlice = createSlice({
   },
 });
 
-// export const { } = projectListSlice.actions;
 export const projectCardListReducer = projectListSlice.reducer;

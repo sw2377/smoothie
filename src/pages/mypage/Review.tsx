@@ -51,7 +51,9 @@ function Review() {
                       >
                         <div className="flex flex-col gap-4 p-4 bg-primary text-white">
                           <span className="inline-block w-full text-xs text-right">
-                            {new Date(review.created_at).toLocaleDateString()}
+                            {new Date(
+                              review.created_at as string | Date,
+                            ).toLocaleDateString()}
                           </span>
                           <div className="flex justify-between items-end">
                             <div>

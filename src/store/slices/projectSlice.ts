@@ -67,9 +67,8 @@ const projectSlice = createSlice({
     builder.addCase(addProject.pending, state => {
       state.isLoading = true;
     });
-    builder.addCase(addProject.fulfilled, (state, action) => {
+    builder.addCase(addProject.fulfilled, state => {
       state.isLoading = false;
-      state.data = action.payload;
     });
     builder.addCase(addProject.rejected, state => {
       state.isLoading = false;

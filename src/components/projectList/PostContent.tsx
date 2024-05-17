@@ -64,7 +64,7 @@ function PostContent() {
           <div className="flex gap-3 items-center py-6 border-b border-gray_4">
             <div
               className="w-[45px] h-[45px] cursor-pointer"
-              onClick={() => handleUserImageClick(user_id)}
+              onClick={() => handleUserImageClick(user_id as number)}
             >
               <ProfileImg
                 avatarUrl={avatar_url ? avatar_url : ""}
@@ -118,7 +118,7 @@ function PostContent() {
             </h3>
             <div
               className="quillEditor quillEditor_view"
-              dangerouslySetInnerHTML={{ __html: content }}
+              dangerouslySetInnerHTML={{ __html: content as TrustedHTML }}
             />
           </div>
           {/* {tokenId === writerId ? (

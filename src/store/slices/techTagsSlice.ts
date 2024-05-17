@@ -21,9 +21,10 @@ export const fetchTechTags = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data, error } = await supabase.from("tech_tags").select();
-      console.log("fetchTechTags", data, error);
+
       if (error) throw error;
-      if (data) return data;
+
+      return data || [];
     } catch (error) {
       const pgError = error as PostgrestError;
       return rejectWithValue(pgError.message);
@@ -44,8 +45,9 @@ const techTagsSlice = createSlice({
       state.isLoading = false;
       state.data = action.payload;
     });
-    builder.addCase(fetchTechTags.rejected, state => {
+    builder.addCase(fetchTechTags.rejected, (state, action) => {
       state.isLoading = false;
+      state.error = action.payload as PostgrestError;
     });
   },
 });

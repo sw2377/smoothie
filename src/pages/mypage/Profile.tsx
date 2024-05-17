@@ -140,7 +140,7 @@ function Profile() {
                       return (
                         <li
                           key={project.id}
-                          className={`relative w-full h-[150px] mb-10 border rounded-2xl bg-no-repeat bg-cover bg-center bg-default_profile`}
+                          className={`relative w-full h-[150px] mb-10 border rounded-2xl bg-[#FFEAEF] bg-no-repeat bg-cover bg-center bg-default_profile`}
                         >
                           <Link
                             to={project.repo_url}

@@ -10,20 +10,26 @@ import {
   addProjectCard,
   modifiedProjectCard,
 } from "../../store/slices/projectCardListSlice";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { ProjectCardListDataType } from "../../model/board.types";
 import GetTechLogo from "../common/GetTechLogo";
 import ActionButton from "../UI/button/ActionButton";
 import TextTag from "../UI/TextTag";
 
 import { session } from "../../app/supabase";
+import { fetchTechTags } from "../../store/slices/techTagsSlice";
 
 interface PostEditorPorps {
   originPost?: ProjectCardListDataType;
 }
 
 function PostEditor({ originPost }: PostEditorPorps) {
-  console.log("🔖 ORIGIN POST", originPost);
+  // console.log("🔖 ORIGIN POST", originPost);
+  const { data: techTags } = useAppSelector(state => state.techtags);
+
+  useEffect(() => {
+    dispatch(fetchTechTags());
+  }, []);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -103,164 +109,6 @@ function PostEditor({ originPost }: PostEditorPorps) {
   };
 
   /** 기술스택 */
-  // 임시 techTags
-  const techTags = [
-    {
-      id: 1,
-      techName: "Java",
-      tagType: "BACK_END",
-    },
-    {
-      id: 2,
-      techName: "Spring",
-      tagType: "BACK_END",
-    },
-    {
-      id: 3,
-      techName: "Nodejs",
-      tagType: "BACK_END",
-    },
-    {
-      id: 4,
-      techName: "Go",
-      tagType: "BACK_END",
-    },
-    {
-      id: 5,
-      techName: "Express",
-      tagType: "BACK_END",
-    },
-    {
-      id: 6,
-      techName: "MySQL",
-      tagType: "BACK_END",
-    },
-    {
-      id: 7,
-      techName: "MongoDB",
-      tagType: "BACK_END",
-    },
-    {
-      id: 8,
-      techName: "Python",
-      tagType: "BACK_END",
-    },
-    {
-      id: 9,
-      techName: "Django",
-      tagType: "BACK_END",
-    },
-    {
-      id: 10,
-      techName: "php",
-      tagType: "BACK_END",
-    },
-    {
-      id: 11,
-      techName: "GraphQL",
-      tagType: "BACK_END",
-    },
-    {
-      id: 12,
-      techName: "FireBase",
-      tagType: "BACK_END",
-    },
-    {
-      id: 13,
-      techName: "JavaScript",
-      tagType: "FRONT_END",
-    },
-    {
-      id: 14,
-      techName: "TypeScript",
-      tagType: "FRONT_END",
-    },
-    {
-      id: 15,
-      techName: "React",
-      tagType: "FRONT_END",
-    },
-    {
-      id: 16,
-      techName: "Vue",
-      tagType: "FRONT_END",
-    },
-    {
-      id: 17,
-      techName: "Svelte",
-      tagType: "FRONT_END",
-    },
-    {
-      id: 18,
-      techName: "Nextjs",
-      tagType: "FRONT_END",
-    },
-    {
-      id: 19,
-      techName: "Flutter",
-      tagType: "MOBILE",
-    },
-    {
-      id: 20,
-      techName: "Swift",
-      tagType: "MOBILE",
-    },
-    {
-      id: 21,
-      techName: "Kotlin",
-      tagType: "MOBILE",
-    },
-    {
-      id: 22,
-      techName: "ReactNative",
-      tagType: "MOBILE",
-    },
-    {
-      id: 23,
-      techName: "Unity",
-      tagType: "MOBILE",
-    },
-    {
-      id: 24,
-      techName: "AWS",
-      tagType: "ETC",
-    },
-    {
-      id: 25,
-      techName: "Kubernetes",
-      tagType: "ETC",
-    },
-    {
-      id: 26,
-      techName: "Docker",
-      tagType: "ETC",
-    },
-    {
-      id: 27,
-      techName: "Git",
-      tagType: "ETC",
-    },
-    {
-      id: 28,
-      techName: "Figma",
-      tagType: "ETC",
-    },
-    {
-      id: 29,
-      techName: "Zeplin",
-      tagType: "ETC",
-    },
-    {
-      id: 30,
-      techName: "Jest",
-      tagType: "ETC",
-    },
-    {
-      id: 31,
-      techName: "C",
-      tagType: "ETC",
-    },
-  ];
   const [selectedTechTags, setSelectedTechTags] = useState<string[]>([]);
 
   // 기술스택 선택
@@ -287,7 +135,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
     if (originPost) {
       setPosition(originPost.position);
       setSelectedTechTags(originPost.tech_tags);
-      setContent(originPost.content);
+      setContent(originPost.content as string);
     }
   }, [originPost]);
 
@@ -317,7 +165,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
       avatar_url: session?.user.user_metadata.avatar_url,
     };
 
-    console.log("🔖 REQ DATA", reqData);
+    // console.log("🔖 REQ DATA", reqData);
 
     if (!isFieldFilled()) {
       alert("입력칸을 모두 입력해 주세요.");
@@ -453,8 +301,8 @@ function PostEditor({ originPost }: PostEditorPorps) {
                 >
                   <option value="">기술스택</option>
                   {techTags.map(techTag => (
-                    <option key={techTag.id} value={techTag.techName}>
-                      {techTag.techName}
+                    <option key={techTag.id} value={techTag.name}>
+                      {techTag.name}
                     </option>
                   ))}
                 </select>

@@ -105,8 +105,7 @@ export const filteredUserCardByUserId = createAsyncThunk(
         .eq("user_id", targetId);
 
       if (error) throw error;
-      // if (data) return data;
-      return data || [];
+      if (data) return data;
     } catch (error) {
       console.log(error);
     }
@@ -170,7 +169,7 @@ const userCardListSlice = createSlice({
     });
     builder.addCase(filteredUserCardByUserId.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.data = action.payload as UserCardListDataType[];
     });
     builder.addCase(filteredUserCardByUserId.rejected, state => {
       state.isLoading = false;
