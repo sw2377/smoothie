@@ -16,7 +16,7 @@ import GetTechLogo from "../common/GetTechLogo";
 import ActionButton from "../UI/button/ActionButton";
 import TextTag from "../UI/TextTag";
 
-import { session } from "../../app/supabase";
+import { session } from "../../utils/supabase/getAuthInfo";
 import { fetchTechTags } from "../../store/slices/techTagsSlice";
 
 interface PostEditorPorps {

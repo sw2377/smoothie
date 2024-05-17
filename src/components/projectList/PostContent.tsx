@@ -7,7 +7,7 @@ import { extractTextAfterColon } from "../../utils/exceptColonFromTechResponse";
 import { getStringDate } from "../../utils/formatDate";
 import GetTechLogo from "../common/GetTechLogo";
 
-import { session } from "../../app/supabase";
+import { session } from "../../utils/supabase/getAuthInfo";
 import ProfileImg from "../common/ProfileImg";
 import Loading from "../common/Loading";
 

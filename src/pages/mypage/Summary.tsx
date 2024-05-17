@@ -11,7 +11,7 @@ import {
   filteredProjectCardByUserId,
   removeProjectCard,
 } from "../../store/slices/projectCardListSlice";
-import { getUser } from "../../app/supabase";
+import { getUser } from "../../utils/supabase/getAuthInfo";
 import SideMenu from "../../components/mypage/SideMenu";
 import NoContent from "../../components/common/NoContent";
 import Loading from "../../components/common/Loading";

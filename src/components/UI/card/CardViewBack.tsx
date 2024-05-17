@@ -3,7 +3,7 @@ import { useAppSelector } from "../../../store";
 import { Pencil } from "lucide-react";
 import { UserCardListDataType } from "../../../model/board.types";
 
-import { session } from "../../../app/supabase";
+import { session } from "../../../utils/supabase/getAuthInfo";
 import ProfileImg from "../../common/ProfileImg";
 
 interface CardViewBackProps {

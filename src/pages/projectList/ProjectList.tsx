@@ -5,7 +5,7 @@ import { fetchProjectCardList } from "../../store/slices/projectCardListSlice";
 import CardView from "../../components/UI/card/CardView";
 import ActionButton from "../../components/UI/button/ActionButton";
 
-import { session } from "../../app/supabase";
+import { session } from "../../utils/supabase/getAuthInfo";
 import Loading from "../../components/common/Loading";
 
 function ProjectList() {

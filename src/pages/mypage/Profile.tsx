@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Pencil } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../../store";
-import { getUser } from "../../app/supabase";
+import { getUser } from "../../utils/supabase/getAuthInfo";
 import { getProfile } from "../../store/slices/profileSlice";
 import GetTechLogo from "../../components/common/GetTechLogo";
 import { extractTextAfterColon } from "../../utils/exceptColonFromTechResponse";

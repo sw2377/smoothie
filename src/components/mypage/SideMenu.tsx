@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../store";
 import { getProfile } from "../../store/slices/profileSlice";
-import { getUser } from "../../app/supabase";
+import { getUser } from "../../utils/supabase/getAuthInfo";
 import ProfileImg from "../common/ProfileImg";
 
 interface SideMenuProps {

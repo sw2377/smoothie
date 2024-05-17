@@ -14,7 +14,7 @@ import TextTag from "../UI/TextTag";
 import CardViewFront from "../UI/card/CardViewFront";
 import CardViewBack from "../UI/card/CardViewBack";
 
-import { session } from "../../app/supabase";
+import { session } from "../../utils/supabase/getAuthInfo";
 import { getProfile } from "../../store/slices/profileSlice";
 import GetTechLogo from "../common/GetTechLogo";
 
