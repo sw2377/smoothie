@@ -23,7 +23,7 @@ interface AddProjectDataType {
 function EditProfile() {
   const { data: userProfile } = useAppSelector(state => state.profiles);
   const { data: techTags } = useAppSelector(state => state.techtags);
-  // console.log("userProfile", userProfile);
+  console.log("userProfile", userProfile);
 
   const dispatch = useAppDispatch();
 
@@ -42,7 +42,11 @@ function EditProfile() {
 
   // 하드스킬추가
   const addHardSkill = (keyword: string) => {
-    const trimKeyword = keyword.split(" ").join(""); // 공백 허용 X
+    const trimKeyword = keyword.split(" ").join(""); // 뛰어쓰기 허용 X
+
+    if (keyword === "") {
+      return;
+    }
 
     // 같은 하드스킬 추가 금지
     if (!hardSkills.includes(trimKeyword)) {
@@ -63,7 +67,11 @@ function EditProfile() {
 
   // 소프트스킬추가
   const addSoftSkill = (keyword: string) => {
-    const trimKeyword = keyword.split(" ").join(""); // 공백 허용 X
+    const trimKeyword = keyword.split(" ").join(""); // 뛰어쓰기 허용 X
+
+    if (keyword === "") {
+      return;
+    }
 
     // 같은 소프트스킬 추가 금지
     if (!softSkills.includes(trimKeyword)) {
@@ -151,8 +159,8 @@ function EditProfile() {
     if (userProfile) {
       setCoverLetter(userProfile.cover_letter);
       setUserTechTags(userProfile.tech_tags);
-      setHardSkills(userProfile.hard_skills);
-      setSoftSkills(userProfile.soft_skills);
+      setHardSkills(userProfile.hard_skills || []);
+      setSoftSkills(userProfile.soft_skills || []);
       setProjects(userProfile.projects);
     }
   }, []);

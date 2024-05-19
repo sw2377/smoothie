@@ -74,7 +74,7 @@ function Profile() {
               </section>
               <section>
                 <h3 className="mb-4 text-2xl font-bold">기술 스택</h3>
-                {techTagNames ? (
+                {techTagNames && techTagNames.length > 0 ? (
                   <ul className="flex flex-wrap gap-2">
                     {techTagNames.map(techName => {
                       return (
@@ -96,7 +96,8 @@ function Profile() {
               </section>
               <section>
                 <h3 className="mb-4 text-2xl font-bold">하드 스킬</h3>
-                {userProfile?.hard_skills ? (
+                {userProfile?.hard_skills &&
+                userProfile?.hard_skills.length > 0 ? (
                   <ul className="flex flex-wrap gap-2">
                     {userProfile.hard_skills.map(skill => {
                       return (
@@ -115,7 +116,8 @@ function Profile() {
               </section>
               <section>
                 <h3 className="mb-4 text-2xl font-bold">소프트 스킬</h3>
-                {userProfile?.soft_skills ? (
+                {userProfile?.soft_skills &&
+                userProfile?.soft_skills.length > 0 ? (
                   <ul className="flex flex-wrap gap-2">
                     {userProfile.soft_skills.map(skill => {
                       return (
