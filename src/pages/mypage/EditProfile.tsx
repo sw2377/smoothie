@@ -23,7 +23,7 @@ interface AddProjectDataType {
 function EditProfile() {
   const { data: userProfile } = useAppSelector(state => state.profiles);
   const { data: techTags } = useAppSelector(state => state.techtags);
-  console.log("userProfile", userProfile);
+  // console.log("userProfile", userProfile);
 
   const dispatch = useAppDispatch();
 

@@ -211,7 +211,7 @@ function CardEditor({ originCard }: CardEditorProps) {
             <h3 className="text-lg font-bold">
               카드에 등록할 나의 기술스택을 선택해 주세요.
             </h3>
-            {myTechTags ? (
+            {myTechTags && myTechTags.length > 0 ? (
               <ul className="flex flex-wrap gap-2">
                 {myTechTags.map(list => (
                   <li

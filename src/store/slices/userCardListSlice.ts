@@ -33,7 +33,10 @@ const initialState: UserCardListState = {
 export const fetchUserCardList = createAsyncThunk(
   "usercardlist/fetch",
   async () => {
-    const { data, error } = await supabase.from("usercard_list").select();
+    const { data, error } = await supabase
+      .from("usercard_list")
+      .select()
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
     return data || [];

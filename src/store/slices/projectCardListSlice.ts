@@ -34,7 +34,10 @@ const initialState: ProjectCardListState = {
 export const fetchProjectCardList = createAsyncThunk(
   "projectcardlist/fetch",
   async () => {
-    const { data, error } = await supabase.from("projectcard_list").select();
+    const { data, error } = await supabase
+      .from("projectcard_list")
+      .select()
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
     return data || [];
