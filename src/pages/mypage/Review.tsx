@@ -43,7 +43,7 @@ function Review() {
                 {userProfile?.user_name} 님은 이런 동료입니다!
               </p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                {userReviews !== null && userReviews.length > 0
+                {!isLoading && userReviews !== null && userReviews.length > 0
                   ? userReviews.map(review => (
                       <li
                         key={review.id}
