@@ -87,17 +87,17 @@ function PostContent() {
             ) : null}
           </div>
           <div className="flex flex-col gap-4 py-4 text-xl">
-            <dl className="flex">
+            <dl className="flex flex-col gap-2 sm:flex-row">
               <dt className="min-w-[204px]">프로젝트 예상기간</dt>
               <dd className="font-bold">
                 {startDateString} ~ {endDateString}
               </dd>
             </dl>
-            <dl className="flex">
+            <dl className="flex flex-col gap-2 sm:flex-row">
               <dt className="min-w-[204px]">포지션 및 인원</dt>
               <dd className="font-bold">{position?.join(", ")}</dd>
             </dl>
-            <dl className="flex">
+            <dl className="flex flex-col gap-2 sm:flex-row">
               <dt className="min-w-[204px]">기술 스택</dt>
               <dd>
                 <ul className="flex flex-wrap gap-2">

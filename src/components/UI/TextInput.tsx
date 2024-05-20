@@ -22,7 +22,7 @@ function TextInput({ placeholder, onSubmit, children }: TextInputProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex gap-3 w-96 px-4 py-2 border-gray_4 border rounded-3xl"
+      className="flex gap-3 w-full sm:w-96 px-4 py-2 border-gray_4 border rounded-3xl"
     >
       {children}
       <input

@@ -227,7 +227,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
 
           {/* Info */}
           <div className="flex flex-col gap-4 py-4">
-            <dl className="flex items-center">
+            <dl className="flex gap-2 flex-col sm:flex-row sm:items-center">
               <dt className="min-w-[204px] text-xl">프로젝트 예상기간</dt>
               <dd className="flex gap-2">
                 <input
@@ -248,7 +248,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
                 />
               </dd>
             </dl>
-            <dl className="flex items-center">
+            <dl className="flex gap-2 flex-col sm:flex-row sm:items-center">
               <dt className="min-w-[204px] text-xl">포지션 및 인원</dt>
               <dd className="flex gap-2">
                 <select
@@ -273,8 +273,8 @@ function PostEditor({ originPost }: PostEditorPorps) {
               </dd>
             </dl>
             {position.length > 0 ? (
-              <dl className="flex items-center">
-                <dt className="min-w-[204px] invisible">
+              <dl className="flex gap-2 flex-col sm:flex-row sm:items-center">
+                <dt className="min-w-[204px] hidden sm:invisible">
                   선택된 포지션 및 인원
                 </dt>
                 <dd>
@@ -290,7 +290,7 @@ function PostEditor({ originPost }: PostEditorPorps) {
                 </dd>
               </dl>
             ) : null}
-            <dl className="flex items-center">
+            <dl className="flex gap-2 flex-col sm:flex-row sm:items-center">
               <dt className="min-w-[204px] text-xl">기술 스택</dt>
               <dd>
                 <select
@@ -309,8 +309,10 @@ function PostEditor({ originPost }: PostEditorPorps) {
               </dd>
             </dl>
             {selectedTechTags.length > 0 ? (
-              <dl className="flex items-center">
-                <dt className="min-w-[204px] invisible">선택된 기술 스택</dt>
+              <dl className="flex gap-2 flex-col sm:flex-row sm:items-center">
+                <dt className="min-w-[204px] hidden sm:invisible">
+                  선택된 기술 스택
+                </dt>
                 <dd>
                   <ul className="flex flex-wrap gap-2">
                     {selectedTechTags.map(techName => (
