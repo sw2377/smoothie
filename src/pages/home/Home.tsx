@@ -52,7 +52,7 @@ function Home() {
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
           <div className="flex items-center justify-between h-full">
             <div className="flex flex-col gap-6 min-w-fit">
-              <h2 className="font-[Katuri] text-white text-7xl">
+              <h2 className="font-[Katuri] text-white text-5xl sm:text-7xl">
                 Find Your <br />
                 Perfect Team
               </h2>
@@ -73,7 +73,10 @@ function Home() {
       {/* 스무디소개 1 */}
       <section className="w-full">
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
-          <h3 className="flex justify-center items-center gap-2 text-3xl font-bold pb-20">
+          <h3 className="sm:hidden text-2xl font-bold pb-10 text-center">
+            팀 프로젝트는 스무디와 함께!
+          </h3>
+          <h3 className="hidden sm:flex justify-center items-center gap-2 text-3xl font-bold pb-20">
             <span>팀 프로젝트는</span>
             <span className="mb-4">
               <LogoKorean_SVG />
@@ -124,15 +127,15 @@ function Home() {
                   isPreview={true}
                 />
               </div>
-              <div className="mt-12">
+              <div className="hidden sm:flex mt-12">
                 <CardViewBack cardData={intro_cardData} isPreview={true} />
               </div>
             </div>
             <div className="flex flex-col items-center md:items-start gap-4">
-              <h4 className="font-bold text-2xl">
+              <h4 className="font-bold text-xl text-center sm:text-left sm:text-2xl">
                 나만의 프로필 카드를 만들어 나를 홍보해 보세요!
               </h4>
-              <p className="text-xl text-center md:text-left">
+              <p className="text-lg sm:text-xl text-center md:text-left">
                 나를 표현하는 단어를 사용해 프로필 카드를 등록해 보세요. 다른
                 유저의 프로필 카드를 확인하여 나와 잘 맞을 것 같은 팀원을 탐색해
                 보세요.
@@ -148,11 +151,11 @@ function Home() {
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex flex-col items-center md:items-start gap-4 order-2 md:order-1">
-              <h4 className="font-bold text-2xl">
+              <h4 className="font-bold text-xl text-center sm:text-left sm:text-2xl">
                 프로젝트와 팀원리뷰를 모아보고, <br />
                 간편한 포트폴리오를 만들어 보세요!
               </h4>
-              <p className="text-xl text-center md:text-left">
+              <p className="text-lg sm:text-xl text-center md:text-left">
                 마이페이지에서 프로젝트를 등록하고, 진행한 프로젝트의 팀원리뷰를
                 통해 포트폴리오를 간편하게 완성해 보세요. <br />
                 나의 페이지 링크를 이력서에 첨부해 내가 진행한 프로젝트를 제출해
@@ -165,7 +168,12 @@ function Home() {
               </Link>
             </div>
             <div className="order-1 md:order-2">
-              <Illustrate4_SVG />
+              <Illustrate4_SVG className="sm:hidden" width={350} height={477} />
+              <Illustrate4_SVG
+                className="hidden sm:block"
+                width={409}
+                height={477}
+              />
             </div>
           </div>
         </div>
@@ -174,7 +182,7 @@ function Home() {
       {/* 팀원모집카드 */}
       <section className="w-full">
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
-          <h3 className="text-3xl font-bold text-center pb-20">
+          <h3 className="text-2xl sm:text-3xl font-bold text-center pb-10 sm:pb-20">
             프로젝트를 함께할 팀원을 모집중이에요!
           </h3>
           <Link
@@ -224,7 +232,7 @@ function Home() {
       {/* 리뷰 */}
       <section className="w-full">
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
-          <h3 className="text-3xl font-bold text-center pb-20">
+          <h3 className="text-2xl sm:text-3xl font-bold text-center pb-10 sm:pb-20">
             작성된 팀원 리뷰도 확인해 보세요!
           </h3>
           <Swiper
