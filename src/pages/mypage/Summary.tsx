@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import { useAppSelector, useAppDispatch } from "../../store";
 import {
@@ -25,6 +25,7 @@ function Summary() {
   const dispatch = useAppDispatch();
 
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const [isRemoveUserCardBtnActive, setIsRemoveUserCardBtnActive] =
     useState(false);
@@ -66,6 +67,7 @@ function Summary() {
         .unwrap()
         .then(() => {
           alert("삭제되었습니다.");
+          window.location.reload(); // 임시
         });
       // .catch(error => {
       //   console.warn(error);
@@ -89,6 +91,7 @@ function Summary() {
         .unwrap()
         .then(() => {
           alert("삭제되었습니다.");
+          navigate(`/mypage/${id}/summary`, { replace: true });
         });
       // .catch(error => {
       //   console.warn(error);
@@ -128,7 +131,7 @@ function Summary() {
                   </button>
                 )}
               </div>
-              {userCardData.length > 0 ? (
+              {!userCardLoading && userCardData.length > 0 ? (
                 <ul className="grid gap-6 mb-auto lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
                   {userCardData.map(card => (
                     <CardView
@@ -165,7 +168,7 @@ function Summary() {
                   </button>
                 )}
               </div>
-              {projectCardData.length > 0 ? (
+              {!projectCardLoading && projectCardData.length > 0 ? (
                 <ul className="grid gap-6 mb-auto lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
                   {projectCardData.map(card => (
                     <CardView
