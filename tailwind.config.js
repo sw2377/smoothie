@@ -17,6 +17,9 @@ export default {
         gray_4: "#BDBDBD",
         gray_5: "#E0E0E0",
       },
+      fontFamily: {
+        Katuri: ["Katuri"],
+      },
       fontSize: {
         xxs: "0.625rem",
       },

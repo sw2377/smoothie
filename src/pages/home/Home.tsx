@@ -52,7 +52,7 @@ function Home() {
         <div className="max-w-[1200px] h-full mx-auto my-0 py-20 px-6">
           <div className="flex items-center justify-between h-full">
             <div className="flex flex-col gap-6 min-w-fit">
-              <h2 className="font-[Katuri] text-white text-5xl sm:text-7xl">
+              <h2 className="font-Katuri text-white text-5xl sm:text-7xl">
                 Find Your <br />
                 Perfect Team
               </h2>
