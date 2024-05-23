@@ -1,16 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useAppDispatch } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { SignupDataType } from "../../model/auth.types";
 import { signUpNewUser } from "../../store/slices/authSlice";
 import ActionButton from "../../components/UI/button/ActionButton";
-import SocialLoginButton from "../../components/UI/button/SocialLoginButton";
 import LogoKorean_SVG from "../../assets/logo-korean.svg?react";
-// import GoogleLogoSVG from "../../assets/icons/google.svg?react";
-import GithubLogoSVG from "../../assets/icons/github.svg?react";
+import Loading from "../../components/common/Loading";
+import SocialLogin from "../../components/auth/SocialLogin";
 
 function Signup() {
-  // const { isLoading, error, isLoggedIn } = useAppSelector(state => state.auth);
+  const { isLoading } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -33,6 +32,7 @@ function Signup() {
         .then(() => {
           alert("회원가입이 완료되었습니다.");
           navigate("/");
+          window.location.reload(); // 임시
         })
         .catch(error => {
           console.warn("❌ ERROR : SIGN UP WITH EMAIL", error);
@@ -43,10 +43,13 @@ function Signup() {
 
   return (
     <main>
+      {isLoading && <Loading />}
       <div className="flex flex-col gap-5 w-full max-w-96">
         <div className="flex justify-center w-full mb-4">
           <LogoKorean_SVG />
         </div>
+
+        {/* Basic Login */}
         <form
           className="flex flex-col gap-5 w-full"
           onSubmit={handleSubmit(onSubmit)}
@@ -134,19 +137,10 @@ function Signup() {
             Sign up
           </ActionButton>
         </form>
+
         {/* Social Signup */}
-        <div className="flex flex-col gap-2">
-          {/* <SocialLoginButton
-            socialLogo={GoogleLogoSVG}
-            text="Sign up with Google"
-            handleClick={() => {}}
-          /> */}
-          <SocialLoginButton
-            socialLogo={GithubLogoSVG}
-            text="Sign up with Github"
-            handleClick={() => {}}
-          />
-        </div>
+        <SocialLogin />
+
         <p className="text-gray_2 text-xs text-center mt-5">
           Already have an account?{" "}
           <Link to="/login" className="text-primary font-bold">

@@ -9,7 +9,7 @@ function Footer() {
         </div>
         <div className="ml-4 text-xs text-white">
           <a
-            href="https://github.com/codestates-seb/seb45_main_024"
+            href="https://github.com/sw2377/smoothie"
             target="_blank"
             className="hover:font-bold"
           >

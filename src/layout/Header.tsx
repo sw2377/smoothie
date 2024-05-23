@@ -120,7 +120,7 @@ function Header() {
           </div>
           {isLoggedIn ? (
             <div className="hidden sm:flex items-center gap-6">
-              {profileStateIsLoading && <span>Loading...</span>}
+              {/* {profileStateIsLoading && <span>Loading...</span>} */}
               {!profileStateIsLoading && currentUser && (
                 <>
                   <Link

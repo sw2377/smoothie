@@ -4,11 +4,10 @@ import { useAppDispatch, useAppSelector } from "../../store/index";
 import { fetchProjectCardList } from "../../store/slices/projectCardListSlice";
 import CardView from "../../components/UI/card/CardView";
 import ActionButton from "../../components/UI/button/ActionButton";
-
-import { session } from "../../utils/supabase/getAuthInfo";
 import Loading from "../../components/common/Loading";
 
 function ProjectList() {
+  const { isLoggedIn } = useAppSelector(state => state.auth);
   const { data: projectData, isLoading } = useAppSelector(
     state => state.projectcards,
   );
@@ -22,11 +21,11 @@ function ProjectList() {
   }, [dispatch]);
 
   const handleCreateCardBtnClick = () => {
-    if (session === null) {
+    if (isLoggedIn) {
+      navigate("/projectlist/new");
+    } else {
       window.alert("회원만 카드를 작성할 수 있어요!");
       navigate("/login");
-    } else {
-      navigate("/projectlist/new");
     }
   };
 

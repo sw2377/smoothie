@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { signOut } from "../../store/slices/authSlice";
-
-import ActionButton from "../../components/UI/button/ActionButton";
 import { clearProfile } from "../../store/slices/profileSlice";
+import ActionButton from "../../components/UI/button/ActionButton";
+import Loading from "../../components/common/Loading";
 
 function Logout() {
   const { isLoading } = useAppSelector(state => state.auth);
@@ -23,9 +23,10 @@ function Logout() {
   };
 
   return (
-    <ActionButton handleClick={handleLogoutBtnClick}>
-      {isLoading ? "......" : "Logout"}
-    </ActionButton>
+    <>
+      {isLoading && <Loading />}
+      <ActionButton handleClick={handleLogoutBtnClick}>Logout</ActionButton>
+    </>
   );
 }
 
