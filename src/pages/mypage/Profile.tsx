@@ -11,6 +11,8 @@ import Loading from "../../components/common/Loading";
 import SideMenu from "../../components/mypage/SideMenu";
 import NoContent from "../../components/common/NoContent";
 
+import defalutBg from "../../assets/logo-korean.svg";
+
 function Profile() {
   const { isLoading, data: userProfile } = useAppSelector(
     state => state.profiles,
@@ -142,7 +144,13 @@ function Profile() {
                       return (
                         <li
                           key={project.id}
-                          className={`relative w-full h-[150px] mb-10 border rounded-2xl bg-[#FFEAEF] bg-no-repeat bg-cover bg-center bg-default_profile`}
+                          className={`relative w-full h-[150px] mb-10 border rounded-2xl`}
+                          style={{
+                            backgroundImage: `url(${project.image_url ? project.image_url : defalutBg})`,
+                            backgroundSize: `${project.image_url ? "cover" : "100px 50px"}`,
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat",
+                          }}
                         >
                           <Link
                             to={project.repo_url}

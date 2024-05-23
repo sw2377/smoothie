@@ -13,6 +13,8 @@ import GetTechLogo from "../../components/common/GetTechLogo";
 import { ProjectDataType } from "../../model/profile.types";
 import { addProject, removeProject } from "../../store/slices/projectSlice";
 
+import defalutBg from "../../assets/logo-korean.svg";
+
 interface AddProjectDataType {
   title: string;
   description: string;
@@ -405,7 +407,13 @@ function EditProfile() {
                 return (
                   <li
                     key={project.id}
-                    className={`relative w-full h-[150px] mb-10 border rounded-2xl bg-no-repeat bg-cover bg-center bg-default_profile ${isRemoveProjectBtnActive ? "cursor-pointer" : ""}`}
+                    className={`relative w-full h-[150px] mb-10 border rounded-2xl ${isRemoveProjectBtnActive ? "cursor-pointer" : ""}`}
+                    style={{
+                      backgroundImage: `url(${project.image_url ? project.image_url : defalutBg})`,
+                      backgroundSize: `${project.image_url ? "cover" : "100px 50px"}`,
+                      backgroundPosition: "center",
+                      backgroundRepeat: "no-repeat",
+                    }}
                     onClick={() => handleRemoveProject(project.id as number)}
                   >
                     <div className="block w-full h-full">

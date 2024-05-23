@@ -25,6 +25,7 @@ export default {
       },
       backgroundImage: {
         "default-profile": "url('./assets/profile-default.svg')",
+        "default-bg": "url('./assets/logo-korean.svg')",
         "shape-1": "url('./assets/images/main-bg-shape-1.svg')",
         "shape-2": "url('./assets/images/main-bg-shape-2.svg')",
       },
