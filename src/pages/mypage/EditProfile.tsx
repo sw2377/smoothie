@@ -44,16 +44,14 @@ function EditProfile() {
 
   // 하드스킬추가
   const addHardSkill = (keyword: string) => {
-    const trimKeyword = keyword.split(" ").join(""); // 뛰어쓰기 허용 X
-
-    if (keyword === "") {
+    if (keyword.trim() === "") {
       return;
     }
 
     // 같은 하드스킬 추가 금지
-    if (!hardSkills.includes(trimKeyword)) {
+    if (!hardSkills.includes(keyword)) {
       setHardSkills(prev => {
-        return [...prev, trimKeyword];
+        return [...prev, keyword];
       });
     }
   };
@@ -69,16 +67,14 @@ function EditProfile() {
 
   // 소프트스킬추가
   const addSoftSkill = (keyword: string) => {
-    const trimKeyword = keyword.split(" ").join(""); // 뛰어쓰기 허용 X
-
-    if (keyword === "") {
+    if (keyword.trim() === "") {
       return;
     }
 
     // 같은 소프트스킬 추가 금지
-    if (!softSkills.includes(trimKeyword)) {
+    if (!softSkills.includes(keyword)) {
       setSoftSkills(prev => {
-        return [...prev, trimKeyword];
+        return [...prev, keyword];
       });
     }
   };
