@@ -56,7 +56,7 @@ function Review() {
                             ).toLocaleDateString()}
                           </span>
                           <div className="flex justify-between items-end">
-                            <div>
+                            <div className="pt-4">
                               <span className="block text-xs">
                                 함께한 프로젝트
                               </span>
@@ -64,7 +64,8 @@ function Review() {
                                 {review.projects?.title}
                               </span>
                             </div>
-                            <div className="overflow-hidden w-[60px] h-[60px] rounded-full">
+                            {/* 프로필사진 임시로 안보이게 */}
+                            {/* <div className="overflow-hidden w-[60px] h-[60px] rounded-full">
                               <a href="">
                                 <img
                                   className="h-full"
@@ -72,11 +73,11 @@ function Review() {
                                   alt=""
                                 />
                               </a>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                         <div className="p-4">
-                          <span className="block font-bold">
+                          <span className="block font-bold mb-4">
                             {review.title}
                           </span>
                           <p className="text-sm">{review.content}</p>
