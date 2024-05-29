@@ -30,6 +30,8 @@ function CardViewFront({
     cardData as UserCardListDataType;
   const { status, user_name } = cardData as ProjectCardListDataType;
 
+  // console.log(cardData);
+
   const date = new Date(created_at).toLocaleDateString();
   const techTagNames = extractTextAfterColon(tech_tags);
 

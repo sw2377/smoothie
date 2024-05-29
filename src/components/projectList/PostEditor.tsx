@@ -16,7 +16,6 @@ import GetTechLogo from "../common/GetTechLogo";
 import ActionButton from "../UI/button/ActionButton";
 import TextTag from "../UI/TextTag";
 
-import { session } from "../../utils/supabase/getAuthInfo";
 import { fetchTechTags } from "../../store/slices/techTagsSlice";
 
 interface PostEditorPorps {
@@ -25,6 +24,7 @@ interface PostEditorPorps {
 
 function PostEditor({ originPost }: PostEditorPorps) {
   // console.log("🔖 ORIGIN POST", originPost);
+  const { data: userProfile } = useAppSelector(state => state.profiles);
   const { data: techTags } = useAppSelector(state => state.techtags);
 
   useEffect(() => {
@@ -161,8 +161,8 @@ function PostEditor({ originPost }: PostEditorPorps) {
       end_date: getValues("endDate"),
       position: position,
       tech_tags: selectedTechTags,
-      user_name: session?.user.user_metadata.user_name,
-      avatar_url: session?.user.user_metadata.avatar_url,
+      user_name: userProfile ? userProfile.user_name : "",
+      avatar_url: userProfile ? userProfile.avatar_url : "",
     };
 
     // console.log("🔖 REQ DATA", reqData);
