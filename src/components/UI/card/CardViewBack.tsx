@@ -34,7 +34,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
 
   return (
     <div
-      className={`${isPreview ? "w-[282px] h-[348px]" : "absolute top-0 left-0 w-full h-full rotate-y-180"} card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)] backface-hidden`}
+      className={`${isPreview ? "card-static-size" : "card-dynamic-size rotate-y-180"} card-front-back bg-[linear-gradient(-12deg,_#FFFBEA_50%,_#fff_50%)]`}
     >
       <div className="flex justify-end h-6">
         {!isPreview && session?.user.id === user_id ? (
@@ -58,7 +58,7 @@ function CardViewBack({ cardData, isPreview = false }: CardViewBackProps) {
             userName={user_name ? user_name : ""}
           />
         </div>
-        <div className="display-clamp mt-5">
+        <div className="line-clamp-4 mt-5">
           {keywords.map(item => (
             <span key={item} className="text-lg font-bold">
               &nbsp;#{item}

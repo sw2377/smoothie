@@ -41,7 +41,7 @@ function CardViewFront({
 
   return (
     <div
-      className={`${isPreview ? "w-[282px] h-[348px]" : "absolute top-0 left-0 w-full h-full"} card-front-back bg-[linear-gradient(-12deg,_#fff_50%,_#FFFBEA_50%)] backface-hidden`}
+      className={`${isPreview ? "card-static-size" : "card-dynamic-size"} card-front-back bg-[linear-gradient(-12deg,_#fff_50%,_#FFFBEA_50%)]`}
     >
       <div>
         <div className="flex justify-between">
@@ -56,7 +56,7 @@ function CardViewFront({
       </div>
       <div className={`mt-6 mb-auto ${isUserCard ? "mt-8" : ""}`}>
         {isProjectCard && <span className="text-xs">{user_name}</span>}
-        <div className="display-clamp text-xl font-bold">{title}</div>
+        <div className="line-clamp-4 text-xl font-bold">{title}</div>
       </div>
       <div onClick={e => e.stopPropagation()}>
         {/* position */}

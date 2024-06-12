@@ -17,60 +17,49 @@
   }
 
   main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 3.75rem;
-    margin-bottom: 5rem;
+    @apply flex justify-center items-center mt-[3.75rem] mb-20
   }
 
   input, textarea, select {
-    padding: 0.75rem 1rem;
-    border: 1px solid #BDBDBD;
-    border-radius: 8px;
+    @apply px-4 py-3 border border-gray_4 rounded-lg
   }
   
   input:focus-visible, textarea:focus-visible {
-    outline: none;
+    @apply outline-none
   }
 
   input::placeholder {
-    font-size: 14px;
+    @apply text-sm
   }
 
   button {
     @apply px-5 py-2 text-nowrap rounded-lg border;
-    /* @apply px-5 py-3 text-nowrap rounded-lg border; */
+  }
+
+  .blind {
+    @apply overflow-hidden absolute w-[1px] h-[1px] m-[-1px];
+    clip: rect(0, 0, 0, 0);
   }
 }
 
 @layer components {
-  .blind {
-    overflow: hidden;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    clip: rect(0, 0, 0, 0);
-    margin: -1;
+  .card-static-size {
+    @apply w-[282px] h-[348px];
+  }
+
+  .card-dynamic-size {
+    @apply absolute top-0 left-0 w-full h-full;
   }
 
   .card-front-back {
     @apply z-10 flex flex-col px-6 py-7 bg-white rounded-[20px] shadow-md;
-  }
-
-  .backface-hidden {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
+}
 
+@layer utilities {
   .rotate-y-180 {
     transform:rotateY(180deg)
-  }
-
-  .display-clamp {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
   }
 }
