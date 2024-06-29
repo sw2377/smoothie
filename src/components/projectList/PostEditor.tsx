@@ -79,17 +79,17 @@ function PostEditor({ originPost }: PostEditorPorps) {
 
   // 포지션 추가
   const addPosition = () => {
-    const PositionName = getValues("positionName");
-    const PositionCount = getValues("positionCount");
+    const positionName = getValues("positionName");
+    const positionCount = getValues("positionCount");
 
     // 포지션 이름과 인원이 모두 입력되어야 추가 가능
-    if (!PositionName || !PositionCount) return;
+    if (!positionName || !positionCount) return;
 
-    if (PositionName && PositionCount) {
-      const positionNameAndCount = `${PositionName} ${PositionCount}명`;
+    if (positionName && positionCount) {
+      const positionNameAndCount = `${positionName} ${positionCount}명`;
 
       // 같은 포지션은 추가 금지
-      if (!position.find(item => item.includes(PositionName))) {
+      if (!position.find(item => item.includes(positionName))) {
         setPosition(prev => {
           return [...prev, positionNameAndCount];
         });
